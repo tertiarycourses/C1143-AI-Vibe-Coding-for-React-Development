@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+.playwright-mcp/
+node_modules/
+scripts/node_modules
+courseware/rendered/
+*.inspect.ndjson
