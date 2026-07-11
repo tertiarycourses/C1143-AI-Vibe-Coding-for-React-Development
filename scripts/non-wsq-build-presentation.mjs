@@ -2,79 +2,73 @@ import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { Presentation, PresentationFile } from '@oai/artifact-tool';
 
-const OUT = fileURLToPath(new URL('../courseware/', import.meta.url));
-const QA = fileURLToPath(new URL('../courseware/rendered/slides/', import.meta.url));
-await fs.mkdir(QA, { recursive: true });
+const ROOT=fileURLToPath(new URL('../',import.meta.url));
+const OUT=`${ROOT}courseware/`; const QA=`${OUT}rendered/slides/`;
+await fs.mkdir(QA,{recursive:true});
+const data=JSON.parse(await fs.readFile(`${OUT}course-data.json`,'utf8'));
+const deck=Presentation.create({slideSize:{width:1280,height:720}});
+const C={navy:'#17365D',blue:'#0B6E99',teal:'#14866D',pale:'#EAF4F8',ink:'#202A35',gray:'#5A6872',white:'#FFFFFF',line:'#C9D8E0',gold:'#D99B2B',red:'#B94A48',code:'#15202B'};
 
-const deck = Presentation.create({ slideSize: { width: 1280, height: 720 } });
-const C = { navy:'#17365D', blue:'#0B6E99', cyan:'#1BA3C6', pale:'#EAF4F8', ink:'#17212B', gray:'#5A6872', white:'#FFFFFF', line:'#C9D8E0', green:'#2E7D5B' };
-
-function box(slide, left, top, width, height, fill=C.white, line=C.line, radius='rounded-lg') {
-  return slide.shapes.add({ geometry:'roundRect', position:{left,top,width,height}, fill, line:{style:'solid',fill:line,width:1}, borderRadius:radius });
+function shape(slide,left,top,width,height,fill=C.white,line=C.line,geometry='roundRect'){
+  return slide.shapes.add({geometry,position:{left,top,width,height},fill,line:{style:'solid',fill:line,width:1}});
 }
-function text(slide, value, left, top, width, height, size=22, color=C.ink, bold=false, align='left') {
+function text(slide,value,left,top,width,height,size=20,color=C.ink,bold=false,align='left',font='Arial'){
   const s=slide.shapes.add({geometry:'textbox',position:{left,top,width,height},fill:'none',line:{style:'solid',fill:'none',width:0}});
-  s.text=value; s.text.style={fontFamily:'Arial',fontSize:size,color,bold,alignment:align,verticalAlignment:'middle'}; return s;
+  s.text=String(value); s.text.style={fontFamily:font,fontSize:size,color,bold,alignment:align,verticalAlignment:'middle'}; return s;
 }
-function chrome(slide, section, n) {
-  slide.background.fill=C.white;
-  slide.shapes.add({geometry:'rect',position:{left:0,top:0,width:1280,height:720},fill:C.white,line:{style:'solid',fill:C.white,width:0}});
-  slide.shapes.add({geometry:'rect',position:{left:0,top:0,width:1280,height:14},fill:C.blue,line:{style:'solid',fill:C.blue,width:0}});
-  text(slide,section.toUpperCase(),64,30,500,24,13,C.blue,true);
-  text(slide,`C1143  •  React AI Vibe Coding for React Development`,64,674,760,22,12,C.gray,false);
-  text(slide,String(n).padStart(2,'0'),1170,674,50,22,12,C.gray,true,'right');
+function chrome(slide,section){
+  slide.background.fill=C.white; shape(slide,0,0,1280,720,C.white,C.white,'rect'); shape(slide,0,0,1280,12,C.blue,C.blue,'rect');
+  text(slide,section.toUpperCase(),70,28,650,25,13,C.blue,true); text(slide,`${data.course.code}  •  ${data.course.title}`,70,676,760,20,11,C.gray); text(slide,String(deck.slides.items.length).padStart(3,'0'),1160,676,55,20,11,C.gray,true,'right');
 }
-function titleSlide(title, subtitle) {
-  const s=deck.slides.add(); s.background.fill=C.white;
-  s.shapes.add({geometry:'rect',position:{left:0,top:0,width:1280,height:720},fill:C.white,line:{style:'solid',fill:C.white,width:0}});
-  s.shapes.add({geometry:'rect',position:{left:0,top:0,width:26,height:720},fill:C.blue,line:{style:'solid',fill:C.blue,width:0}});
-  text(s,'TERTIARY INFOTECH ACADEMY',78,72,650,34,16,C.blue,true);
-  text(s,title,78,176,1020,160,52,C.navy,true);
-  text(s,subtitle,82,355,850,80,24,C.gray,false);
-  box(s,82,490,520,78,C.pale,C.pale); text(s,'Two days  •  15 hours  •  Intermediate',108,505,470,45,20,C.blue,true);
-  text(s,'Course Code C1143',82,620,300,28,15,C.gray,true);
+function titleSlide(title,subtitle){
+  const s=deck.slides.add(); s.background.fill=C.white; shape(s,0,0,1280,720,C.white,C.white,'rect'); shape(s,0,0,28,720,C.blue,C.blue,'rect');
+  text(s,'TERTIARY INFOTECH ACADEMY',82,62,650,34,16,C.blue,true); text(s,title,82,150,1050,180,50,C.navy,true); text(s,subtitle,84,340,980,90,23,C.gray); shape(s,84,490,610,78,C.pale,C.pale); text(s,'20 labs  •  2 days  •  15 hours  •  Intermediate',112,505,555,45,19,C.blue,true); text(s,'Version 2.0  •  Agentic AI Loop Engineering',84,620,520,28,14,C.gray,true);
 }
-function bulletSlide(section, title, bullets, kicker='') {
-  const s=deck.slides.add(); chrome(s,section,deck.slides.items.length);
-  text(s,title,64,72,1110,62,36,C.navy,true);
-  if(kicker) text(s,kicker,66,136,1060,44,18,C.gray,false);
-  const start=kicker?205:175, gap=Math.min(94,440/bullets.length);
-  bullets.forEach((b,i)=>{ const y=start+i*gap; box(s,70,y,44,44,C.pale,C.pale); text(s,String(i+1),70,y,44,44,18,C.blue,true,'center'); text(s,b,138,y-3,1010,52,21,C.ink,false); });
-  return s;
+function bullets(section,title,items,kicker=''){
+  const s=deck.slides.add(); chrome(s,section); text(s,title,70,72,1120,58,35,C.navy,true); if(kicker) text(s,kicker,72,132,1080,42,17,C.gray);
+  const start=kicker?192:168; const gap=Math.min(82,440/items.length);
+  items.slice(0,6).forEach((x,i)=>{const y=start+i*gap; shape(s,74,y,42,42,C.pale,C.pale); text(s,i+1,74,y,42,42,16,C.blue,true,'center'); text(s,x,142,y-2,1020,50,19,C.ink);}); return s;
 }
-function twoCol(section,title,leftTitle,leftItems,rightTitle,rightItems) {
-  const s=deck.slides.add(); chrome(s,section,deck.slides.items.length); text(s,title,64,72,1110,60,36,C.navy,true);
-  box(s,64,164,548,448,C.pale,C.pale); box(s,636,164,548,448,C.white,C.line);
-  text(s,leftTitle,94,192,470,42,25,C.blue,true); text(s,rightTitle,666,192,470,42,25,C.navy,true);
-  leftItems.forEach((x,i)=>text(s,`•  ${x}`,96,252+i*68,470,55,19,C.ink));
-  rightItems.forEach((x,i)=>text(s,`•  ${x}`,668,252+i*68,470,55,19,C.ink));
+function twoCol(section,title,lhead,left,rhead,right){
+  const s=deck.slides.add(); chrome(s,section); text(s,title,70,72,1120,58,35,C.navy,true); shape(s,64,160,550,450,C.pale,C.pale); shape(s,638,160,550,450,C.white,C.line); text(s,lhead,96,188,470,40,24,C.blue,true); text(s,rhead,670,188,470,40,24,C.navy,true);
+  left.slice(0,5).forEach((x,i)=>text(s,`•  ${x}`,98,248+i*67,470,53,18,C.ink)); right.slice(0,5).forEach((x,i)=>text(s,`•  ${x}`,672,248+i*67,470,53,18,C.ink)); return s;
+}
+function codeSlide(section,title,label,content){
+  const s=deck.slides.add(); chrome(s,section); text(s,title,70,72,1120,58,35,C.navy,true); text(s,label.toUpperCase(),82,154,300,28,12,C.teal,true); shape(s,72,192,1136,405,C.code,C.code); const clipped=content.length>1050?content.slice(0,1047)+'…':content; text(s,clipped,100,218,1080,350,15,C.white,false,'left','Consolas'); return s;
+}
+function processSlide(section,title,steps){
+  const s=deck.slides.add(); chrome(s,section); text(s,title,70,72,1120,58,35,C.navy,true); const cols=4,w=260,h=150,gap=24,x0=72,y0=168;
+  steps.slice(0,8).forEach((st,i)=>{const row=Math.floor(i/cols),col=i%cols,x=x0+col*(w+gap),y=y0+row*(h+34); shape(s,x,y,w,h,row===0?C.pale:C.white,C.line); text(s,String(i+1).padStart(2,'0'),x+18,y+14,45,30,15,C.blue,true); text(s,st,x+18,y+48,w-36,h-58,16,C.ink,true);}); return s;
 }
 
-titleSlide('React AI Vibe Coding for React Development','Build and deploy a modern React app through reviewed plans, controlled diffs, focused tests and verified code.');
-bulletSlide('Start','Two days, one app, four deliberate increments',['Scaffold a Vite React TypeScript project','Compose reusable JSX, props, events and CSS','Add state, hooks, routing and API data','Debug, test, optimize and deploy'],'SprintBoard is the thread that connects every published topic.');
-twoCol('Workflow','The agent accelerates coding; you retain engineering judgment','Ask the agent',['Restate the outcome','Propose a small plan','Name changed files','Give verification commands'],'You must',['Challenge scope and assumptions','Inspect dependencies and secrets','Review every diff','Test before accepting']);
-bulletSlide('Workflow','Use the plan–diff–verify loop on every change',['Frame the outcome and constraints','Request a plan and exact file list','Approve one small increment','Inspect the diff line by line','Run lint, tests and production build','Keep or revert based on evidence']);
-bulletSlide('Topic 1','A good prompt creates an inspectable starting point',['Configure an approved AI coding assistant','Scaffold Vite with React and TypeScript','Know the roles of main.tsx, App.tsx and package.json','State constraints, deliverables and verification']);
-bulletSlide('Lab 1','Checkpoint 1: a trusted SprintBoard baseline',['Write AGENTS.md with project constraints','Ask for a three-step shell plan','Reject unrelated dependencies or files','Run dev, lint and build','Commit only the understood change']);
-twoCol('Topic 2','Components turn JSX into an adaptable UI','Data contracts',['Typed props','Stable task IDs','Explicit callbacks'],'Presentation contracts',['Semantic HTML','Responsive CSS','Visible focus states']);
-bulletSlide('Topic 2','Reusable UI needs observable states',['Compose Board, TaskColumn and TaskCard','Pass data down and events up','Render useful empty states','Test at 375 px and 1280 px','Treat generated CSS as code to review']);
-bulletSlide('Lab 2','Checkpoint 2: a responsive SprintBoard',['Create six synthetic tasks','Plan component and event boundaries','Review the allowed file scope','Test filters, events and keyboard flow','Lint and build before committing']);
-twoCol('Topic 3','State and effects solve different problems','State',['Represents UI truth','Update immutably','Use functional updates'],'Effects',['Synchronize with fetch','Declare dependencies','Abort and handle failures']);
-bulletSlide('Topic 3','Routing and API data make the app real',['Define board, detail, about and not-found routes','Test links and direct URL entry','Model loading, empty and error states','Refactor duplication without behavior drift','Reject any and suppressed lint rules']);
-bulletSlide('Lab 3','Checkpoint 3: routed pages and resilient data',['Plan routes and rollback','Create a focused useTasks hook','Observe loading and failure UI','Review effect cleanup and dependencies','Compare refactor before and after']);
-twoCol('Topic 4','Debugging starts with evidence','Weak request',['It is broken—fix it','No reproduction','Accept a broad rewrite'],'Strong request',['Exact failing behavior','Relevant files and output','Minimal patch plus regression test']);
-bulletSlide('Topic 4','Tests and production checks constrain AI output',['Test behavior, not implementation details','Run Vitest and Testing Library','Keep lint and build green','Remove debug output and document decisions','Verify the deployed public URL']);
-bulletSlide('Lab 4','Checkpoint 4: a tested, deployed app',['Capture a controlled regression','Review root cause and minimal fix','Add focused component and route tests','Run test, lint, build and diff checks','Deploy and document rollback']);
-twoCol('Quality','A working browser view is evidence—but not enough','Verification stack',['npm test -- --run','npm run lint','npm run build','git diff --check'],'Review questions',['Can I explain every change?','Did dependencies expand?','Are failures accessible and useful?','Can I restore a checkpoint?']);
-bulletSlide('Practice','Show the evidence behind SprintBoard',['Demonstrate one complete task flow','Show one failing then passing test','Name one AI suggestion you changed','Explain one effect dependency','Open the deployed app and rollback note']);
-bulletSlide('Close','The craft is not prompting—it is controlled acceptance',['Make intent concrete','Keep increments small','Review plans before code','Review diffs before trust','Verify on the real target','Commit only what you can explain'],'Your next build should leave an evidence trail, not just an output.');
+titleSlide(data.course.title,'Build SprintBoard through a controlled AI engineering loop: specify, plan, inspect, implement, test, critique, refine and checkpoint.');
+bullets('Orientation','What you will leave with',['A deployed React capstone','20 recoverable Git checkpoints','A reusable agent prompt contract','An AI-generated-code audit habit','Tests for user-visible behavior','A release and rollback evidence trail']);
+processSlide('Orientation','The agentic AI loop',['Specify','Plan','Inspect','Implement','Test','Critique','Refine','Checkpoint']);
+twoCol('Orientation','AI accelerates work; the learner owns acceptance','The agent can',['Read repository context','Propose a bounded plan','Generate and refactor code','Suggest verification'],'You must',['Define observable outcomes','Challenge assumptions and scope','Read every changed line','Run checks and decide']);
+bullets('Orientation','Evidence hierarchy',['Current browser behavior','Failing and passing automated tests','Lint, type-check and build output','The exact Git diff','Current official documentation','The agent explanation'],'When evidence conflicts with confident prose, investigate the evidence.');
+bullets('Orientation','Non-negotiable safety rules',['Never paste credentials or private data','No unapproved dependency','No broad rewrite to fix one defect','No lint or type suppression as a shortcut','No commit before diff review','Always preserve a rollback checkpoint']);
+bullets('Orientation','One capstone, twenty increments',['SprintBoard begins as a product brief','Components make the board reusable','State and hooks make it interactive','Routes and data make it navigable','Tests and audits make it trustworthy','Deployment makes the evidence public']);
 
-for (let i=0;i<deck.slides.items.length;i++) {
-  const slide=deck.slides.items[i];
-  const png=await deck.export({slide,format:'png',scale:1});
-  await fs.writeFile(`${QA}/slide-${String(i+1).padStart(2,'0')}.png`,new Uint8Array(await png.arrayBuffer()));
-  const layout=await slide.export({format:'layout'}); await fs.writeFile(`${QA}/slide-${String(i+1).padStart(2,'0')}.layout.json`,await layout.text());
+for(const [tnum,tname,tdesc] of data.topics){
+  const labs=data.labs.filter(l=>l.topic===tnum);
+  titleSlide(`Topic ${tnum}: ${tname}`,tdesc);
+  bullets(`Topic ${tnum}`,'Published topic outcomes',labs.map(l=>`Lab ${l.id} — ${l.title}`),'Five connected labs; every lab ends in a recoverable checkpoint.');
+  processSlide(`Topic ${tnum}`,'Topic learning journey',labs.map(l=>`${l.id} ${l.outcome}`));
+  for(const lab of labs){
+    bullets(`Lab ${lab.id}`,lab.title,[lab.outcome,`Files: ${lab.files.join(', ')}`,`Time: approximately ${lab.mins} minutes`],'Predict the files and behavior before the agent writes code.');
+    twoCol(`Lab ${lab.id}`,'Concepts and observable outcome','Concepts',lab.concepts.map(x=>x),'Evidence',lab.verify);
+    processSlide(`Lab ${lab.id}`,'Executable lab sequence',lab.steps.map(x=>x.replace(/`/g,'').split('.')[0]));
+    codeSlide(`Lab ${lab.id}`,'Vibe prompt','Prompt contract',lab.prompt);
+    bullets(`Lab ${lab.id}`,'Read what the AI wrote',lab.traps,'Locate the exact line, missing state or unverified assumption that reveals each failure.');
+    twoCol(`Lab ${lab.id}`,'Verification and checkpoint','Prove it',lab.verify,'Submit',['Approved plan','Annotated diff excerpt','Command output','Browser evidence','One corrected agent assumption']);
+  }
 }
-const montage=await deck.export({format:'webp',montage:true,scale:0.4}); await fs.writeFile(`${QA}/montage.webp`,new Uint8Array(await montage.arrayBuffer()));
-const pptx=await PresentationFile.exportPptx(deck); await pptx.save(`${OUT}/C1143-Facilitator-Deck.pptx`);
-console.log(`Built ${deck.slides.items.length} slides`);
+bullets('Close','The professional habit',['Make intent observable','Constrain the plan','Approve one increment','Trust evidence over fluency','Keep checkpoints cheap','Ship only what you can explain']);
+processSlide('Close','Your next agentic build',['Specify','Plan','Inspect','Implement','Test','Critique','Refine','Checkpoint']);
+titleSlide('Build with speed. Review with care.','The output is a React app. The durable skill is controlled acceptance backed by evidence.');
+
+for(let i=0;i<deck.slides.items.length;i++){
+  const slide=deck.slides.items[i]; const png=await deck.export({slide,format:'png',scale:1}); await fs.writeFile(`${QA}/slide-${String(i+1).padStart(3,'0')}.png`,new Uint8Array(await png.arrayBuffer()));
+}
+const pptx=await PresentationFile.exportPptx(deck); await pptx.save(`${OUT}/${data.course.code}-Facilitator-Deck.pptx`);
+console.log(`Built ${deck.slides.items.length} slides from ${data.labs.length} labs`);

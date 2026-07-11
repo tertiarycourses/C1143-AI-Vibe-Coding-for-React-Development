@@ -8,6 +8,8 @@ credentials.json
 secrets.json
 .playwright-mcp/
 node_modules/
+__pycache__/
+*.pyc
 scripts/node_modules
 courseware/rendered/
 *.inspect.ndjson

@@ -1,0 +1,373 @@
+"""Single source of truth for C1143 non-WSQ courseware."""
+
+COURSE = {
+    "code": "C1143",
+    "title": "React AI Vibe Coding for React Development",
+    "duration": "15 hours / 2 days",
+    "minutes": 900,
+    "level": "Intermediate",
+    "version": "2.0",
+    "capstone": "SprintBoard",
+    "source": "https://www.tertiarycourses.com.sg/react-essential-training.html",
+}
+
+TOPICS = [
+    (1, "Getting Started with AI Vibe Coding for React", "Set up an AI coding assistant, scaffold a React app from a prompt, and control generated work with an evidence-led engineering loop."),
+    (2, "Building React Components and UI with AI", "Generate function components and JSX, compose reusable interfaces, pass data with props, handle events, and refine responsive CSS."),
+    (3, "State, Hooks and Routing with AI Assistance", "Manage state and effects, build multi-page flows with React Router, fetch data, and refactor generated code safely."),
+    (4, "Debugging, Testing and Deploying React Apps with AI", "Diagnose failures, generate focused tests, optimize and document the app, and deploy a verified production build."),
+]
+
+# Five progressive labs per published topic. Each tuple is transformed into a
+# full adult-learning lab with briefing, concepts, executable steps, agent
+# prompt, generated-code audit, explanation, verification and recovery.
+LABS = [
+{
+ "id":"1.1","topic":1,"title":"Prepare the Agentic React Workspace","mins":35,
+ "outcome":"Verify Node, Git, VS Code and an approved coding agent; create a safe project folder and evidence log.",
+ "files":["training-log/README.md","AGENTS.md"],
+ "concepts":["toolchain","working directory","agent scope","evidence trail"],
+ "steps":[
+  "Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README.md`.",
+  "Open a dedicated `sprintboard` parent folder in VS Code and confirm the integrated terminal starts in that folder.",
+  "Choose Cursor, GitHub Copilot, Claude, or Codex; verify it can read only the folder you intentionally opened.",
+  "Create `AGENTS.md` with plan-first, named-file scope, no-secret, small-diff, and verification-before-acceptance rules.",
+  "Ask the agent to restate the rules and list what it is not allowed to do; correct any missing boundary.",
+  "Create a baseline Git repository and inspect `git status --short` before the first checkpoint."],
+ "prompt":"Read AGENTS.md. Do not edit files. Restate the working agreement, identify the commands you will use to verify React changes, and list any assumptions you need me to confirm.",
+ "traps":["Agent edits before planning","Credentials copied into chat","Tool versions asserted without terminal evidence","Repository initialized in the wrong folder"],
+ "verify":["Tool versions are recorded","AGENTS.md names scope and acceptance rules","The agent made no unapproved edit","Git status is understood"],
+ "why":"A coding agent is safest when the repository carries durable constraints. Chat instructions disappear; project instructions travel with the code and can be reviewed like any other engineering artifact."
+},
+{
+ "id":"1.2","topic":1,"title":"Scaffold SprintBoard with Vite and React","mins":40,
+ "outcome":"Create a Vite React TypeScript app, run the development server, and explain the boot sequence.",
+ "files":["index.html","src/main.tsx","src/App.tsx","package.json"],
+ "concepts":["Vite","module graph","React root","Hot Module Replacement"],
+ "steps":[
+  "Run `npm create vite@latest sprintboard -- --template react-ts`, enter the folder, and run `npm install`.",
+  "Start `npm run dev`; open the printed local URL and save a screenshot of the starter page.",
+  "Trace `index.html` to `src/main.tsx` to `<App />`; annotate the chain in the training log.",
+  "Ask the agent for a file-by-file explanation without requesting changes; compare it with the actual imports.",
+  "Run `npm run build`, inspect `dist/`, then run `npm run preview` and explain how preview differs from dev.",
+  "Review `git diff` and commit the untouched scaffold as `chore: scaffold SprintBoard`."],
+ "prompt":"Explain this Vite React TypeScript scaffold using the actual files. Trace exactly how index.html, main.tsx and App.tsx connect. Do not add packages or edit code. Finish with dev, build and preview verification commands.",
+ "traps":["Using Create React App instructions","Editing node_modules","Confusing dev output with production output","Inventing files not present in the scaffold"],
+ "verify":["Dev server hot-reloads","Production build succeeds","Preview serves dist","Learner can explain the boot chain"],
+ "why":"Vite treats `index.html` as source and follows module imports from the entry script. React creates one root and renders the component tree into the root element."
+},
+{
+ "id":"1.3","topic":1,"title":"Write a Testable Product Brief and Acceptance Criteria","mins":35,
+ "outcome":"Turn a vague app idea into a bounded SprintBoard brief, non-goals, risks and observable acceptance checks.",
+ "files":["docs/product-brief.md","docs/acceptance.md"],
+ "concepts":["problem framing","acceptance criteria","non-goals","vertical slice"],
+ "steps":[
+  "Describe the adult learner persona and the problem SprintBoard solves in two sentences.",
+  "Define the first vertical slice: view synthetic tasks grouped by To Do, Doing and Done.",
+  "Write five acceptance criteria beginning with an observable verb such as displays, moves, filters, or reports.",
+  "Add non-goals: accounts, payments, real-time sync, production customer data, and backend persistence.",
+  "Ask the agent to challenge ambiguity and identify edge cases without proposing code.",
+  "Revise the brief, inspect the documentation diff, and checkpoint it before implementation."],
+ "prompt":"Act as a skeptical product engineer. Review docs/product-brief.md and docs/acceptance.md without editing. Find ambiguous words, missing states, hidden dependencies and acceptance checks that are not observable. Return a corrected proposal and a risk list.",
+ "traps":["Starting code before agreeing behavior","Acceptance criteria based on implementation","Scope expanding into a backend","Using real employee data"],
+ "verify":["Criteria are observable","Non-goals are explicit","Loading/empty/error states are named","No code was generated"],
+ "why":"AI amplifies ambiguity. A narrow vertical slice and observable criteria give both the agent and the learner a shared definition of done."
+},
+{
+ "id":"1.4","topic":1,"title":"Engineer a Plan–Diff–Verify Prompt Contract","mins":40,
+ "outcome":"Create reusable prompt and review templates that force planning, bounded edits and verification evidence.",
+ "files":["docs/prompt-template.md","docs/review-checklist.md"],
+ "concepts":["context engineering","bounded change","diff review","rollback"],
+ "steps":[
+  "Create a prompt template with Goal, Context, Constraints, Deliverables, Verification and Stop Conditions.",
+  "Create a review checklist covering file scope, dependencies, types, accessibility, errors, secrets and tests.",
+  "Ask the agent to plan the SprintBoard shell and name every file it would change; do not authorize implementation.",
+  "Compare the plan to the product brief; reject any unrequested package or architecture.",
+  "Authorize one small increment and require the agent to summarize the resulting diff.",
+  "Run the verification commands yourself; record keep, refine, or revert with the evidence."],
+ "prompt":"Goal: propose the smallest SprintBoard shell. Context: read the product brief and AGENTS.md. Constraints: no new dependencies and no implementation yet. Deliverables: numbered plan, exact file list, risks, verification commands and rollback point. Stop after the plan.",
+ "traps":["Prompt asks for the entire app","Agent silently adds a UI framework","Summary replaces line-by-line diff review","Passing build treated as complete evidence"],
+ "verify":["Plan names files","Risks and rollback exist","One increment is authorized","Decision is backed by commands and browser evidence"],
+ "why":"The engineering loop separates intent, proposal, mutation and evidence. Each boundary gives the human a meaningful point to intervene."
+},
+{
+ "id":"1.5","topic":1,"title":"Build and Review the First React Screen","mins":45,
+ "outcome":"Replace the starter content with a semantic SprintBoard shell while reviewing every generated line.",
+ "files":["src/App.tsx","src/App.css","src/index.css"],
+ "concepts":["function component","JSX","semantic HTML","component tree"],
+ "steps":[
+  "Approve a shell containing header, navigation, main board region and footer; keep content synthetic.",
+  "Ask the agent to implement only `App.tsx` and focused CSS, preserving the Vite entry point.",
+  "Read the JSX aloud as a tree and identify every opening/closing tag and expression boundary.",
+  "Inspect the diff for removed defaults, global CSS leakage, inaccessible navigation, or unexplained assets.",
+  "Run dev, lint and build; inspect the console and browser at 375 px and 1280 px.",
+  "Commit only after the screen matches the brief and the learner can explain every changed line."],
+ "prompt":"Implement only the approved SprintBoard shell in src/App.tsx, src/App.css and src/index.css. Use semantic header/nav/main/footer elements, TypeScript-safe JSX, no new packages, and responsive CSS. Show the diff summary and verification commands when finished.",
+ "traps":["Nested interactive elements","Decorative divs instead of semantic landmarks","Global wildcard styles with side effects","Unexplained generated SVG or dependency"],
+ "verify":["Landmarks are present","No console errors","Lint and build pass","375 px and 1280 px views remain usable"],
+ "why":"JSX is a declarative description of the interface. React evaluates the component function and reconciles its returned element tree with the browser DOM."
+},
+{
+ "id":"2.1","topic":2,"title":"Model Tasks and Render Lists with Stable Keys","mins":40,
+ "outcome":"Create typed synthetic task data and render it predictably with map and stable identifiers.",
+ "files":["src/types.ts","src/data/tasks.ts","src/components/TaskList.tsx"],
+ "concepts":["TypeScript interface","map","stable key","derived view"],
+ "steps":[
+  "Define `Task` with id, title, owner, status, points and priority; restrict status to a union.",
+  "Create eight synthetic tasks with unique stable string IDs and no personal data.",
+  "Plan a TaskList that receives tasks through props and maps each item to visible output.",
+  "Generate the component, then inspect for `key={index}`, inline mutation and missing empty output.",
+  "Reorder the array and verify task identity remains correct; temporarily pass an empty array.",
+  "Run type-check, lint and build; record why a database-style ID is safer than the array index."],
+ "prompt":"Create typed synthetic task data and a TaskList component. Use a Task interface, a status union, stable task.id keys, and a meaningful empty state. Do not add state or packages. Explain the key choice after showing the files changed.",
+ "traps":["key={index}","Duplicate IDs","Rendering raw objects","Mutating the source array during render"],
+ "verify":["Eight tasks render","Empty state appears","Reorder preserves identity","Type-check passes"],
+ "why":"Keys are not display labels; they tell React which item is the same conceptual entity between renders. Stable identity prevents state and DOM from attaching to the wrong row."
+},
+{
+ "id":"2.2","topic":2,"title":"Extract Components and Design Prop Contracts","mins":40,
+ "outcome":"Split the board into focused typed components and pass data explicitly through props.",
+ "files":["src/components/Board.tsx","src/components/TaskColumn.tsx","src/components/TaskCard.tsx"],
+ "concepts":["component boundary","props","composition","single responsibility"],
+ "steps":[
+  "Draw the component tree from App to Board, TaskColumn and TaskCard before editing code.",
+  "Define each prop interface and decide which values are required, optional, or callbacks.",
+  "Ask the agent for a refactor plan that preserves visible behavior and names moves versus edits.",
+  "Implement one extraction at a time; run the app after each move to isolate regressions.",
+  "Inspect for prop drilling caused by misplaced state, duplicated markup and components that read globals.",
+  "Use React DevTools to identify boundaries, then lint/build and commit the refactor separately."],
+ "prompt":"Refactor the existing task markup into Board, TaskColumn and TaskCard. First provide prop interfaces and a move plan. Preserve behavior and CSS classes. Do not add state, context or packages. Implement one component extraction at a time and stop if a test or build fails.",
+ "traps":["Changing behavior during refactor","Using any for props","Reading module globals inside TaskCard","One component still owns unrelated responsibilities"],
+ "verify":["UI is unchanged","Props are typed","Components have focused purposes","Build passes after each extraction"],
+ "why":"A component boundary is an API. Clear prop contracts make generated code easier to inspect, test and replace without hidden coupling."
+},
+{
+ "id":"2.3","topic":2,"title":"Compose Reusable Layouts with children","mins":35,
+ "outcome":"Use composition and children to build reusable sections without boolean-prop complexity.",
+ "files":["src/components/Panel.tsx","src/components/EmptyState.tsx"],
+ "concepts":["children","composition","slot","fallback content"],
+ "steps":[
+  "Identify repeated panel chrome and distinguish it from the unique content inside each panel.",
+  "Create a typed Panel accepting title, optional actions and ReactNode children.",
+  "Replace duplicated wrappers without changing the order or semantics of content.",
+  "Create an EmptyState that composes a heading, explanation and optional action.",
+  "Inspect generated code for nested ternaries and a proliferation of `showX` boolean props.",
+  "Render two different Panel contents and two EmptyState variants; lint and build."],
+ "prompt":"Create a typed Panel component using composition. It accepts title, optional actions and children: ReactNode. Create an EmptyState with optional action content. Replace repeated wrappers but preserve semantics and visible behavior. Avoid boolean props that switch unrelated layouts.",
+ "traps":["Over-general component","Children typed as any","Nested ternaries controlling layout","Heading levels become inconsistent"],
+ "verify":["Two distinct panels compose correctly","Optional actions disappear cleanly","Heading order remains logical","No behavior change"],
+ "why":"Composition passes UI as data. It keeps the reusable shell ignorant of the content and avoids an ever-growing matrix of configuration flags."
+},
+{
+ "id":"2.4","topic":2,"title":"Handle Events and Controlled Forms","mins":45,
+ "outcome":"Add a controlled task form with validation and explicit submit behavior.",
+ "files":["src/components/TaskForm.tsx","src/App.tsx"],
+ "concepts":["event handler","controlled input","validation","preventDefault"],
+ "steps":[
+  "Define form fields and acceptance rules: nonblank title, owner placeholder, priority and points range.",
+  "Plan controlled state for each field and an `onCreate` callback owned by the parent.",
+  "Generate labels, inputs, select, error region and submit button using semantic form controls.",
+  "Inspect for missing labels, mutation, stale state, uncontrolled-to-controlled warnings and page reload.",
+  "Test keyboard-only completion, invalid title, boundary points, successful submit and form reset.",
+  "Run lint/build and use the accessibility tree to confirm label-control relationships."],
+ "prompt":"Build a typed controlled TaskForm. Use real label elements, preventDefault, trimmed title validation, points from 1 to 13, an accessible error message and onCreate callback. The parent owns the task array. Do not use a form library or mutate existing tasks.",
+ "traps":["Button defaults reload the page","Input lacks label","Number remains a string","Form clears even when validation fails"],
+ "verify":["Invalid submit is blocked","Keyboard flow works","Valid task reaches parent callback","No console warnings"],
+ "why":"A controlled input makes React state the source of truth. Every keystroke updates state, and the rendered value always reflects that state."
+},
+{
+ "id":"2.5","topic":2,"title":"Generate Responsive and Accessible CSS","mins":40,
+ "outcome":"Create a robust visual system with tokens, responsive layout, focus visibility and reduced-motion support.",
+ "files":["src/index.css","src/App.css"],
+ "concepts":["custom property","grid","focus-visible","media query"],
+ "steps":[
+  "Inventory colors, spacing, type sizes and radii; convert repeated values into CSS custom properties.",
+  "Define a mobile-first single-column board and expand to three columns when space allows.",
+  "Add visible `:focus-visible` styles and confirm text/background contrast with browser tools.",
+  "Add overflow handling for long task titles and test browser zoom at 200 percent.",
+  "Respect `prefers-reduced-motion` for transitions introduced by the agent.",
+  "Inspect the CSS diff for `!important`, fixed heights, horizontal scroll and low-contrast tokens."],
+ "prompt":"Refine SprintBoard CSS using custom properties and mobile-first layout. Requirements: usable at 320px and 1280px, visible focus, 200% zoom, long-title wrapping, no fixed card heights, sufficient contrast, and reduced-motion handling. Preserve semantic HTML and add no framework.",
+ "traps":["Fixed pixel heights clip content","Outline removed","Desktop-first overflow","Color is the only status cue"],
+ "verify":["320 px has no horizontal scroll","200% zoom remains usable","Focus is always visible","Reduced-motion preference is respected"],
+ "why":"Responsive CSS adapts to available space rather than a device label. Accessibility is part of the component contract, not a polish pass after generation."
+},
+{
+ "id":"3.1","topic":3,"title":"Manage Immutable Task State with useState","mins":45,
+ "outcome":"Create, move and delete tasks with functional updates and immutable array transformations.",
+ "files":["src/App.tsx","src/lib/taskTransitions.ts"],
+ "concepts":["state snapshot","functional update","immutability","derived state"],
+ "steps":[
+  "Move the initial tasks into `useState` and keep filters as derived data rather than a second task array.",
+  "Write pure create, move and delete transition helpers before connecting buttons.",
+  "Use functional state updates whenever the next value depends on the previous array.",
+  "Inspect the agent diff for push, splice, direct property assignment and stale closure reads.",
+  "Test two rapid moves, delete after filter, duplicate title and empty-column behavior.",
+  "Explain why state behaves as a snapshot, then lint, type-check and build."],
+ "prompt":"Add task create, move-forward and delete behavior with useState. Use pure immutable transition helpers and functional updates. Do not store filtered tasks in state. Preserve stable IDs and status order. Include tests or console-free verification examples for transition edge cases.",
+ "traps":["tasks.push mutates state","Duplicated filtered state drifts","setTasks([...tasks]) uses stale closure","Index used as identity"],
+ "verify":["Rapid updates are not lost","Original arrays are unchanged","Filter follows source state","Transitions stop at Done"],
+ "why":"Each render sees a snapshot of state. Functional updates receive the latest committed value and immutable transformations give React a new reference to reconcile."
+},
+{
+ "id":"3.2","topic":3,"title":"Synchronize and Clean Up Effects","mins":45,
+ "outcome":"Persist tasks locally with guarded parsing and understand effect dependencies and cleanup.",
+ "files":["src/hooks/usePersistentTasks.ts"],
+ "concepts":["useEffect","dependency","cleanup","localStorage"],
+ "steps":[
+  "Define the external system: one versioned localStorage key containing synthetic task JSON.",
+  "Create a lazy state initializer that reads once and falls back safely on missing or malformed data.",
+  "Add a save effect whose dependency reflects the value being synchronized.",
+  "Inspect StrictMode behavior and ensure the effect is idempotent rather than disabled.",
+  "Test reload, cleared storage, malformed JSON, schema mismatch and storage write failure.",
+  "Ask the agent to explain every dependency; reject lint suppression as a fix."],
+ "prompt":"Extract usePersistentTasks. Read localStorage with a lazy initializer, validate parsed data, fall back to provided initial tasks, and save when tasks change. Use one versioned key. Do not suppress exhaustive-deps. Explain StrictMode behavior and all failure paths.",
+ "traps":["Effect reads and writes in a loop","JSON.parse crash blanks the app","Lint rule disabled","Storage treated as secure"],
+ "verify":["Reload restores tasks","Malformed data recovers","No effect loop","Dependencies can be explained"],
+ "why":"Effects synchronize React with systems outside React. Dependencies describe the reactive values used by that synchronization; cleanup or idempotence prevents duplicate external work."
+},
+{
+ "id":"3.3","topic":3,"title":"Extract a Tested Custom Hook","mins":40,
+ "outcome":"Separate reusable board logic into a custom hook without sharing state between consumers.",
+ "files":["src/hooks/useTaskBoard.ts","src/hooks/useTaskBoard.test.ts"],
+ "concepts":["custom hook","logic reuse","public API","hook test"],
+ "steps":[
+  "List the smallest public API: tasks, visibleTasks, filter, setFilter, create, move and remove.",
+  "Move stateful logic into `useTaskBoard` while keeping presentation in components.",
+  "Inspect hook naming, top-level hook calls and dependency boundaries.",
+  "Render two hook consumers and prove they do not share state unless state is lifted.",
+  "Add focused tests for initial state, filtering and immutable movement.",
+  "Refactor App to consume the hook; compare behavior before and after."],
+ "prompt":"Extract useTaskBoard from App. Define a small typed return API, keep hooks at the top level, derive visibleTasks, and expose named actions. Add tests for initial tasks, filtering and moving. Preserve all visible behavior and do not introduce context.",
+ "traps":["Hook called conditionally","Hook returns unstable unnecessary objects","Custom hook assumed to create global shared state","Presentation markup moved into logic hook"],
+ "verify":["Two instances are independent","Hook tests pass","App becomes simpler","Behavior is unchanged"],
+ "why":"Custom hooks share stateful logic, not state instances. Each call runs its own hook state unless a common owner or context deliberately shares it."
+},
+{
+ "id":"3.4","topic":3,"title":"Add Declarative Routing and Dynamic Task Pages","mins":45,
+ "outcome":"Create board, task detail, about and not-found routes with accessible navigation.",
+ "files":["src/router.tsx","src/pages/BoardPage.tsx","src/pages/TaskPage.tsx","src/pages/NotFoundPage.tsx"],
+ "concepts":["URL as state","route","dynamic parameter","navigation"],
+ "steps":[
+  "Install the current React Router package and record the version and command.",
+  "Plan route objects for `/`, `/tasks/:taskId`, `/about` and a catch-all page.",
+  "Create a shared layout with navigation and an outlet for child pages.",
+  "Link each TaskCard to its detail URL; read the parameter and handle an unknown ID.",
+  "Test links, browser back/forward, direct URL entry, refresh and keyboard focus after navigation.",
+  "Inspect for anchor misuse, imperative navigation where Link is clearer, and blank not-found output."],
+ "prompt":"Add React Router in data/declarative configuration for board, task detail, about and not-found pages. Use links for user navigation, a shared layout, a dynamic taskId parameter and a useful unknown-task state. Preserve the task hook and avoid unrelated CSS rewrites.",
+ "traps":["Using window.location for internal navigation","Missing not-found route","Unknown ID crashes","Direct refresh fails in deployment"],
+ "verify":["All routes render","Back/forward works","Unknown task is handled","Direct URLs are documented for hosting"],
+ "why":"Client-side routing maps the URL to a component tree. Dynamic segments make resource identity shareable and recoverable through the address bar."
+},
+{
+ "id":"3.5","topic":3,"title":"Fetch API Data with Loading, Empty, Error and Retry States","mins":50,
+ "outcome":"Replace local seed data with a controlled fetch pipeline and resilient user-visible states.",
+ "files":["public/tasks.json","src/hooks/useTasksApi.ts","src/components/AsyncState.tsx"],
+ "concepts":["fetch","response.ok","AbortController","state machine"],
+ "steps":[
+  "Create a local JSON endpoint with synthetic tasks so the lab needs no credentials.",
+  "Model idle/loading/success/empty/error rather than a single ambiguous boolean.",
+  "Fetch inside an effect, check `response.ok`, validate the payload and abort on cleanup.",
+  "Expose a retry action and a useful error message without leaking stack traces.",
+  "Test normal data, empty array, invalid JSON, 404 path, slow network and component unmount.",
+  "Inspect for requests during render, missing cleanup, swallowed errors and endless spinner."],
+ "prompt":"Create useTasksApi for /tasks.json with loading, success, empty and error states, response.ok checking, runtime shape validation, AbortController cleanup and retry. Keep synthetic data local and show accessible status messages. Do not hide errors or fetch during render.",
+ "traps":["fetch during render","No response.ok check","Abort reported as user error","Error leaves loading true forever"],
+ "verify":["All four visible states work","Retry recovers","Unmount aborts request","No credentials are required"],
+ "why":"A network request is a state machine, not a value. Explicit states prevent stale content, endless spinners and blank screens when the happy path fails."
+},
+{
+ "id":"4.1","topic":4,"title":"Run an Evidence-Led Debugging Loop","mins":40,
+ "outcome":"Reproduce, isolate and fix a controlled stale-state defect with a minimal reviewed patch.",
+ "files":["src/hooks/useTaskBoard.ts","docs/debug-log.md"],
+ "concepts":["reproduction","hypothesis","root cause","minimal patch"],
+ "steps":[
+  "Create a branch and introduce a controlled defect that loses one of two rapid task moves.",
+  "Write exact reproduction steps, expected result, actual result and evidence in the debug log.",
+  "Ask the agent for three ranked hypotheses and the smallest experiment for each; do not request a fix yet.",
+  "Run the experiments, identify the stale closure, and approve one functional-update patch.",
+  "Inspect the diff for unrelated refactors and add a regression test before accepting.",
+  "Run the complete verification stack and document why the original code failed."],
+ "prompt":"Diagnose only. Given this reproduction and the relevant hook, propose three ranked hypotheses, evidence for/against each, and the smallest experiment. Do not edit until I confirm the root cause. After confirmation, propose one minimal patch and one regression test.",
+ "traps":["Agent rewrites the hook","Symptom patched without root cause","Reproduction not repeatable","Regression test omitted"],
+ "verify":["Defect fails before fix","One hypothesis is proven","Patch is minimal","Regression test passes"],
+ "why":"Debugging converts uncertainty into evidence. Separating hypothesis from mutation prevents an AI agent from masking the symptom with a broad rewrite."
+},
+{
+ "id":"4.2","topic":4,"title":"Test User Behaviour with Vitest and Testing Library","mins":50,
+ "outcome":"Build a focused test suite for rendering, filtering, task movement, forms and routes.",
+ "files":["src/test/setup.ts","src/App.test.tsx","src/components/TaskForm.test.tsx"],
+ "concepts":["test","assertion","user event","accessible query"],
+ "steps":[
+  "Install Vitest, jsdom, Testing Library, jest-dom and user-event; pin and record versions.",
+  "Configure the test environment and add an explicit `test` script.",
+  "Write a smoke test using role and accessible-name queries rather than CSS selectors.",
+  "Add behaviour tests for filtering, valid/invalid form submit and moving a task.",
+  "Add a MemoryRouter test for task details and not-found behavior.",
+  "Run tests in watch and single-run modes; inspect generated assertions for false confidence."],
+ "prompt":"Add Vitest and React Testing Library tests for SprintBoard. Query by role/name, drive interactions with user-event, and assert visible behaviour. Cover initial board, filter, invalid and valid create, move, task route and unknown task. Avoid snapshots and implementation-detail selectors.",
+ "traps":["Testing internal state","fireEvent used for realistic typing","Assertions pass without awaiting user events","Snapshot replaces behavior checks"],
+ "verify":["Tests fail for deliberate regressions","Queries reflect accessibility","All required flows pass","Single-run command exits cleanly"],
+ "why":"Behaviour tests treat the interface like a user does. Accessible queries improve both test resilience and the underlying UI semantics."
+},
+{
+ "id":"4.3","topic":4,"title":"Audit Accessibility and Error Recovery","mins":40,
+ "outcome":"Perform keyboard, semantics, focus, contrast and recovery checks and fix only evidenced defects.",
+ "files":["docs/accessibility-audit.md","src/components/AsyncState.tsx"],
+ "concepts":["keyboard access","focus management","live region","error recovery"],
+ "steps":[
+  "Navigate the complete app using only Tab, Shift+Tab, Enter, Space and browser back.",
+  "Inspect landmarks, heading order, control names and error announcements in the accessibility tree.",
+  "Check contrast, 200 percent zoom, narrow viewport and prefers-reduced-motion.",
+  "Trigger form and network errors; verify focus and retry guidance lead to recovery.",
+  "Ask the agent to rank findings by user impact and propose one file-scoped patch per finding.",
+  "Retest each corrected behavior and record evidence rather than marking a generic compliance checkbox."],
+ "prompt":"Review the supplied accessibility evidence and relevant components. Rank concrete defects by user impact. For each, name the standard interaction that fails, exact file, minimal patch and manual retest. Do not claim compliance and do not change visual style without evidence.",
+ "traps":["Automated scan treated as complete","Focus indicator removed","Error appears visually but is not announced","Color-only status"],
+ "verify":["All controls work by keyboard","Errors are announced","Focus remains visible","Zoom and narrow width remain usable"],
+ "why":"Accessibility is observable interaction quality. Automated tools find only part of the problem; keyboard and assistive-technology semantics require human verification."
+},
+{
+ "id":"4.4","topic":4,"title":"Profile, Refactor and Document Production Code","mins":45,
+ "outcome":"Use measurements to improve unnecessary rendering, bundle quality and maintainability without premature optimization.",
+ "files":["docs/performance-log.md","README.md","src/components/TaskCard.tsx"],
+ "concepts":["profiler","memoization","bundle warning","documentation"],
+ "steps":[
+  "Record a React DevTools Profiler trace while filtering and moving tasks; identify the actual expensive path.",
+  "Ask the agent to explain the measurement and propose options before adding memoization.",
+  "Apply one targeted optimization only if the trace shows meaningful avoidable work.",
+  "Run a production build and inspect warnings, asset sizes and source-map policy.",
+  "Remove debug logs, dead code and obsolete comments; add concise component and setup documentation.",
+  "Compare profiler evidence and bundle output before and after; revert changes without measurable benefit."],
+ "prompt":"Use the profiler evidence and build output I provide. Identify measured bottlenecks and propose the smallest improvement. Do not add memo/useMemo/useCallback by default. Explain trade-offs, then update README setup, architecture, commands, limitations and rollback notes.",
+ "traps":["Memoizing everything","Optimizing without a baseline","Console logs ship to production","README commands do not match package.json"],
+ "verify":["Change has measured benefit or is reverted","Build has no unexplained warning","README is reproducible","No debug output remains"],
+ "why":"Optimization is an experiment. Measurements define the problem, and before/after evidence decides whether added complexity is justified."
+},
+{
+ "id":"4.5","topic":4,"title":"Build, Deploy and Demonstrate the Capstone","mins":55,
+ "outcome":"Produce and deploy a verified SprintBoard release with SPA routing, rollback instructions and an evidence-backed demonstration.",
+ "files":["dist/","docs/release-checklist.md","docs/release-notes.md"],
+ "concepts":["production build","SPA fallback","release gate","rollback"],
+ "steps":[
+  "Run clean install, test, lint, type-check and build from the documented commands.",
+  "Choose an approved static host and configure the correct Vite base path and SPA fallback behavior.",
+  "Deploy `dist` through Git integration or the host workflow without exposing credentials.",
+  "Open the public URL and verify board, form, filters, dynamic route, refresh, 404 and retry behavior.",
+  "Create release notes with features, evidence, limitations, known risks and exact rollback steps.",
+  "Demonstrate the complete agentic loop using one final small improvement and show its plan, diff, tests and checkpoint."],
+ "prompt":"Prepare a release plan only. Read package scripts and hosting target. List preflight commands, Vite base/SPA rewrite requirements, environment-variable handling, smoke tests, rollback method and stop conditions. Do not deploy or change external state until I approve.",
+ "traps":["Deploying untested dist","Direct route refresh returns 404","Secrets included in VITE variables","No rollback target"],
+ "verify":["All release gates pass","Public routes survive refresh","No secret appears in bundle or repo","Rollback is documented and feasible"],
+ "why":"A release is a controlled state transition. Gates prove readiness, smoke tests prove the target environment, and rollback limits the cost of a bad assumption."
+},
+]
+
+REFERENCES = [
+ ("Published C1143 course page", "https://www.tertiarycourses.com.sg/react-essential-training.html"),
+ ("React documentation", "https://react.dev/learn"),
+ ("Vite Getting Started", "https://vite.dev/guide/"),
+ ("React Router documentation", "https://reactrouter.com/start/modes"),
+ ("Vitest documentation", "https://vitest.dev/guide/"),
+]

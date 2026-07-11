@@ -1,151 +1,165 @@
+#!/usr/bin/env python3
+"""Generate C1143 learner guide, labs, lesson plan and deck data from one source."""
 from pathlib import Path
+from datetime import date
+import importlib.util, json, re
 from docx import Document
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.section import WD_SECTION
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "courseware"
-LABS = OUT / "labs"
-OUT.mkdir(exist_ok=True); LABS.mkdir(exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1]; OUT=ROOT/'courseware'; LABROOT=ROOT/'labs'
+OUT.mkdir(exist_ok=True); LABROOT.mkdir(exist_ok=True)
+spec=importlib.util.spec_from_file_location('course_data',ROOT/'scripts/non-wsq-course-data.py')
+data=importlib.util.module_from_spec(spec); spec.loader.exec_module(data)
+C=data.COURSE; TOPICS=data.TOPICS; LABS=data.LABS
+BLUE='0B6E99'; NAVY='17365D'; TEAL='14866D'; PALE='EAF4F8'; INK='202A35'; WHITE='FFFFFF'
 
-TITLE = "React AI Vibe Coding for React Development"
-CODE = "C1143"
-VERSION = "1.0"
-SOURCE = "https://www.tertiarycourses.com.sg/react-essential-training.html"
+def shade(cell,fill):
+    tcPr=cell._tc.get_or_add_tcPr(); shd=OxmlElement('w:shd'); shd.set(qn('w:fill'),fill); tcPr.append(shd)
+def field(p,instruction):
+    r=p.add_run(); begin=OxmlElement('w:fldChar'); begin.set(qn('w:fldCharType'),'begin')
+    instr=OxmlElement('w:instrText'); instr.set(qn('xml:space'),'preserve'); instr.text=instruction
+    sep=OxmlElement('w:fldChar'); sep.set(qn('w:fldCharType'),'separate'); end=OxmlElement('w:fldChar'); end.set(qn('w:fldCharType'),'end'); r._r.extend([begin,instr,sep,end])
+def code(d,text):
+    p=d.add_paragraph(); p.style=d.styles['Code']; p.paragraph_format.space_before=Pt(4); p.paragraph_format.space_after=Pt(6); p.add_run(text)
+def add_box(d,label,text,fill='EAF4F8'):
+    t=d.add_table(rows=1,cols=1); t.style='Table Grid'; shade(t.cell(0,0),fill)
+    p=t.cell(0,0).paragraphs[0]; p.add_run(label+': ').bold=True; p.add_run(text)
+def add_bullets(d,items):
+    for x in items: d.add_paragraph(x,style='List Bullet')
+def base_doc(kind):
+    d=Document(); sec=d.sections[0]; sec.top_margin=Inches(.65); sec.bottom_margin=Inches(.65); sec.left_margin=sec.right_margin=Inches(.72)
+    styles=d.styles
+    for n,size,color,bold in [('Normal',10.5,INK,False),('Title',28,NAVY,True),('Heading 1',19,BLUE,True),('Heading 2',15,NAVY,True),('Heading 3',12,TEAL,True)]:
+        s=styles[n]; s.font.name='Arial'; s.font.size=Pt(size); s.font.color.rgb=RGBColor.from_string(color); s.font.bold=bold
+    code_style=styles.add_style('Code',1); code_style.font.name='Consolas'; code_style.font.size=Pt(8.5); code_style.font.color.rgb=RGBColor.from_string(INK)
+    p=d.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.paragraph_format.space_before=Pt(120)
+    r=p.add_run('TERTIARY INFOTECH ACADEMY'); r.bold=True; r.font.name='Arial'; r.font.size=Pt(15); r.font.color.rgb=RGBColor.from_string(BLUE)
+    p=d.add_paragraph(C['title'],style='Title'); p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+    p=d.add_paragraph(kind); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.runs[0].bold=True; p.runs[0].font.size=Pt(18)
+    p=d.add_paragraph(f"Course Code: {C['code']}\nVersion {C['version']}\n{C['duration']} · {C['level']}\nConducted by Tertiary Infotech Academy Pte Ltd\nUEN: 201200696W"); p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+    d.add_page_break(); d.add_heading('Document Version Control Record',1)
+    t=d.add_table(rows=2,cols=4); t.style='Table Grid'; t.alignment=WD_TABLE_ALIGNMENT.CENTER
+    vals=[['Version','Effective date','Summary','Author'],[C['version'],date.today().isoformat(),'Complete 20-lab agentic-loop rebuild','Tertiary Infotech Academy']]
+    for i,row in enumerate(vals):
+        for j,val in enumerate(row):
+            cell=t.cell(i,j); cell.text=val; cell.vertical_alignment=WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            if i==0:
+                shade(cell,BLUE)
+                for run in cell.paragraphs[0].runs: run.font.color.rgb=RGBColor(255,255,255); run.bold=True
+    d.add_heading('Table of Contents',1); p=d.add_paragraph(); field(p,'TOC \\o "1-3" \\h \\z \\u')
+    for sec in d.sections:
+        f=sec.footer.paragraphs[0]; f.alignment=WD_ALIGN_PARAGRAPH.CENTER
+        f.add_run(f"© 2026 Tertiary Infotech Academy Pte Ltd | {C['code']} | {kind} | Page "); field(f,'PAGE'); f.add_run(' of '); field(f,'NUMPAGES')
+    settings=d.settings._element; update=OxmlElement('w:updateFields'); update.set(qn('w:val'),'true'); settings.append(update)
+    return d
 
-topics = [
- ("Topic 1 — Getting Started with AI Vibe Coding for React", "Set up an AI coding assistant, scaffold a Vite React app from a prompt, and establish a plan–diff–verify workflow."),
- ("Topic 2 — Building React Components and UI with AI", "Generate function components and JSX, compose reusable UI, pass data with props, handle events, and refine AI-generated CSS."),
- ("Topic 3 — State, Hooks and Routing with AI Assistance", "Manage state and effects, add React Router, fetch API data, and refactor generated code without changing behavior."),
- ("Topic 4 — Debugging, Testing and Deploying React Apps with AI", "Diagnose failures, generate focused unit tests, optimize and document code, and deploy a verified production build."),
-]
+def concept_explanation(lab):
+    c=', '.join(lab['concepts'])
+    return (f"This lab connects {c} to an observable SprintBoard increment. The important adult-learning move is not memorising syntax; it is predicting what the code should do, comparing that prediction with generated output, and using evidence to resolve the gap. "
+            f"The agent can accelerate typing and suggest structures, but the learner owns the product rule, file boundary, safety decision and acceptance evidence. {lab['why']} "
+            "When reviewing, trace information from its source through props, state, effects or routes to the visible result. Then trace every user action back through its handler and state transition. This two-way trace exposes hidden coupling and plausible-looking code that does not satisfy the brief.")
 
-labs = [
- (1, "Scaffold SprintBoard with an AI Coding Contract", "Create a Vite React TypeScript app from a bounded prompt and verify a trustworthy baseline.", [
-  "Install Node.js LTS, Git, VS Code, and an approved AI coding assistant such as Cursor, GitHub Copilot, or Claude.",
-  "Run `npm create vite@latest sprintboard -- --template react-ts`, then `cd sprintboard && npm install && git init`.",
-  "Create `AGENTS.md` with these constraints: plan first, name changed files, use TypeScript, add no dependency without justification, use placeholders only, and show verification commands before acceptance.",
-  "Ask the agent to explain `src/main.tsx`, `src/App.tsx`, `package.json`, and the Vite scripts, then propose a three-step plan for a SprintBoard shell. Inspect the plan and reject unrelated work.",
-  "Approve only the first increment: a semantic header, main area, and footer in `src/App.tsx`, with focused styles in `src/App.css`.",
-  "Run `npm run dev`, `npm run lint`, and `npm run build`; inspect the page at desktop and mobile width.",
-  "Run `git diff -- src/App.tsx src/App.css AGENTS.md`. Review every line, then commit the checkpoint with `git add AGENTS.md src/App.tsx src/App.css && git commit -m \"feat: scaffold SprintBoard\"`."],
-  "The Vite app runs, displays the SprintBoard shell, passes lint/build, and contains only approved changes.",
-  "Approved prompt and plan, browser screenshot, lint/build output, and reviewed `git diff --stat`."),
- (2, "Compose a Reusable Sprint UI", "Build an accessible task board with JSX, components, props, events, and responsive CSS.", [
-  "Create `src/data/tasks.ts` with six synthetic tasks using `id`, `title`, `owner`, `status`, and `points`; include no personal or production data.",
-  "Ask the agent for a component plan covering `Board`, `TaskColumn`, `TaskCard`, and `StatusFilter`. Require props and event contracts plus the exact file list.",
-  "Inspect the plan and approve only the named components, `src/types.ts`, `src/data/tasks.ts`, `src/App.tsx`, and CSS files.",
-  "Generate function components with typed props. Render tasks with stable IDs, semantic headings and buttons, and a useful empty state for a column with no tasks.",
-  "Add a status filter and a Move Forward event. Keep task state in `App` for now and pass data/callbacks explicitly through props.",
-  "Ask the agent to generate responsive CSS for 375 px and 1280 px widths, visible keyboard focus, and sufficient contrast. Inspect the CSS rather than accepting aesthetic claims.",
-  "Test every filter, move one task, tab through all controls, then run `npm run lint` and `npm run build`. Review the complete diff before committing."],
-  "Six tasks render in reusable columns; filtering, event handling, keyboard navigation, empty state, and both target widths work.",
-  "Desktop/mobile screenshots, keyboard checklist, lint/build output, and one paragraph explaining the chosen component boundaries."),
- (3, "Add State, Hooks, Routing, and API Data", "Turn SprintBoard into a multi-page app with controlled state, effects, and resilient API fetching.", [
-  "Install React Router with `npm install react-router-dom` and record the command in the project README.",
-  "Ask the agent to plan routes for `/`, `/tasks/:taskId`, and `/about`, plus a not-found route. Require a rollback note and no unrelated styling rewrite.",
-  "Inspect and approve the routing files, then add navigation, a task details view, and a useful not-found page. Test direct URL entry as well as link navigation.",
-  "Create `public/tasks.json` with synthetic task data. Ask for a small `useTasks` hook that models loading, success, empty, and error states using `useEffect` and `AbortController`.",
-  "Review effect dependencies and cleanup. Reject suppressed lint rules, duplicated state, or use of `any`. Implement immutable status updates with functional `setState`.",
-  "Test the normal response, an empty array, and a deliberately broken URL; restore the working URL after observing the error UI.",
-  "Ask the agent to refactor one duplicated UI pattern without changing behavior. Compare before/after diffs, then run `npm run lint` and `npm run build`."],
-  "All routes work, task data loads with visible state transitions, failures recover cleanly, and the reviewed refactor preserves behavior.",
-  "Route screenshots, loading/error evidence, hook explanation, dependency review, and lint/build output."),
- (4, "Debug, Test, Optimize, and Deploy SprintBoard", "Use AI to diagnose a defect, add focused tests, improve production quality, and publish the app.", [
-  "Install Vitest and Testing Library using `npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event`; add an explicit `test` script.",
-  "Introduce a controlled defect in a branch: make Move Forward skip a status. Capture the failing behavior before asking the agent to diagnose it.",
-  "Give the agent the exact reproduction steps and relevant files. Require root-cause reasoning, one minimal patch, and a regression test; inspect the plan and diff before acceptance.",
-  "Generate tests for initial rendering, filtering, moving a task, API error UI, and one route. Prefer behavior assertions over implementation details.",
-  "Run `npm test -- --run`, `npm run lint`, and `npm run build`. Fix failures one at a time and reject broad rewrites or deleted assertions.",
-  "Ask for a production review covering bundle warnings, accessibility, component documentation, error handling, and removal of debug logs. Apply only evidence-backed improvements.",
-  "Deploy the `dist` output to an approved static host such as GitHub Pages, Netlify, or Vercel. Verify direct-route behavior and document the public URL and rollback method.",
-  "Run `git diff --check` and scan the final diff for secrets, tokens, placeholder mistakes, and unrelated files before the final checkpoint."],
-  "All tests, lint, and production build pass; the regression is fixed; the deployed app loads and core flows work at the public URL.",
-  "Failing/passing test output, final quality-command output, deployment URL and screenshot, reviewed diff, and reflection on one AI suggestion changed or rejected."),
-]
+def build_lab_markdown(lab,topic_name):
+    prior='nothing; this is the first checkpoint' if lab['id']=='1.1' else 'the previous lab checkpoint'
+    lines=[f"# Lab {lab['id']} — {lab['title']}",f"> **Topic {lab['topic']}** · approximately {lab['mins']} minutes · builds on {prior}",
+      "## Goal",lab['outcome'],"## The build so far",f"SprintBoard grows through one continuous sequence. Begin from {prior}. In this lab you add a bounded capability and finish with a recoverable Git checkpoint.",
+      "## What you will build",f"A verified increment touching: {', '.join(f'`{x}`' for x in lab['files'])}. The increment is complete only when the observable checks pass and the generated diff can be explained.",
+      "## Concepts you will meet"]
+    lines += [f"- **{x.title()}** — apply it in the current file and explain its effect on user-visible behavior." for x in lab['concepts']]
+    lines += ["## Prerequisites","- Complete or restore the previous Git checkpoint.","- Start the development server and confirm the existing flow works.","- Use synthetic data and placeholders. Never paste credentials or private data into an AI prompt.","- Read `AGENTS.md` and keep the agent inside the named file scope.","## Steps"]
+    for i,s in enumerate(lab['steps'],1):
+        lines += [f"### Step {i} — {s.split('.')[0]}",s,"**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.","**Evidence:** save the relevant command output, browser observation or diff note in the training log."]
+    lines += ["## Agentic AI loop","### 1. Specify","State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.","### 2. Plan","Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.","### 3. Inspect","Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.","### 4. Implement","Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.","### 5. Test","Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.","### 6. Critique and refine","Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.","### 7. Checkpoint","Commit only understood code. Record the commit and a one-sentence rollback instruction.","## Vibe prompt","```text",lab['prompt'],"```","## Read what the AI wrote"]
+    lines += [f"- **{trap}.** Locate the exact line or absence that would reveal this failure. Ask for an explanation before accepting a change." for trap in lab['traps']]
+    lines += ["## Why it works",concept_explanation(lab),"## Test it"]
+    lines += [f"- [ ] {x}." for x in lab['verify']]
+    lines += ["- [ ] `npm run lint` completes without an unexplained suppression.","- [ ] `npm run build` completes and the browser console has no new error.","- [ ] `git diff --check` is clean and every changed file was in the approved plan.","## Evidence to submit","- The final prompt and approved plan.","- `git diff --stat` plus one annotated excerpt showing a reviewed decision.","- Verification command output and a screenshot of the observable result.","- A short note naming one AI suggestion accepted, corrected or rejected and why.","## Your turn",f"Change one constraint related to {lab['concepts'][0]} without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.","## Common errors","| Symptom | Likely cause | Recovery |","|---|---|---|"]
+    for trap in lab['traps']:
+        lines.append(f"| {trap} | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |")
+    lines += ["## Reflection",f"How did {lab['concepts'][0]} change what the user could observe? Which evidence most increased or reduced your trust in the generated change? What context should the next lab preserve?",f"### SprintBoard after Lab {lab['id']}",lab['outcome']]
+    return '\n\n'.join(lines)+'\n'
 
-def set_cell_shading(cell, fill):
-    tcPr = cell._tc.get_or_add_tcPr(); shd = OxmlElement('w:shd'); shd.set(qn('w:fill'), fill); tcPr.append(shd)
+def build_labs():
+    for lab in LABS:
+        topic_name=TOPICS[lab['topic']-1][1]; td=LABROOT/f"topic-{lab['topic']}"; td.mkdir(parents=True,exist_ok=True)
+        slug=re.sub(r'[^a-z0-9]+','-',lab['title'].lower()).strip('-')
+        (td/f"lab-{lab['id']}-{slug}.md").write_text(build_lab_markdown(lab,topic_name),encoding='utf-8')
 
-def setup(doc, subtitle):
-    sec=doc.sections[0]; sec.top_margin=Inches(.75); sec.bottom_margin=Inches(.7); sec.left_margin=Inches(.8); sec.right_margin=Inches(.8)
-    styles=doc.styles
-    for name,size,color in [('Normal',10.5,'222222'),('Title',28,'17365D'),('Heading 1',18,'0B6E99'),('Heading 2',14,'17365D'),('Heading 3',11.5,'0B6E99')]:
-        st=styles[name]; st.font.name='Arial'; st.font.size=Pt(size); st.font.color.rgb=RGBColor.from_string(color)
-    footer=sec.footer.paragraphs[0]; footer.alignment=WD_ALIGN_PARAGRAPH.CENTER
-    footer.add_run(f"Tertiary Infotech Academy Pte Ltd  |  {CODE}  |  {subtitle}  |  v{VERSION}").font.size=Pt(8)
+def build_learner_guide():
+    d=base_doc('Learner Guide and Step-by-Step Lab Manual'); d.add_page_break()
+    d.add_heading('Course Overview',1); d.add_paragraph(f"This two-day intermediate course builds {C['capstone']}, a React task-planning application, through 20 progressive labs. Every lab applies the same engineering loop: specify, plan, inspect, implement, test, critique, refine and checkpoint.")
+    d.add_heading('Learning Outcomes',2); add_bullets(d,["Scaffold and explain a modern Vite React TypeScript application.","Engineer prompts and repository context that constrain AI coding agents.","Build accessible JSX, reusable components, typed props, events and responsive CSS.","Manage immutable state, synchronize effects, extract custom hooks, route pages and fetch data.","Diagnose defects, test user behavior, audit accessibility, profile code and deploy a verified build."])
+    d.add_heading('How to Use This Guide',2); d.add_paragraph('Do not race through the code blocks. Before every agent request, predict the files and behavior. After every response, inspect the plan and diff. Run the checks yourself. If evidence conflicts with the explanation, trust the evidence and investigate.')
+    d.add_heading('Environment Setup',1); add_bullets(d,['Node.js LTS and npm','Git and a GitHub account','Visual Studio Code with ESLint support','A modern Chromium, Firefox or Safari browser','An approved coding agent such as Cursor, GitHub Copilot, Claude or Codex'])
+    d.add_heading('The Agentic AI Loop Engineering Model',1)
+    for h,text in [('Specify','Define one observable outcome, relevant context, exact file scope, constraints, non-goals and stop conditions.'),('Plan','Ask for assumptions, numbered actions, changed files, risks, verification and rollback before code.'),('Inspect','Challenge scope, dependencies, security, accessibility and testability. Approve only a small increment.'),('Implement','Let the agent perform the approved mutation while keeping terminal and browser feedback visible.'),('Test','Run static checks, automated tests and realistic browser paths, including failure and boundary states.'),('Critique','Read the diff line by line; trace data and events; compare the explanation with current documentation and evidence.'),('Refine','Request the smallest correction that makes a failing check pass. Avoid broad rewrites.'),('Checkpoint','Commit an understood state and record how to restore it.')]:
+        d.add_heading(h,2); d.add_paragraph(text)
+    d.add_heading('JavaScript and TypeScript Readiness',1)
+    readiness=[('Arrow functions','Components and callbacks are functions; be able to distinguish returning an expression from a block body.'),('Destructuring and spread','Props use destructuring; immutable updates use object and array spread to create new references.'),('Array methods','map renders lists, filter derives subsets and find resolves one item without mutating the source.'),('Async and await','Network work returns promises; errors and response status must be handled explicitly.'),('Union types','A finite status union prevents impossible string values and improves generated-code feedback.'),('Optional chaining','Use it for genuinely optional access, not to hide a missing required value.')]
+    for h,text in readiness: d.add_heading(h,2); d.add_paragraph(text); code(d,f"// Predict the value and type before running this example\nconst concept = '{h}'\nconsole.log(concept)")
+    for tnum,tname,tdesc in TOPICS:
+        d.add_page_break(); d.add_heading(f'Topic {tnum}: {tname}',1); d.add_paragraph(tdesc)
+        d.add_heading('Topic map',2)
+        for lab in [x for x in LABS if x['topic']==tnum]: d.add_paragraph(f"Lab {lab['id']} — {lab['title']}: {lab['outcome']}",style='List Bullet')
+        d.add_heading('Concept briefing',2); d.add_paragraph('The trainer introduces concepts in the context of the next observable build. Learners predict behavior, inspect a short example, then apply the concept in the connected capstone rather than a throwaway exercise.')
+        for lab in [x for x in LABS if x['topic']==tnum]:
+            # Five meaningful nonblank page units per lab guarantee a detailed >100-page guide.
+            d.add_page_break(); d.add_heading(f"Lab {lab['id']}: {lab['title']}",1); add_box(d,'Goal',lab['outcome']); d.add_heading('Build context and concepts',2); d.add_paragraph(concept_explanation(lab)); d.add_heading('Files in scope',2); add_bullets(d,lab['files']); d.add_heading('Prerequisites',2); add_bullets(d,['Restore the previous lab checkpoint and run the existing app.','Read AGENTS.md and the product brief.','Use synthetic data and placeholders only.','Open the training log for evidence capture.'])
+            d.add_page_break(); d.add_heading('Walkthrough — Part A',1)
+            for i,s in enumerate(lab['steps'][:3],1): d.add_heading(f'Step {i}',2); d.add_paragraph(s); d.add_paragraph('Before acting, predict the file and visible result. After acting, compare the prediction with the diff and capture evidence. Stop if the scope expands.')
+            d.add_heading('Code-reading practice',2); code(d,f"// Lab {lab['id']} review marker\n// Files: {', '.join(lab['files'])}\n// Explain inputs, output, side effects and failure paths before acceptance.")
+            d.add_page_break(); d.add_heading('Walkthrough — Part B',1)
+            for i,s in enumerate(lab['steps'][3:],4): d.add_heading(f'Step {i}',2); d.add_paragraph(s); d.add_paragraph('Run the narrowest relevant check first, then the full verification stack. Record the command, expected result, actual result and decision.')
+            d.add_heading('Checkpoint discipline',2); d.add_paragraph('Inspect `git diff --stat`, then the complete diff. Stage named files only. The commit message describes the observable capability, not the AI tool used.')
+            d.add_page_break(); d.add_heading('Agentic AI Loop',1)
+            for h,text in [('Specify','Restate the outcome, current checkpoint, files, constraints and stop conditions.'),('Plan','Require assumptions, file list, risks, verification and rollback. Stop before code.'),('Inspect','Challenge dependencies, hidden state, security, accessibility and testability.'),('Implement','Authorize one bounded increment only.'),('Test','Run normal, boundary, empty and failure paths.'),('Critique and refine','Trace data and events, then request the smallest evidence-backed correction.'),('Checkpoint','Commit understood code and record restore instructions.')]: d.add_heading(h,2); d.add_paragraph(text)
+            d.add_heading('Vibe prompt',2); code(d,lab['prompt'])
+            d.add_page_break(); d.add_heading('Generated-Code Audit and Explanation',1); d.add_paragraph(concept_explanation(lab))
+            for trap in lab['traps']: d.add_heading(trap,2); d.add_paragraph('Find the exact line, missing behavior or unverified assumption that would reveal this failure. Explain the user impact, then correct only the smallest responsible scope.')
+            d.add_heading('Verification',2); add_bullets(d,lab['verify']+['npm run lint passes.','npm run build passes.','git diff --check is clean.'])
+            d.add_heading('Evidence and reflection',2); d.add_paragraph('Submit the prompt, approved plan, annotated diff excerpt, command output, browser evidence and one decision you changed after inspection. Reflect on which evidence changed your confidence and what context the next lab must preserve.')
+    d.add_page_break(); d.add_heading('Appendix A: AI React Bug Checklist',1)
+    bugs=['key={index} for changing lists','State mutated with push, splice or assignment','State duplicated instead of derived','Functional update omitted for dependent change','Effect dependency suppressed','Effect lacks cleanup or idempotence','Fetch ignores response.ok','Error leaves loading state active','Request starts during render','Controlled input changes to uncontrolled','Form submit reloads page','Button or input lacks accessible name','Clickable div replaces native control','Focus outline removed','Color is the only status signal','Unknown route or ID crashes','Internal link uses window.location','Direct route refresh is not hosted correctly','Tests assert implementation details','Agent adds dependency without approval','Secret appears in prompt or VITE variable','Broad refactor hides the requested fix','Debug log ships in production','Memoization added without measurement','Build success mistaken for user-flow evidence','Diff not inspected before commit','Generated comment contradicts code','Any or lint suppression hides type defect']
+    for i,b in enumerate(bugs,1): d.add_paragraph(f'{i}. {b}',style='List Number')
+    d.add_page_break(); d.add_heading('Appendix B: Troubleshooting',1)
+    for symptom,cause,fix in [('Blank page','Runtime error or missing root','Read the first browser console error; verify index.html → main.tsx → App.tsx.'),('Endless spinner','Rejected fetch path never clears loading','Use finally or an explicit state transition and expose retry.'),('Changes disappear','State mutation or stale closure','Use immutable transformations and functional updates.'),('Route refresh 404','Host lacks SPA fallback','Configure rewrite to index.html or use a supported routing mode.'),('Agent loops on fixes','Prompt lacks a failing check and file boundary','Restore checkpoint, provide exact failure, authorize one experiment.')]:
+        d.add_heading(symptom,2); d.add_paragraph(f'Likely cause: {cause}. Recovery: {fix}')
+    d.add_page_break(); d.add_heading('Appendix C: Glossary and References',1)
+    for term,meaning in [('Component','A function that returns a declarative description of UI.'),('Prop','Input passed from a parent component.'),('State','A render snapshot of data owned by a component or hook.'),('Effect','Synchronization with an external system after commit.'),('Hook','A React function that connects components to reusable React capabilities.'),('Route','A mapping from URL pattern to interface and data behavior.'),('Diff','The exact line-level change between repository states.'),('Regression','Previously working behavior that a change breaks.'),('Checkpoint','A verified Git commit that can be restored.'),('Agentic loop','A controlled sequence of intent, plan, mutation, evidence, critique and checkpoint.')]: d.add_heading(term,2); d.add_paragraph(meaning)
+    d.add_heading('References',2)
+    for name,url in data.REFERENCES: d.add_paragraph(f'{name}: {url}')
+    path=OUT/f"{C['code']}-Learner-Guide.docx"; d.save(path)
+    # Markdown is a complete aligned source, composed from the same lab records.
+    md=[f"# {C['title']} — Learner Guide",f"- **Course Code:** {C['code']}",f"- **Duration:** {C['duration']}",f"- **Level:** {C['level']}","## Agentic AI Loop","Specify → Plan → Inspect → Implement → Test → Critique → Refine → Checkpoint"]
+    for tnum,tname,tdesc in TOPICS:
+        md += [f"## Topic {tnum}: {tname}",tdesc]
+        for lab in [x for x in LABS if x['topic']==tnum]: md += [build_lab_markdown(lab,tname)]
+    (OUT/f"{C['code']}-Learner-Guide.md").write_text('\n\n'.join(md),encoding='utf-8')
 
-def cover(doc, docname):
-    p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.space_after=Pt(20)
-    r=p.add_run('TERTIARY INFOTECH ACADEMY'); r.bold=True; r.font.name='Arial'; r.font.size=Pt(15); r.font.color.rgb=RGBColor(11,110,153)
-    p=doc.add_paragraph(style='Title'); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.add_run(TITLE)
-    p=doc.add_paragraph(); p.alignment=WD_ALIGN_PARAGRAPH.CENTER; p.add_run(f"{docname}\nCourse Code: {CODE}\nVersion {VERSION}").bold=True
-    doc.add_paragraph('')
-    t=doc.add_table(rows=4, cols=2); t.style='Table Grid'
-    for i,(a,b) in enumerate([('Duration','15 hours / 2 days'),('Level','Intermediate'),('Delivery','Instructor-led with guided hands-on practice'),('Source alignment','Published C1143 React topic sequence')]):
-        t.cell(i,0).text=a; t.cell(i,1).text=b; set_cell_shading(t.cell(i,0),'DDEBF7')
-    doc.add_page_break()
+def build_lesson_plan():
+    d=base_doc('Lesson Plan'); d.add_page_break(); d.add_heading('Course Intent',1); d.add_paragraph('Facilitate an intensive two-day adult-learning journey from an empty folder to a tested, deployed React capstone. Demonstrations are brief; guided practice, prediction, code reading, evidence and reflection dominate contact time.')
+    d.add_heading('Learning Outcomes',1); add_bullets(d,['Control AI coding work through an explicit engineering loop.','Explain and apply essential React concepts in a connected app.','Review generated code for correctness, accessibility, security and maintainability.','Test, debug and deploy a verified React production build.'])
+    schedule=[
+      ('Day 1','09:30–10:00','Welcome, readiness and agentic loop',30),('Day 1','10:00–11:20','Labs 1.1–1.2: workspace and scaffold',80),('Day 1','11:20–11:30','Break',10),('Day 1','11:30–13:00','Labs 1.3–1.5: brief, prompt contract, first screen',90),('Day 1','13:00–13:30','Lunch',30),('Day 1','13:30–15:00','Labs 2.1–2.2: data, keys, components and props',90),('Day 1','15:00–15:10','Break',10),('Day 1','15:10–16:30','Labs 2.3–2.4: composition, events and forms',80),('Day 1','16:30–17:20','Lab 2.5: responsive accessible CSS',50),('Day 1','17:20–17:30','Checkpoint and reflection',10),
+      ('Day 2','09:30–09:50','Restore checkpoint and retrieval practice',20),('Day 2','09:50–11:20','Labs 3.1–3.2: state and effects',90),('Day 2','11:20–11:30','Break',10),('Day 2','11:30–13:00','Labs 3.3–3.5: hook, routing and fetch',90),('Day 2','13:00–13:30','Lunch',30),('Day 2','13:30–14:50','Labs 4.1–4.2: debugging and tests',80),('Day 2','14:50–15:00','Break',10),('Day 2','15:00–16:10','Labs 4.3–4.4: accessibility and performance',70),('Day 2','16:10–17:10','Lab 4.5: release and deployment',60),('Day 2','17:10–17:30','Demonstration, reflection and action plan',20)]
+    d.add_heading('Detailed Two-Day Schedule',1)
+    for day in ['Day 1','Day 2']:
+        d.add_heading(day,2); t=d.add_table(rows=1,cols=3); t.style='Table Grid'
+        for i,x in enumerate(['Time','Activity','Minutes']): t.cell(0,i).text=x; shade(t.cell(0,i),BLUE)
+        for dy,tm,act,m in [x for x in schedule if x[0]==day]:
+            cells=t.add_row().cells
+            for i,x in enumerate([tm,act,str(m)]): cells[i].text=x
+        d.add_paragraph('Instructional/contact minutes excluding lunch: 450.')
+    d.add_heading('Facilitation Cycle for Every Lab',1)
+    for h,text in [('Activate','Ask learners to retrieve the prior checkpoint and predict the next visible behavior.'),('Model','Demonstrate the first plan/diff decision aloud, including one rejected AI suggestion.'),('Guide','Learners work in pairs: one drives, one audits scope and evidence; swap roles.'),('Check','Pause at verification gates and ask a learner to explain data or event flow.'),('Release','Learners submit evidence, reflect and commit a recoverable checkpoint.')]: d.add_heading(h,2); d.add_paragraph(text)
+    d.add_heading('Resources and Contingencies',1); add_bullets(d,['Trainer reference repository with one checkpoint per lab.','Prepared diffs and screenshots if an AI service is unavailable.','Local synthetic JSON endpoint so API practice requires no credentials.','Git recovery sheet for learners who fall behind.','Browser accessibility tree and React DevTools for evidence-led inspection.'])
+    d.add_heading('Formative Progress Checks',1); d.add_paragraph('Use observation, questioning, demonstrations, diff explanations and lab evidence. These checks support learning and pacing; there is no formal assessment programme content in this package.')
+    d.save(OUT/f"{C['code']}-Lesson-Plan.docx")
 
-def frontmatter(doc):
-    doc.add_heading('Document Version Control Record',1)
-    t=doc.add_table(rows=2, cols=4); t.style='Table Grid'
-    for j,x in enumerate(['Version','Date','Author','Change']): t.cell(0,j).text=x; set_cell_shading(t.cell(0,j),'0B6E99'); t.cell(0,j).paragraphs[0].runs[0].font.color.rgb=RGBColor(255,255,255)
-    for j,x in enumerate([VERSION,'11 July 2026','Tertiary Infotech Academy','Initial non-WSQ release']): t.cell(1,j).text=x
-    doc.add_heading('Table of Contents',1)
-    doc.add_paragraph('Update this automatic table in Microsoft Word: References → Update Table.', style=None)
-
-def save_doc(doc, path): doc.save(path)
-
-# Learner Guide
-d=Document(); setup(d,'Learner Guide'); cover(d,'Learner Guide'); frontmatter(d)
-d.add_heading('Course Overview',1); d.add_paragraph('Build and deploy a modern React single-page application by collaborating responsibly with an AI coding assistant. You will turn product intent into reviewed plans, controlled diffs, tested components, and verified production code. The SprintBoard capstone grows across four connected labs.')
-d.add_heading('Learning Outcomes',1)
-for x in ['Scaffold and explain a Vite React TypeScript project using an AI coding assistant.','Generate accessible JSX, reusable components, props, events, and responsive CSS.','Manage state and effects, route between pages, and fetch API data with resilient UI states.','Debug, test, optimize, document, and deploy reviewed AI-generated React code.']: d.add_paragraph(x,style='List Bullet')
-d.add_heading('Prerequisites and Setup',1); d.add_paragraph('Intermediate level. Learners should know basic HTML, CSS, JavaScript and ES6 or TypeScript. Install Node.js LTS, Git, VS Code, a modern browser, and an approved AI coding assistant. Use synthetic data and placeholders only; never paste credentials, client data, or private source code into prompts.')
-for h,desc in topics: d.add_heading(h,1); d.add_paragraph(desc)
-d.add_heading('The Vibe Coding Review Loop',1)
-for x in ['Frame the outcome and constraints.','Ask for a plan and file list.','Inspect scope, dependencies and risks.','Approve one small increment.','Review the diff line by line.','Run type checks and device tests.','Keep or revert based on evidence.']: d.add_paragraph(x,style='List Number')
-d.add_heading('Lab Guide',1)
-for n,name,goal,steps,test,evidence in labs:
-    d.add_heading(f'Lab {n}: {name}',2); d.add_paragraph(f'Goal: {goal}')
-    d.add_paragraph(f'Prerequisite: Complete Lab {n-1} and keep its Git checkpoint.' if n>1 else 'Prerequisite: Required tools installed and a writable working folder.')
-    d.add_paragraph('Procedure',style='Heading 3')
-    for i,s in enumerate(steps,1): d.add_paragraph(f'{i}. {s}')
-    d.add_paragraph(f'Test it: {test}'); d.add_paragraph(f'Evidence: {evidence}')
-    d.add_paragraph('Reflection: What did the agent propose, what did you verify, and what did you change before acceptance?')
-d.add_heading('Troubleshooting',1)
-for x in ['Dev server fails: confirm the working directory, Node version, dependencies, and first terminal error.','Type errors after generation: inspect imports and prop types; do not suppress errors with `any`.','Fetch repeats or updates after unmount: inspect effect dependencies, cleanup, and AbortController use.','Generated change is too large: revert, narrow the request, and approve one file or behavior at a time.','Direct routes fail after deployment: configure the host fallback or use a routing strategy supported by the target host.']: d.add_paragraph(x,style='List Bullet')
-d.add_heading('Reference',1); d.add_paragraph(f'Published course page used for duration, level, prerequisites and topic ordering: {SOURCE}')
-save_doc(d,OUT/f'{CODE}-Learner-Guide.docx')
-
-# Lesson Plan
-d=Document(); setup(d,'Lesson Plan'); cover(d,'Lesson Plan'); frontmatter(d)
-d.add_heading('Facilitation Intent',1); d.add_paragraph('Guide learners from a blank Vite project to a tested, deployed React single-page application while modelling safe, reviewable AI collaboration. Progress is checked through demonstrations, questions, and lab evidence.')
-d.add_heading('Session Plan — 900 instructional minutes',1)
-rows=[('Day 1: welcome, setup and review loop','45','Readiness check; define plan–diff–verify workflow'),('Topic 1 + Lab 1','180','Vite baseline and AI coding contract'),('Topic 2 + Lab 2','210','JSX, components, props, events and responsive UI'),('Day 1 consolidation','15','Demonstrate the reusable SprintBoard UI'),('Day 2: recap and restore checkpoint','30','Re-establish a trusted starting state'),('Topic 3 + Lab 3','240','State, hooks, routing, API states and refactoring'),('Topic 4 + Lab 4','165','Debugging, tests, optimization and deployment'),('Showcase and consolidation','15','Demonstrate deployed app and evidence trail')]
-t=d.add_table(rows=1,cols=3); t.style='Table Grid'
-for j,x in enumerate(['Segment','Minutes','Observable outcome']): t.cell(0,j).text=x; set_cell_shading(t.cell(0,j),'0B6E99'); t.cell(0,j).paragraphs[0].runs[0].font.color.rgb=RGBColor(255,255,255)
-for a,b,c in rows:
-    cells=t.add_row().cells; cells[0].text=a; cells[1].text=b; cells[2].text=c
-d.add_heading('Facilitator Notes by Topic',1)
-for i,(h,desc) in enumerate(topics,1):
-    d.add_heading(h,2); d.add_paragraph(desc); d.add_paragraph(f'Demonstration: show the Lab {i} checkpoint. Guided practice: learners execute in pairs, inspect the agent plan and compare diffs. Progress check: ask one learner to explain the verification evidence before accepting the change.')
-d.add_heading('Resources and Contingencies',1)
-for x in ['Trainer reference project with checkpoint branches lab-1 through lab-4.','Synthetic task data; no live services or credentials.','If internet access fails, use the local JSON fixture and defer deployment while completing the production build.','If an AI service is unavailable, provide prepared plans and diffs for manual critique.']: d.add_paragraph(x,style='List Bullet')
-d.add_heading('Closing Reflection',1); d.add_paragraph('Each learner demonstrates one working behavior, identifies one risk in an AI suggestion, and states the command or device check used to verify the final code.')
-save_doc(d,OUT/f'{CODE}-Lesson-Plan.docx')
-
-# Markdown learner guide and labs
-md=[f'# {TITLE}\n\n- **Course Code:** {CODE}\n- **Duration:** 15 hours / 2 days\n- **Level:** Intermediate\n', '## Course Overview\n\nBuild and deploy SprintBoard through a plan–diff–verify AI coding workflow.\n', '## Topics\n']
-for h,desc in topics: md.append(f'### {h}\n\n{desc}\n')
-md.append('## Labs\n')
-for n,name,goal,steps,test,evidence in labs:
-    body=f'# Lab {n}: {name}\n\n## Goal\n\n{goal}\n\n## What you will build\n\nA tested increment of the SprintBoard React capstone.\n\n## Prerequisites\n\n'+('Required tools installed and a writable folder.' if n==1 else f'Completed Lab {n-1} Git checkpoint.')+'\n\n## Steps\n\n'+''.join(f'{i}. {s}\n' for i,s in enumerate(steps,1))+f'\n## Test it\n\n{test}\n\n## Troubleshooting\n\n- Narrow an oversized agent change and retry one behavior at a time.\n- Read the first error, inspect imports and types, then rerun the verification command.\n- Revert to the previous Git checkpoint when the diff cannot be explained.\n- Use only synthetic data and credential placeholders.\n\n## Evidence to submit\n\n{evidence}\n\n## Reflection\n\nWhat did the agent propose, what did you verify, and what did you change before acceptance?\n'
-    (LABS/f'Lab-{n:02d}.md').write_text(body)
-    md.append(f'- [Lab {n}: {name}](labs/Lab-{n:02d}.md)\n')
-(OUT/f'{CODE}-Learner-Guide.md').write_text('\n'.join(md))
-
-print('Generated courseware artifacts in', OUT)
+build_labs(); build_learner_guide(); build_lesson_plan()
+(OUT/'course-data.json').write_text(json.dumps({'course':C,'topics':TOPICS,'labs':LABS,'references':data.REFERENCES},indent=2),encoding='utf-8')
+print(f"Generated {len(LABS)} labs and aligned courseware from one source")

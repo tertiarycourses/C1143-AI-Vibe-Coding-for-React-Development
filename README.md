@@ -4,7 +4,7 @@
 [![Duration](https://img.shields.io/badge/duration-15%20hours-17365D)](#course-structure)
 [![Level](https://img.shields.io/badge/level-intermediate-2E7D5B)](#course-structure)
 
-Professional non-WSQ courseware for a two-day, hands-on React development course using AI coding assistants and an evidence-led plan–diff–verify workflow.
+Professional non-WSQ courseware for a two-day, hands-on React development course using Agentic AI Loop Engineering and an evidence-led acceptance workflow.
 
 ## Preview
 
@@ -12,7 +12,7 @@ Professional non-WSQ courseware for a two-day, hands-on React development course
 
 ## About
 
-Learners build one connected capstone, **SprintBoard**, across four labs. They scaffold a Vite React TypeScript project, compose accessible UI, add state/hooks/routing/API data, then debug, test, optimize, and deploy the app. Every lab requires learners to inspect the AI plan and diff before accepting generated code.
+Learners build one connected capstone, **SprintBoard**, across 20 progressive labs. They scaffold a Vite React TypeScript project, compose accessible UI, add state/hooks/routing/API data, then debug, test, optimize, and deploy the app. Every lab applies: specify → plan → inspect → implement → test → critique → refine → checkpoint.
 
 ## Course structure
 
@@ -26,10 +26,10 @@ Learners build one connected capstone, **SprintBoard**, across four labs. They s
 
 ## Deliverables
 
-- 16:9 facilitator slide deck
-- Learner Guide in Markdown and Word
+- 142-slide, 16:9 facilitator deck
+- 112-page Learner Guide plus aligned Markdown
 - Word Lesson Plan with aligned 900-minute schedule
-- Four connected, executable labs
+- 20 connected, executable labs
 - Project-scoped `non-wsq-*` generation and QA automation
 
 ## Project structure
@@ -41,8 +41,10 @@ courseware/
   C1143-Learner-Guide.md
   C1143-Lesson-Plan.docx
   QA-REPORT.md
-  labs/
+labs/
+  topic-1/ ... topic-4/ (20 labs)
 scripts/
+  non-wsq-course-data.py
   non-wsq-build-courseware.py
   non-wsq-build-presentation.mjs
 .claude/
@@ -55,7 +57,7 @@ Run the document generator with Python 3 and `python-docx`. The presentation gen
 
 ## Quality controls
 
-The package checks artifact completeness, duration alignment, topic order, lab structure, prohibited programme language, naming isolation, secret exposure, and rendered visual quality.
+The package checks artifact completeness, duration alignment, topic order, all 15 required lab sections, prohibited programme language, naming isolation, secret exposure, and rendered visual quality.
 
 ## Credits
 
