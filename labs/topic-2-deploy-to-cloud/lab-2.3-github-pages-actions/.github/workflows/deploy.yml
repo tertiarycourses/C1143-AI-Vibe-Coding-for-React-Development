@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+# Build the Vite app and publish it to GitHub Pages on every push to main.
+on:
+  push:
+    branches: [main]
+  # Lets you re-run the deploy by hand from the Actions tab.
+  workflow_dispatch:
+
+# The permissions the deploy job needs. `pages: write` publishes the site;
+# `id-token: write` lets the deploy step prove its identity to Pages via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time. Don't cancel a running publish (it could
+# leave the site half-updated); let it finish, then run the newest.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        # The base path GitHub Pages serves from. vite.config.js reads VITE_BASE.
+        # Change 'cookbake' if your repository has a different name.
+        #
+        # This is the ONLY kind of value that belongs in a VITE_ variable: a
+        # public one. Everything VITE_ is compiled into the browser bundle.
+        # Server secrets (DATABASE_URL, JWT_SECRET) are never set here.
+        env:
+          VITE_BASE: /cookbake/
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # This job publishes the artifact; it must target the github-pages environment.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
