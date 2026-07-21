@@ -16,13 +16,13 @@ A verified increment touching: `src/types.ts`, `src/data/tasks.ts`, `src/compone
 
 ## Concepts you will meet
 
-- **Typescript Interface** — apply it in the current file and explain its effect on user-visible behavior.
+- **TypeScript interface** — A named contract describing the shape of an object so the compiler can catch missing or mistyped fields.
 
-- **Map** — apply it in the current file and explain its effect on user-visible behavior.
+- **map** — The array method that transforms each item into a new value — in React, into an element — without mutating the source array.
 
-- **Stable Key** — apply it in the current file and explain its effect on user-visible behavior.
+- **stable key** — An identifier tied to the data item rather than its position, so React can match list items between renders.
 
-- **Derived View** — apply it in the current file and explain its effect on user-visible behavior.
+- **derived view** — Data computed from existing state during render instead of stored as a second copy that can drift.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/types.ts`, `src/data/tasks.ts`, `src/compone
 
 Define `Task` with id, title, owner, status, points and priority; restrict status to a union.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 2 — Create eight synthetic tasks with unique stable string IDs and no personal data
 
 Create eight synthetic tasks with unique stable string IDs and no personal data.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Plan a TaskList that receives tasks through props and maps each item to visible output
 
 Plan a TaskList that receives tasks through props and maps each item to visible output.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Generate the component, then inspect for `key={index}`, inline mutation and missing empty output
 
 Generate the component, then inspect for `key={index}`, inline mutation and missing empty output.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Reorder the array and verify task identity remains correct; temporarily pass an empty array
 
 Reorder the array and verify task identity remains correct; temporarily pass an empty array.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Run type-check, lint and build; record why a database-style ID is safer than the array index
 
 Run type-check, lint and build; record why a database-style ID is safer than the array index.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects TypeScript interface, map, stable key, derived view to an obse
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to TypeScript interface without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to TypeScript interface without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| key={index} | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| key={index} | The array index was the easiest unique-looking value at hand. | Key by task.id and re-test reordering to confirm identity is preserved. |
 
-| Duplicate IDs | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Duplicate IDs | Hand-written synthetic data repeated an id after copy-paste. | Deduplicate the ids, then add a check that asserts uniqueness. |
 
-| Rendering raw objects | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Rendering raw objects | A task object was interpolated directly into JSX, which React cannot render. | Render named fields such as task.title and task.owner instead. |
 
-| Mutating the source array during render | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Mutating the source array during render | sort or splice was called on the imported array inside the component. | Copy first — [...tasks].sort(...) — so the source data stays untouched. |
 
 ## Reflection
 

@@ -1,13 +1,13 @@
 {
   "course": {
     "code": "C1143",
-    "title": "React AI Vibe Coding for React Development",
+    "title": "AI Vibe Coding for React Development",
     "duration": "15 hours / 2 days",
     "minutes": 900,
     "level": "Intermediate",
-    "version": "2.0",
+    "version": "2.1",
     "capstone": "SprintBoard",
-    "source": "https://www.tertiarycourses.com.sg/react-essential-training.html"
+    "source": "https://www.tertiarycourses.com.sg/ai-vibe-coding-for-react-development.html"
   },
   "topics": [
     [
@@ -116,7 +116,7 @@
       "id": "1.3",
       "topic": 1,
       "title": "Write a Testable Product Brief and Acceptance Criteria",
-      "mins": 35,
+      "mins": 30,
       "outcome": "Turn a vague app idea into a bounded SprintBoard brief, non-goals, risks and observable acceptance checks.",
       "files": [
         "docs/product-brief.md",
@@ -155,7 +155,7 @@
       "id": "1.4",
       "topic": 1,
       "title": "Engineer a Plan\u2013Diff\u2013Verify Prompt Contract",
-      "mins": 40,
+      "mins": 35,
       "outcome": "Create reusable prompt and review templates that force planning, bounded edits and verification evidence.",
       "files": [
         "docs/prompt-template.md",
@@ -194,7 +194,7 @@
       "id": "1.5",
       "topic": 1,
       "title": "Build and Review the First React Screen",
-      "mins": 45,
+      "mins": 40,
       "outcome": "Replace the starter content with a semantic SprintBoard shell while reviewing every generated line.",
       "files": [
         "src/App.tsx",
@@ -431,7 +431,7 @@
       "id": "3.1",
       "topic": 3,
       "title": "Manage Immutable Task State with useState",
-      "mins": 45,
+      "mins": 40,
       "outcome": "Create, move and delete tasks with functional updates and immutable array transformations.",
       "files": [
         "src/App.tsx",
@@ -470,7 +470,7 @@
       "id": "3.2",
       "topic": 3,
       "title": "Synchronize and Clean Up Effects",
-      "mins": 45,
+      "mins": 40,
       "outcome": "Persist tasks locally with guarded parsing and understand effect dependencies and cleanup.",
       "files": [
         "src/hooks/usePersistentTasks.ts"
@@ -508,7 +508,7 @@
       "id": "3.3",
       "topic": 3,
       "title": "Extract a Tested Custom Hook",
-      "mins": 40,
+      "mins": 35,
       "outcome": "Separate reusable board logic into a custom hook without sharing state between consumers.",
       "files": [
         "src/hooks/useTaskBoard.ts",
@@ -547,7 +547,7 @@
       "id": "3.4",
       "topic": 3,
       "title": "Add Declarative Routing and Dynamic Task Pages",
-      "mins": 45,
+      "mins": 40,
       "outcome": "Create board, task detail, about and not-found routes with accessible navigation.",
       "files": [
         "src/router.tsx",
@@ -588,7 +588,7 @@
       "id": "3.5",
       "topic": 3,
       "title": "Fetch API Data with Loading, Empty, Error and Retry States",
-      "mins": 50,
+      "mins": 45,
       "outcome": "Replace local seed data with a controlled fetch pipeline and resilient user-visible states.",
       "files": [
         "public/tasks.json",
@@ -628,7 +628,7 @@
       "id": "4.1",
       "topic": 4,
       "title": "Run an Evidence-Led Debugging Loop",
-      "mins": 40,
+      "mins": 35,
       "outcome": "Reproduce, isolate and fix a controlled stale-state defect with a minimal reviewed patch.",
       "files": [
         "src/hooks/useTaskBoard.ts",
@@ -667,7 +667,7 @@
       "id": "4.2",
       "topic": 4,
       "title": "Test User Behaviour with Vitest and Testing Library",
-      "mins": 50,
+      "mins": 45,
       "outcome": "Build a focused test suite for rendering, filtering, task movement, forms and routes.",
       "files": [
         "src/test/setup.ts",
@@ -707,7 +707,7 @@
       "id": "4.3",
       "topic": 4,
       "title": "Audit Accessibility and Error Recovery",
-      "mins": 40,
+      "mins": 35,
       "outcome": "Perform keyboard, semantics, focus, contrast and recovery checks and fix only evidenced defects.",
       "files": [
         "docs/accessibility-audit.md",
@@ -746,7 +746,7 @@
       "id": "4.4",
       "topic": 4,
       "title": "Profile, Refactor and Document Production Code",
-      "mins": 45,
+      "mins": 35,
       "outcome": "Use measurements to improve unnecessary rendering, bundle quality and maintainability without premature optimization.",
       "files": [
         "docs/performance-log.md",
@@ -786,7 +786,7 @@
       "id": "4.5",
       "topic": 4,
       "title": "Build, Deploy and Demonstrate the Capstone",
-      "mins": 55,
+      "mins": 40,
       "outcome": "Produce and deploy a verified SprintBoard release with SPA routing, rollback instructions and an evidence-backed demonstration.",
       "files": [
         "dist/",
@@ -826,7 +826,7 @@
   "references": [
     [
       "Published C1143 course page",
-      "https://www.tertiarycourses.com.sg/react-essential-training.html"
+      "https://www.tertiarycourses.com.sg/ai-vibe-coding-for-react-development.html"
     ],
     [
       "React documentation",

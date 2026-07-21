@@ -16,13 +16,13 @@ A verified increment touching: `src/components/TaskForm.tsx`, `src/App.tsx`. The
 
 ## Concepts you will meet
 
-- **Event Handler** — apply it in the current file and explain its effect on user-visible behavior.
+- **event handler** — A function passed to an element that React calls when the user acts, receiving a synthetic event object.
 
-- **Controlled Input** — apply it in the current file and explain its effect on user-visible behavior.
+- **controlled input** — A form control whose value comes from React state, making state the single source of truth for what is displayed.
 
-- **Validation** — apply it in the current file and explain its effect on user-visible behavior.
+- **validation** — Checking user input against rules before it enters application state or triggers behavior.
 
-- **Preventdefault** — apply it in the current file and explain its effect on user-visible behavior.
+- **preventDefault** — The event method that stops the browser's built-in behavior, such as a form submit reloading the page.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/components/TaskForm.tsx`, `src/App.tsx`. The
 
 Define form fields and acceptance rules: nonblank title, owner placeholder, priority and points range.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 2 — Plan controlled state for each field and an `onCreate` callback owned by the parent
 
 Plan controlled state for each field and an `onCreate` callback owned by the parent.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 3 — Generate labels, inputs, select, error region and submit button using semantic form controls
 
 Generate labels, inputs, select, error region and submit button using semantic form controls.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 4 — Inspect for missing labels, mutation, stale state, uncontrolled-to-controlled warnings and page reload
 
 Inspect for missing labels, mutation, stale state, uncontrolled-to-controlled warnings and page reload.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 5 — Test keyboard-only completion, invalid title, boundary points, successful submit and form reset
 
 Test keyboard-only completion, invalid title, boundary points, successful submit and form reset.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 6 — Run lint/build and use the accessibility tree to confirm label-control relationships
 
 Run lint/build and use the accessibility tree to confirm label-control relationships.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects event handler, controlled input, validation, preventDefault to
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to event handler without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to event handler without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Button defaults reload the page | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Button defaults reload the page | A button inside a form defaults to type submit, and preventDefault was missing. | Call event.preventDefault() in the submit handler and re-test with the network tab open. |
 
-| Input lacks label | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Input lacks label | Placeholder text was mistaken for labeling. | Add a real label element tied via htmlFor and confirm the name in the accessibility tree. |
 
-| Number remains a string | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Number remains a string | Input values are always strings; the conversion was skipped. | Parse with Number() and validate the range before calling onCreate. |
 
-| Form clears even when validation fails | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Form clears even when validation fails | The reset ran unconditionally after submit. | Reset only on the success path so users keep what they typed. |
 
 ## Reflection
 

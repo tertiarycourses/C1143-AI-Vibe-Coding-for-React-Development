@@ -1,6 +1,6 @@
 # Lab 4.4 — Profile, Refactor and Document Production Code
 
-> **Topic 4** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `docs/performance-log.md`, `README.md`, `src/comp
 
 ## Concepts you will meet
 
-- **Profiler** — apply it in the current file and explain its effect on user-visible behavior.
+- **profiler** — The React DevTools view that measures which components rendered, when and why.
 
-- **Memoization** — apply it in the current file and explain its effect on user-visible behavior.
+- **memoization** — Caching a computation or component output for reuse while inputs are unchanged; a measured trade-off, not a default.
 
-- **Bundle Warning** — apply it in the current file and explain its effect on user-visible behavior.
+- **bundle warning** — Build output flagging oversized or misconfigured assets before users experience them.
 
-- **Documentation** — apply it in the current file and explain its effect on user-visible behavior.
+- **documentation** — The README and inline notes that let a stranger install, run, verify and safely change the project.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `docs/performance-log.md`, `README.md`, `src/comp
 
 Record a React DevTools Profiler trace while filtering and moving tasks; identify the actual expensive path.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 2 — Ask the agent to explain the measurement and propose options before adding memoization
 
 Ask the agent to explain the measurement and propose options before adding memoization.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 3 — Apply one targeted optimization only if the trace shows meaningful avoidable work
 
 Apply one targeted optimization only if the trace shows meaningful avoidable work.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 4 — Run a production build and inspect warnings, asset sizes and source-map policy
 
 Run a production build and inspect warnings, asset sizes and source-map policy.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 5 — Remove debug logs, dead code and obsolete comments; add concise component and setup documentation
 
 Remove debug logs, dead code and obsolete comments; add concise component and setup documentation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 6 — Compare profiler evidence and bundle output before and after; revert changes without measurable benefit
 
 Compare profiler evidence and bundle output before and after; revert changes without measurable benefit.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects profiler, memoization, bundle warning, documentation to an obs
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to profiler without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to profiler without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Memoizing everything | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Memoizing everything | memo and useMemo were sprinkled preventively without a baseline. | Remove unmeasured memoization; re-apply only where the profiler shows avoidable work. |
 
-| Optimizing without a baseline | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Optimizing without a baseline | There was no before-trace to compare against. | Record a profiler trace first; keep only changes with measured benefit. |
 
-| Console logs ship to production | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Console logs ship to production | Debug output was never scheduled for removal. | Strip the logs, rebuild, and inspect the production console. |
 
-| README commands do not match package.json | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| README commands do not match package.json | Docs were written from memory, not from the scripts block. | Copy commands from package.json and run each one exactly as written. |
 
 ## Reflection
 

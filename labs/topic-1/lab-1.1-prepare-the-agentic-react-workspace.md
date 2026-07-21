@@ -16,13 +16,13 @@ A verified increment touching: `training-log/README.md`, `AGENTS.md`. The increm
 
 ## Concepts you will meet
 
-- **Toolchain** — apply it in the current file and explain its effect on user-visible behavior.
+- **toolchain** — The set of tools — Node.js, npm, Git and the editor — whose versions and availability determine whether a React project can be built and verified.
 
-- **Working Directory** — apply it in the current file and explain its effect on user-visible behavior.
+- **working directory** — The folder a tool or agent currently operates in; opening the wrong folder is how agents read or edit files you never intended to expose.
 
-- **Agent Scope** — apply it in the current file and explain its effect on user-visible behavior.
+- **agent scope** — The explicit boundary of files and actions an AI coding agent is allowed to touch in a given request.
 
-- **Evidence Trail** — apply it in the current file and explain its effect on user-visible behavior.
+- **evidence trail** — A durable record of commands, outputs and screenshots that lets you prove what was verified and when.
 
 ## Prerequisites
 
@@ -36,57 +36,57 @@ A verified increment touching: `training-log/README.md`, `AGENTS.md`. The increm
 
 ## Steps
 
-### Step 1 — Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README
+### Step 1 — Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README.md`
 
 Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README.md`.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Open a dedicated `sprintboard` parent folder in VS Code and confirm the integrated terminal starts in that folder
 
 Open a dedicated `sprintboard` parent folder in VS Code and confirm the integrated terminal starts in that folder.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 3 — Choose Cursor, GitHub Copilot, Claude, or Codex; verify it can read only the folder you intentionally opened
 
 Choose Cursor, GitHub Copilot, Claude, or Codex; verify it can read only the folder you intentionally opened.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
-### Step 4 — Create `AGENTS
+### Step 4 — Create `AGENTS.md` with plan-first, named-file scope, no-secret, small-diff, and verification-before-acceptance rules
 
 Create `AGENTS.md` with plan-first, named-file scope, no-secret, small-diff, and verification-before-acceptance rules.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Ask the agent to restate the rules and list what it is not allowed to do; correct any missing boundary
 
 Ask the agent to restate the rules and list what it is not allowed to do; correct any missing boundary.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Create a baseline Git repository and inspect `git status --short` before the first checkpoint
 
 Create a baseline Git repository and inspect `git status --short` before the first checkpoint.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects toolchain, working directory, agent scope, evidence trail to a
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to toolchain without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to toolchain without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Agent edits before planning | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Agent edits before planning | The request mixed intent with authorization, so the agent treated a description as permission to act. | Revert the unapproved edit, restate the plan-first rule in AGENTS.md, and resend the request ending with 'stop after the plan'. |
 
-| Credentials copied into chat | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Credentials copied into chat | A real token or password was pasted into the conversation for convenience. | Rotate the credential immediately, scrub it from logs, and use placeholders in every future prompt. |
 
-| Tool versions asserted without terminal evidence | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Tool versions asserted without terminal evidence | The agent inferred versions from training data instead of running the commands. | Run node -v, npm -v and git --version yourself and record the actual output in the training log. |
 
-| Repository initialized in the wrong folder | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Repository initialized in the wrong folder | VS Code was opened above or beside the intended folder, so git init ran in the wrong directory. | Delete the stray .git folder, open the sprintboard folder directly, and re-run git init there. |
 
 ## Reflection
 

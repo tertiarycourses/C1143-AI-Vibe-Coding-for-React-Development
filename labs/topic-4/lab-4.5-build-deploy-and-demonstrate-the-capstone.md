@@ -1,6 +1,6 @@
 # Lab 4.5 — Build, Deploy and Demonstrate the Capstone
 
-> **Topic 4** · approximately 55 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `dist/`, `docs/release-checklist.md`, `docs/relea
 
 ## Concepts you will meet
 
-- **Production Build** — apply it in the current file and explain its effect on user-visible behavior.
+- **production build** — The optimized, minified output of npm run build — what users actually download.
 
-- **Spa Fallback** — apply it in the current file and explain its effect on user-visible behavior.
+- **SPA fallback** — Host configuration that serves index.html for unknown paths so client-side routes survive a direct refresh.
 
-- **Release Gate** — apply it in the current file and explain its effect on user-visible behavior.
+- **release gate** — A check — tests, lint, build, smoke test — that must pass before a release proceeds.
 
-- **Rollback** — apply it in the current file and explain its effect on user-visible behavior.
+- **rollback** — A known-good state plus the steps to restore it when a change goes wrong.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `dist/`, `docs/release-checklist.md`, `docs/relea
 
 Run clean install, test, lint, type-check and build from the documented commands.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 2 — Choose an approved static host and configure the correct Vite base path and SPA fallback behavior
 
 Choose an approved static host and configure the correct Vite base path and SPA fallback behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Deploy `dist` through Git integration or the host workflow without exposing credentials
 
 Deploy `dist` through Git integration or the host workflow without exposing credentials.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Open the public URL and verify board, form, filters, dynamic route, refresh, 404 and retry behavior
 
 Open the public URL and verify board, form, filters, dynamic route, refresh, 404 and retry behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Create release notes with features, evidence, limitations, known risks and exact rollback steps
 
 Create release notes with features, evidence, limitations, known risks and exact rollback steps.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Demonstrate the complete agentic loop using one final small improvement and show its plan, diff, tests and checkpoint
 
 Demonstrate the complete agentic loop using one final small improvement and show its plan, diff, tests and checkpoint.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects production build, SPA fallback, release gate, rollback to an o
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to production build without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to production build without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Deploying untested dist | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Deploying untested dist | The build was deployed straight from a green compile. | Run the full gate — install, test, lint, type-check, build, preview — before deploying. |
 
-| Direct route refresh returns 404 | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Direct route refresh returns 404 | The host has no SPA fallback for client-side routes. | Configure the rewrite to index.html and re-test a deep URL refresh. |
 
-| Secrets included in VITE variables | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Secrets included in VITE variables | VITE_-prefixed variables are compiled into the public bundle. | Remove the secret, rotate it, and keep only public configuration client-side. |
 
-| No rollback target | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| No rollback target | The release replaced the previous version without a way back. | Record the last good commit or deploy id and the exact restore steps in the release notes. |
 
 ## Reflection
 

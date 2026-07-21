@@ -16,13 +16,13 @@ A verified increment touching: `src/components/Panel.tsx`, `src/components/Empty
 
 ## Concepts you will meet
 
-- **Children** — apply it in the current file and explain its effect on user-visible behavior.
+- **children** — The special prop carrying whatever JSX a parent nests inside a component's tags.
 
-- **Composition** — apply it in the current file and explain its effect on user-visible behavior.
+- **composition** — Building complex UI by nesting simple components rather than configuring one large component with flags.
 
-- **Slot** — apply it in the current file and explain its effect on user-visible behavior.
+- **slot** — A named insertion point — such as a title or actions prop — where a parent supplies custom content to a reusable shell.
 
-- **Fallback Content** — apply it in the current file and explain its effect on user-visible behavior.
+- **fallback content** — What a component renders when expected content is absent, such as an empty-state message.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/components/Panel.tsx`, `src/components/Empty
 
 Identify repeated panel chrome and distinguish it from the unique content inside each panel.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Create a typed Panel accepting title, optional actions and ReactNode children
 
 Create a typed Panel accepting title, optional actions and ReactNode children.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 3 — Replace duplicated wrappers without changing the order or semantics of content
 
 Replace duplicated wrappers without changing the order or semantics of content.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 4 — Create an EmptyState that composes a heading, explanation and optional action
 
 Create an EmptyState that composes a heading, explanation and optional action.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Inspect generated code for nested ternaries and a proliferation of `showX` boolean props
 
 Inspect generated code for nested ternaries and a proliferation of `showX` boolean props.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Render two different Panel contents and two EmptyState variants; lint and build
 
 Render two different Panel contents and two EmptyState variants; lint and build.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects children, composition, slot, fallback content to an observable
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to children without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to children without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Over-general component | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Over-general component | One Panel tried to cover every future layout with configuration. | Cut it back to the shared chrome and let children express the differences. |
 
-| Children typed as any | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Children typed as any | The quick type erased what composition should guarantee. | Type the prop as ReactNode and remove the escape hatch. |
 
-| Nested ternaries controlling layout | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Nested ternaries controlling layout | Boolean props multiplied until rendering became a puzzle. | Replace flag-driven branches with separate composed variants. |
 
-| Heading levels become inconsistent | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Heading levels become inconsistent | The reusable panel hard-coded one heading level wherever it was dropped. | Audit the heading outline and let the consumer control the heading level. |
 
 ## Reflection
 

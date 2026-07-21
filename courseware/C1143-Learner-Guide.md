@@ -1,4 +1,4 @@
-# React AI Vibe Coding for React Development — Learner Guide
+# AI Vibe Coding for React Development — Learner Guide
 
 - **Course Code:** C1143
 
@@ -8,7 +8,7 @@
 
 ## Agentic AI Loop
 
-Specify → Plan → Inspect → Implement → Test → Critique → Refine → Checkpoint
+Frame → Plan → Generate → Inspect → Verify → Correct → Commit
 
 ## Topic 1: Getting Started with AI Vibe Coding for React
 
@@ -32,13 +32,13 @@ A verified increment touching: `training-log/README.md`, `AGENTS.md`. The increm
 
 ## Concepts you will meet
 
-- **Toolchain** — apply it in the current file and explain its effect on user-visible behavior.
+- **toolchain** — The set of tools — Node.js, npm, Git and the editor — whose versions and availability determine whether a React project can be built and verified.
 
-- **Working Directory** — apply it in the current file and explain its effect on user-visible behavior.
+- **working directory** — The folder a tool or agent currently operates in; opening the wrong folder is how agents read or edit files you never intended to expose.
 
-- **Agent Scope** — apply it in the current file and explain its effect on user-visible behavior.
+- **agent scope** — The explicit boundary of files and actions an AI coding agent is allowed to touch in a given request.
 
-- **Evidence Trail** — apply it in the current file and explain its effect on user-visible behavior.
+- **evidence trail** — A durable record of commands, outputs and screenshots that lets you prove what was verified and when.
 
 ## Prerequisites
 
@@ -52,57 +52,57 @@ A verified increment touching: `training-log/README.md`, `AGENTS.md`. The increm
 
 ## Steps
 
-### Step 1 — Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README
+### Step 1 — Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README.md`
 
 Run `node -v`, `npm -v`, and `git --version`; record the outputs in `training-log/README.md`.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Open a dedicated `sprintboard` parent folder in VS Code and confirm the integrated terminal starts in that folder
 
 Open a dedicated `sprintboard` parent folder in VS Code and confirm the integrated terminal starts in that folder.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 3 — Choose Cursor, GitHub Copilot, Claude, or Codex; verify it can read only the folder you intentionally opened
 
 Choose Cursor, GitHub Copilot, Claude, or Codex; verify it can read only the folder you intentionally opened.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
-### Step 4 — Create `AGENTS
+### Step 4 — Create `AGENTS.md` with plan-first, named-file scope, no-secret, small-diff, and verification-before-acceptance rules
 
 Create `AGENTS.md` with plan-first, named-file scope, no-secret, small-diff, and verification-before-acceptance rules.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Ask the agent to restate the rules and list what it is not allowed to do; correct any missing boundary
 
 Ask the agent to restate the rules and list what it is not allowed to do; correct any missing boundary.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Create a baseline Git repository and inspect `git status --short` before the first checkpoint
 
 Create a baseline Git repository and inspect `git status --short` before the first checkpoint.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -110,23 +110,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -178,23 +178,23 @@ This lab connects toolchain, working directory, agent scope, evidence trail to a
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to toolchain without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to toolchain without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Agent edits before planning | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Agent edits before planning | The request mixed intent with authorization, so the agent treated a description as permission to act. | Revert the unapproved edit, restate the plan-first rule in AGENTS.md, and resend the request ending with 'stop after the plan'. |
 
-| Credentials copied into chat | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Credentials copied into chat | A real token or password was pasted into the conversation for convenience. | Rotate the credential immediately, scrub it from logs, and use placeholders in every future prompt. |
 
-| Tool versions asserted without terminal evidence | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Tool versions asserted without terminal evidence | The agent inferred versions from training data instead of running the commands. | Run node -v, npm -v and git --version yourself and record the actual output in the training log. |
 
-| Repository initialized in the wrong folder | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Repository initialized in the wrong folder | VS Code was opened above or beside the intended folder, so git init ran in the wrong directory. | Delete the stray .git folder, open the sprintboard folder directly, and re-run git init there. |
 
 ## Reflection
 
@@ -223,13 +223,13 @@ A verified increment touching: `index.html`, `src/main.tsx`, `src/App.tsx`, `pac
 
 ## Concepts you will meet
 
-- **Vite** — apply it in the current file and explain its effect on user-visible behavior.
+- **Vite** — A build tool that serves source files over native ES modules in development and bundles them with Rollup for production.
 
-- **Module Graph** — apply it in the current file and explain its effect on user-visible behavior.
+- **module graph** — The dependency network Vite builds by following import statements from the entry file through every module it reaches.
 
-- **React Root** — apply it in the current file and explain its effect on user-visible behavior.
+- **React root** — The single DOM element where React attaches the component tree and takes over rendering.
 
-- **Hot Module Replacement** — apply it in the current file and explain its effect on user-visible behavior.
+- **Hot Module Replacement** — A dev-server feature that swaps edited modules into the running page without a full reload, preserving much of the app state.
 
 ## Prerequisites
 
@@ -247,53 +247,53 @@ A verified increment touching: `index.html`, `src/main.tsx`, `src/App.tsx`, `pac
 
 Run `npm create vite@latest sprintboard -- --template react-ts`, enter the folder, and run `npm install`.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 2 — Start `npm run dev`; open the printed local URL and save a screenshot of the starter page
 
 Start `npm run dev`; open the printed local URL and save a screenshot of the starter page.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
-### Step 3 — Trace `index
+### Step 3 — Trace `index.html` to `src/main.tsx` to `<App />`; annotate the chain in the training log
 
 Trace `index.html` to `src/main.tsx` to `<App />`; annotate the chain in the training log.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 4 — Ask the agent for a file-by-file explanation without requesting changes; compare it with the actual imports
 
 Ask the agent for a file-by-file explanation without requesting changes; compare it with the actual imports.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 5 — Run `npm run build`, inspect `dist/`, then run `npm run preview` and explain how preview differs from dev
 
 Run `npm run build`, inspect `dist/`, then run `npm run preview` and explain how preview differs from dev.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 6 — Review `git diff` and commit the untouched scaffold as `chore: scaffold SprintBoard`
 
 Review `git diff` and commit the untouched scaffold as `chore: scaffold SprintBoard`.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -301,23 +301,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -369,23 +369,23 @@ This lab connects Vite, module graph, React root, Hot Module Replacement to an o
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to Vite without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to Vite without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Using Create React App instructions | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using Create React App instructions | The agent reached for the older, deprecated scaffold it saw most in training. | Reject the plan, name Vite explicitly in the prompt, and compare commands against current Vite documentation. |
 
-| Editing node_modules | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Editing node_modules | The agent patched a dependency's source instead of your code. | Discard the change — node_modules is regenerated by npm install — and request the fix inside src instead. |
 
-| Confusing dev output with production output | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Confusing dev output with production output | The dev server transforms modules on demand, so it never proves what the bundled build does. | Run npm run build followed by npm run preview and verify against the served dist output. |
 
-| Inventing files not present in the scaffold | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Inventing files not present in the scaffold | The explanation was generated from a generic template project, not your repository. | Ask the agent to list only files it can actually read, and cross-check every claim against the file tree. |
 
 ## Reflection
 
@@ -398,7 +398,7 @@ Create a Vite React TypeScript app, run the development server, and explain the 
 
 # Lab 1.3 — Write a Testable Product Brief and Acceptance Criteria
 
-> **Topic 1** · approximately 35 minutes · builds on the previous lab checkpoint
+> **Topic 1** · approximately 30 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -414,13 +414,13 @@ A verified increment touching: `docs/product-brief.md`, `docs/acceptance.md`. Th
 
 ## Concepts you will meet
 
-- **Problem Framing** — apply it in the current file and explain its effect on user-visible behavior.
+- **problem framing** — Stating who has what problem and what observable change would solve it, before any solution is designed.
 
-- **Acceptance Criteria** — apply it in the current file and explain its effect on user-visible behavior.
+- **acceptance criteria** — Concrete, observable checks that define when a feature is done — phrased so a third party could verify them.
 
-- **Non-Goals** — apply it in the current file and explain its effect on user-visible behavior.
+- **non-goals** — Explicitly excluded features that stop a project — or an AI agent — from silently expanding scope.
 
-- **Vertical Slice** — apply it in the current file and explain its effect on user-visible behavior.
+- **vertical slice** — A thin end-to-end piece of the product that delivers visible value and exercises every layer once.
 
 ## Prerequisites
 
@@ -438,53 +438,53 @@ A verified increment touching: `docs/product-brief.md`, `docs/acceptance.md`. Th
 
 Describe the adult learner persona and the problem SprintBoard solves in two sentences.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Define the first vertical slice: view synthetic tasks grouped by To Do, Doing and Done
 
 Define the first vertical slice: view synthetic tasks grouped by To Do, Doing and Done.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Write five acceptance criteria beginning with an observable verb such as displays, moves, filters, or reports
 
 Write five acceptance criteria beginning with an observable verb such as displays, moves, filters, or reports.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Add non-goals: accounts, payments, real-time sync, production customer data, and backend persistence
 
 Add non-goals: accounts, payments, real-time sync, production customer data, and backend persistence.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Ask the agent to challenge ambiguity and identify edge cases without proposing code
 
 Ask the agent to challenge ambiguity and identify edge cases without proposing code.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Revise the brief, inspect the documentation diff, and checkpoint it before implementation
 
 Revise the brief, inspect the documentation diff, and checkpoint it before implementation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -492,23 +492,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -560,23 +560,23 @@ This lab connects problem framing, acceptance criteria, non-goals, vertical slic
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to problem framing without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to problem framing without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Starting code before agreeing behavior | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Starting code before agreeing behavior | Building feels like progress, so ambiguity gets deferred until it is expensive. | Stop implementation, finish the acceptance criteria, and only then authorize a plan. |
 
-| Acceptance criteria based on implementation | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Acceptance criteria based on implementation | Criteria were written from the intended code rather than user-observable behavior. | Rewrite each criterion to start with an observable verb such as displays, moves or filters. |
 
-| Scope expanding into a backend | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Scope expanding into a backend | Persistence and accounts crept in because they were never named as non-goals. | Add them to the non-goals list and cut the slice back to the board view. |
 
-| Using real employee data | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using real employee data | Real names were pasted in to make the demo feel authentic. | Replace them with synthetic personas and add a no-real-data rule to the brief. |
 
 ## Reflection
 
@@ -589,7 +589,7 @@ Turn a vague app idea into a bounded SprintBoard brief, non-goals, risks and obs
 
 # Lab 1.4 — Engineer a Plan–Diff–Verify Prompt Contract
 
-> **Topic 1** · approximately 40 minutes · builds on the previous lab checkpoint
+> **Topic 1** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -605,13 +605,13 @@ A verified increment touching: `docs/prompt-template.md`, `docs/review-checklist
 
 ## Concepts you will meet
 
-- **Context Engineering** — apply it in the current file and explain its effect on user-visible behavior.
+- **context engineering** — Deliberately choosing what the agent reads — briefs, rules, named files — so its output is grounded in your constraints rather than its guesses.
 
-- **Bounded Change** — apply it in the current file and explain its effect on user-visible behavior.
+- **bounded change** — A change restricted to named files and one behavior, small enough to review line by line.
 
-- **Diff Review** — apply it in the current file and explain its effect on user-visible behavior.
+- **diff review** — Reading the exact line-level changes between repository states before accepting them.
 
-- **Rollback** — apply it in the current file and explain its effect on user-visible behavior.
+- **rollback** — A known-good state plus the steps to restore it when a change goes wrong.
 
 ## Prerequisites
 
@@ -629,53 +629,53 @@ A verified increment touching: `docs/prompt-template.md`, `docs/review-checklist
 
 Create a prompt template with Goal, Context, Constraints, Deliverables, Verification and Stop Conditions.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 2 — Create a review checklist covering file scope, dependencies, types, accessibility, errors, secrets and tests
 
 Create a review checklist covering file scope, dependencies, types, accessibility, errors, secrets and tests.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 3 — Ask the agent to plan the SprintBoard shell and name every file it would change; do not authorize implementation
 
 Ask the agent to plan the SprintBoard shell and name every file it would change; do not authorize implementation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 4 — Compare the plan to the product brief; reject any unrequested package or architecture
 
 Compare the plan to the product brief; reject any unrequested package or architecture.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 5 — Authorize one small increment and require the agent to summarize the resulting diff
 
 Authorize one small increment and require the agent to summarize the resulting diff.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 6 — Run the verification commands yourself; record keep, refine, or revert with the evidence
 
 Run the verification commands yourself; record keep, refine, or revert with the evidence.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -683,23 +683,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -751,23 +751,23 @@ This lab connects context engineering, bounded change, diff review, rollback to 
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to context engineering without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to context engineering without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Prompt asks for the entire app | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Prompt asks for the entire app | An unbounded goal invites an unreviewable thousand-line response. | Split the request into one increment with named files and stop conditions. |
 
-| Agent silently adds a UI framework | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Agent silently adds a UI framework | The plan was approved from its summary, not its dependency list. | Reject the diff, forbid new dependencies in the constraints, and re-request the plan. |
 
-| Summary replaces line-by-line diff review | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Summary replaces line-by-line diff review | The agent's fluent description felt equivalent to reading the change. | Open the actual diff and explain each hunk yourself before accepting. |
 
-| Passing build treated as complete evidence | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Passing build treated as complete evidence | A compiling app was mistaken for a correct app. | Run the acceptance checks in the browser and record what you observed. |
 
 ## Reflection
 
@@ -780,7 +780,7 @@ Create reusable prompt and review templates that force planning, bounded edits a
 
 # Lab 1.5 — Build and Review the First React Screen
 
-> **Topic 1** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 1** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -796,13 +796,13 @@ A verified increment touching: `src/App.tsx`, `src/App.css`, `src/index.css`. Th
 
 ## Concepts you will meet
 
-- **Function Component** — apply it in the current file and explain its effect on user-visible behavior.
+- **function component** — A JavaScript function that accepts props and returns JSX describing part of the interface.
 
-- **Jsx** — apply it in the current file and explain its effect on user-visible behavior.
+- **JSX** — A syntax extension that lets JavaScript express element trees; it compiles to function calls, not HTML.
 
-- **Semantic Html** — apply it in the current file and explain its effect on user-visible behavior.
+- **semantic HTML** — Using elements such as header, nav, main and button for their meaning, so browsers and assistive technology understand the page structure.
 
-- **Component Tree** — apply it in the current file and explain its effect on user-visible behavior.
+- **component tree** — The nested hierarchy of components React renders, mirroring how data flows down through props.
 
 ## Prerequisites
 
@@ -820,53 +820,53 @@ A verified increment touching: `src/App.tsx`, `src/App.css`, `src/index.css`. Th
 
 Approve a shell containing header, navigation, main board region and footer; keep content synthetic.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
-### Step 2 — Ask the agent to implement only `App
+### Step 2 — Ask the agent to implement only `App.tsx` and focused CSS, preserving the Vite entry point
 
 Ask the agent to implement only `App.tsx` and focused CSS, preserving the Vite entry point.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Read the JSX aloud as a tree and identify every opening/closing tag and expression boundary
 
 Read the JSX aloud as a tree and identify every opening/closing tag and expression boundary.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Inspect the diff for removed defaults, global CSS leakage, inaccessible navigation, or unexplained assets
 
 Inspect the diff for removed defaults, global CSS leakage, inaccessible navigation, or unexplained assets.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Run dev, lint and build; inspect the console and browser at 375 px and 1280 px
 
 Run dev, lint and build; inspect the console and browser at 375 px and 1280 px.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Commit only after the screen matches the brief and the learner can explain every changed line
 
 Commit only after the screen matches the brief and the learner can explain every changed line.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -874,23 +874,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -942,23 +942,23 @@ This lab connects function component, JSX, semantic HTML, component tree to an o
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to function component without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to function component without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Nested interactive elements | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Nested interactive elements | A button was generated inside a link, producing invalid, inaccessible markup. | Restructure so each interactive control stands alone, then re-check the accessibility tree. |
 
-| Decorative divs instead of semantic landmarks | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Decorative divs instead of semantic landmarks | The model imitates div-heavy training examples unless semantics are demanded. | Require header, nav, main and footer in the prompt and verify landmarks in DevTools. |
 
-| Global wildcard styles with side effects | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Global wildcard styles with side effects | A universal selector or body rule leaked beyond the shell. | Scope styles to classes owned by the component and re-test the rest of the app. |
 
-| Unexplained generated SVG or dependency | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Unexplained generated SVG or dependency | The agent decorated the shell with assets nobody requested. | Delete anything you cannot explain and note the rejection in the training log. |
 
 ## Reflection
 
@@ -991,13 +991,13 @@ A verified increment touching: `src/types.ts`, `src/data/tasks.ts`, `src/compone
 
 ## Concepts you will meet
 
-- **Typescript Interface** — apply it in the current file and explain its effect on user-visible behavior.
+- **TypeScript interface** — A named contract describing the shape of an object so the compiler can catch missing or mistyped fields.
 
-- **Map** — apply it in the current file and explain its effect on user-visible behavior.
+- **map** — The array method that transforms each item into a new value — in React, into an element — without mutating the source array.
 
-- **Stable Key** — apply it in the current file and explain its effect on user-visible behavior.
+- **stable key** — An identifier tied to the data item rather than its position, so React can match list items between renders.
 
-- **Derived View** — apply it in the current file and explain its effect on user-visible behavior.
+- **derived view** — Data computed from existing state during render instead of stored as a second copy that can drift.
 
 ## Prerequisites
 
@@ -1015,53 +1015,53 @@ A verified increment touching: `src/types.ts`, `src/data/tasks.ts`, `src/compone
 
 Define `Task` with id, title, owner, status, points and priority; restrict status to a union.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 2 — Create eight synthetic tasks with unique stable string IDs and no personal data
 
 Create eight synthetic tasks with unique stable string IDs and no personal data.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Plan a TaskList that receives tasks through props and maps each item to visible output
 
 Plan a TaskList that receives tasks through props and maps each item to visible output.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Generate the component, then inspect for `key={index}`, inline mutation and missing empty output
 
 Generate the component, then inspect for `key={index}`, inline mutation and missing empty output.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Reorder the array and verify task identity remains correct; temporarily pass an empty array
 
 Reorder the array and verify task identity remains correct; temporarily pass an empty array.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Run type-check, lint and build; record why a database-style ID is safer than the array index
 
 Run type-check, lint and build; record why a database-style ID is safer than the array index.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -1069,23 +1069,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -1137,23 +1137,23 @@ This lab connects TypeScript interface, map, stable key, derived view to an obse
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to TypeScript interface without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to TypeScript interface without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| key={index} | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| key={index} | The array index was the easiest unique-looking value at hand. | Key by task.id and re-test reordering to confirm identity is preserved. |
 
-| Duplicate IDs | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Duplicate IDs | Hand-written synthetic data repeated an id after copy-paste. | Deduplicate the ids, then add a check that asserts uniqueness. |
 
-| Rendering raw objects | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Rendering raw objects | A task object was interpolated directly into JSX, which React cannot render. | Render named fields such as task.title and task.owner instead. |
 
-| Mutating the source array during render | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Mutating the source array during render | sort or splice was called on the imported array inside the component. | Copy first — [...tasks].sort(...) — so the source data stays untouched. |
 
 ## Reflection
 
@@ -1182,13 +1182,13 @@ A verified increment touching: `src/components/Board.tsx`, `src/components/TaskC
 
 ## Concepts you will meet
 
-- **Component Boundary** — apply it in the current file and explain its effect on user-visible behavior.
+- **component boundary** — The dividing line that decides what a component owns, what it receives as props and what it must not know about.
 
-- **Props** — apply it in the current file and explain its effect on user-visible behavior.
+- **props** — Read-only inputs a parent passes to a child component; the child never modifies them.
 
-- **Composition** — apply it in the current file and explain its effect on user-visible behavior.
+- **composition** — Building complex UI by nesting simple components rather than configuring one large component with flags.
 
-- **Single Responsibility** — apply it in the current file and explain its effect on user-visible behavior.
+- **single responsibility** — Each component does one job, so changes and reviews stay local.
 
 ## Prerequisites
 
@@ -1206,53 +1206,53 @@ A verified increment touching: `src/components/Board.tsx`, `src/components/TaskC
 
 Draw the component tree from App to Board, TaskColumn and TaskCard before editing code.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 2 — Define each prop interface and decide which values are required, optional, or callbacks
 
 Define each prop interface and decide which values are required, optional, or callbacks.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 3 — Ask the agent for a refactor plan that preserves visible behavior and names moves versus edits
 
 Ask the agent for a refactor plan that preserves visible behavior and names moves versus edits.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 4 — Implement one extraction at a time; run the app after each move to isolate regressions
 
 Implement one extraction at a time; run the app after each move to isolate regressions.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 5 — Inspect for prop drilling caused by misplaced state, duplicated markup and components that read globals
 
 Inspect for prop drilling caused by misplaced state, duplicated markup and components that read globals.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 6 — Use React DevTools to identify boundaries, then lint/build and commit the refactor separately
 
 Use React DevTools to identify boundaries, then lint/build and commit the refactor separately.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -1260,23 +1260,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -1328,23 +1328,23 @@ This lab connects component boundary, props, composition, single responsibility 
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to component boundary without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to component boundary without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Changing behavior during refactor | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Changing behavior during refactor | Extraction and 'improvements' were mixed into one diff. | Revert to the checkpoint and redo the refactor with behavior frozen; improve in a separate commit. |
 
-| Using any for props | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using any for props | any silences the compiler exactly where contracts matter most. | Write a real interface per component and let type errors reveal wrong assumptions. |
 
-| Reading module globals inside TaskCard | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Reading module globals inside TaskCard | Importing the task array directly hid the component's true inputs. | Pass tasks through props so the data path is explicit and testable. |
 
-| One component still owns unrelated responsibilities | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| One component still owns unrelated responsibilities | The extraction stopped at markup and left logic tangled. | Name each component's single job in one sentence; move anything that does not fit it. |
 
 ## Reflection
 
@@ -1373,13 +1373,13 @@ A verified increment touching: `src/components/Panel.tsx`, `src/components/Empty
 
 ## Concepts you will meet
 
-- **Children** — apply it in the current file and explain its effect on user-visible behavior.
+- **children** — The special prop carrying whatever JSX a parent nests inside a component's tags.
 
-- **Composition** — apply it in the current file and explain its effect on user-visible behavior.
+- **composition** — Building complex UI by nesting simple components rather than configuring one large component with flags.
 
-- **Slot** — apply it in the current file and explain its effect on user-visible behavior.
+- **slot** — A named insertion point — such as a title or actions prop — where a parent supplies custom content to a reusable shell.
 
-- **Fallback Content** — apply it in the current file and explain its effect on user-visible behavior.
+- **fallback content** — What a component renders when expected content is absent, such as an empty-state message.
 
 ## Prerequisites
 
@@ -1397,53 +1397,53 @@ A verified increment touching: `src/components/Panel.tsx`, `src/components/Empty
 
 Identify repeated panel chrome and distinguish it from the unique content inside each panel.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Create a typed Panel accepting title, optional actions and ReactNode children
 
 Create a typed Panel accepting title, optional actions and ReactNode children.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 3 — Replace duplicated wrappers without changing the order or semantics of content
 
 Replace duplicated wrappers without changing the order or semantics of content.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 4 — Create an EmptyState that composes a heading, explanation and optional action
 
 Create an EmptyState that composes a heading, explanation and optional action.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Inspect generated code for nested ternaries and a proliferation of `showX` boolean props
 
 Inspect generated code for nested ternaries and a proliferation of `showX` boolean props.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Render two different Panel contents and two EmptyState variants; lint and build
 
 Render two different Panel contents and two EmptyState variants; lint and build.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -1451,23 +1451,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -1519,23 +1519,23 @@ This lab connects children, composition, slot, fallback content to an observable
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to children without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to children without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Over-general component | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Over-general component | One Panel tried to cover every future layout with configuration. | Cut it back to the shared chrome and let children express the differences. |
 
-| Children typed as any | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Children typed as any | The quick type erased what composition should guarantee. | Type the prop as ReactNode and remove the escape hatch. |
 
-| Nested ternaries controlling layout | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Nested ternaries controlling layout | Boolean props multiplied until rendering became a puzzle. | Replace flag-driven branches with separate composed variants. |
 
-| Heading levels become inconsistent | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Heading levels become inconsistent | The reusable panel hard-coded one heading level wherever it was dropped. | Audit the heading outline and let the consumer control the heading level. |
 
 ## Reflection
 
@@ -1564,13 +1564,13 @@ A verified increment touching: `src/components/TaskForm.tsx`, `src/App.tsx`. The
 
 ## Concepts you will meet
 
-- **Event Handler** — apply it in the current file and explain its effect on user-visible behavior.
+- **event handler** — A function passed to an element that React calls when the user acts, receiving a synthetic event object.
 
-- **Controlled Input** — apply it in the current file and explain its effect on user-visible behavior.
+- **controlled input** — A form control whose value comes from React state, making state the single source of truth for what is displayed.
 
-- **Validation** — apply it in the current file and explain its effect on user-visible behavior.
+- **validation** — Checking user input against rules before it enters application state or triggers behavior.
 
-- **Preventdefault** — apply it in the current file and explain its effect on user-visible behavior.
+- **preventDefault** — The event method that stops the browser's built-in behavior, such as a form submit reloading the page.
 
 ## Prerequisites
 
@@ -1588,53 +1588,53 @@ A verified increment touching: `src/components/TaskForm.tsx`, `src/App.tsx`. The
 
 Define form fields and acceptance rules: nonblank title, owner placeholder, priority and points range.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 2 — Plan controlled state for each field and an `onCreate` callback owned by the parent
 
 Plan controlled state for each field and an `onCreate` callback owned by the parent.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 3 — Generate labels, inputs, select, error region and submit button using semantic form controls
 
 Generate labels, inputs, select, error region and submit button using semantic form controls.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 4 — Inspect for missing labels, mutation, stale state, uncontrolled-to-controlled warnings and page reload
 
 Inspect for missing labels, mutation, stale state, uncontrolled-to-controlled warnings and page reload.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 5 — Test keyboard-only completion, invalid title, boundary points, successful submit and form reset
 
 Test keyboard-only completion, invalid title, boundary points, successful submit and form reset.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 6 — Run lint/build and use the accessibility tree to confirm label-control relationships
 
 Run lint/build and use the accessibility tree to confirm label-control relationships.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -1642,23 +1642,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -1710,23 +1710,23 @@ This lab connects event handler, controlled input, validation, preventDefault to
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to event handler without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to event handler without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Button defaults reload the page | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Button defaults reload the page | A button inside a form defaults to type submit, and preventDefault was missing. | Call event.preventDefault() in the submit handler and re-test with the network tab open. |
 
-| Input lacks label | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Input lacks label | Placeholder text was mistaken for labeling. | Add a real label element tied via htmlFor and confirm the name in the accessibility tree. |
 
-| Number remains a string | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Number remains a string | Input values are always strings; the conversion was skipped. | Parse with Number() and validate the range before calling onCreate. |
 
-| Form clears even when validation fails | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Form clears even when validation fails | The reset ran unconditionally after submit. | Reset only on the success path so users keep what they typed. |
 
 ## Reflection
 
@@ -1755,13 +1755,13 @@ A verified increment touching: `src/index.css`, `src/App.css`. The increment is 
 
 ## Concepts you will meet
 
-- **Custom Property** — apply it in the current file and explain its effect on user-visible behavior.
+- **custom property** — A CSS variable defined once and reused, giving the design system a single point of change.
 
-- **Grid** — apply it in the current file and explain its effect on user-visible behavior.
+- **grid** — The CSS layout model that arranges children in rows and columns from the container — ideal for board layouts.
 
-- **Focus-Visible** — apply it in the current file and explain its effect on user-visible behavior.
+- **focus-visible** — The CSS pseudo-class that shows focus styles for keyboard users without decorating every mouse click.
 
-- **Media Query** — apply it in the current file and explain its effect on user-visible behavior.
+- **media query** — A CSS rule that applies styles conditionally — for example by viewport width or a reduced-motion preference.
 
 ## Prerequisites
 
@@ -1779,53 +1779,53 @@ A verified increment touching: `src/index.css`, `src/App.css`. The increment is 
 
 Inventory colors, spacing, type sizes and radii; convert repeated values into CSS custom properties.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Define a mobile-first single-column board and expand to three columns when space allows
 
 Define a mobile-first single-column board and expand to three columns when space allows.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Add visible `:focus-visible` styles and confirm text/background contrast with browser tools
 
 Add visible `:focus-visible` styles and confirm text/background contrast with browser tools.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Add overflow handling for long task titles and test browser zoom at 200 percent
 
 Add overflow handling for long task titles and test browser zoom at 200 percent.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Respect `prefers-reduced-motion` for transitions introduced by the agent
 
 Respect `prefers-reduced-motion` for transitions introduced by the agent.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Inspect the CSS diff for `!important`, fixed heights, horizontal scroll and low-contrast tokens
 
 Inspect the CSS diff for `!important`, fixed heights, horizontal scroll and low-contrast tokens.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -1833,23 +1833,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -1901,23 +1901,23 @@ This lab connects custom property, grid, focus-visible, media query to an observ
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to custom property without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to custom property without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Fixed pixel heights clip content | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Fixed pixel heights clip content | Cards were sized to today's sample text. | Replace fixed heights with min-height or natural flow and re-test long titles. |
 
-| Outline removed | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Outline removed | outline: none was copied in for aesthetics. | Restore a visible :focus-visible style with sufficient contrast. |
 
-| Desktop-first overflow | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Desktop-first overflow | The layout was designed at 1280px and squeezed downward. | Rebuild mobile-first and add columns inside a min-width media query. |
 
-| Color is the only status cue | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Color is the only status cue | Status was encoded purely in hue. | Add a text label or icon so status survives color-vision differences. |
 
 ## Reflection
 
@@ -1934,7 +1934,7 @@ Manage state and effects, build multi-page flows with React Router, fetch data, 
 
 # Lab 3.1 — Manage Immutable Task State with useState
 
-> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -1950,13 +1950,13 @@ A verified increment touching: `src/App.tsx`, `src/lib/taskTransitions.ts`. The 
 
 ## Concepts you will meet
 
-- **State Snapshot** — apply it in the current file and explain its effect on user-visible behavior.
+- **state snapshot** — The fixed value of state a component sees during one render; updates schedule a new render rather than changing the current one.
 
-- **Functional Update** — apply it in the current file and explain its effect on user-visible behavior.
+- **functional update** — Passing a function to a state setter so the update is computed from the latest committed value, not a stale closure.
 
-- **Immutability** — apply it in the current file and explain its effect on user-visible behavior.
+- **immutability** — Creating new objects and arrays instead of modifying existing ones, so React can detect changes by reference.
 
-- **Derived State** — apply it in the current file and explain its effect on user-visible behavior.
+- **derived state** — Values computed from existing state during render — such as a filtered list — rather than stored separately.
 
 ## Prerequisites
 
@@ -1974,53 +1974,53 @@ A verified increment touching: `src/App.tsx`, `src/lib/taskTransitions.ts`. The 
 
 Move the initial tasks into `useState` and keep filters as derived data rather than a second task array.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Write pure create, move and delete transition helpers before connecting buttons
 
 Write pure create, move and delete transition helpers before connecting buttons.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Use functional state updates whenever the next value depends on the previous array
 
 Use functional state updates whenever the next value depends on the previous array.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Inspect the agent diff for push, splice, direct property assignment and stale closure reads
 
 Inspect the agent diff for push, splice, direct property assignment and stale closure reads.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Test two rapid moves, delete after filter, duplicate title and empty-column behavior
 
 Test two rapid moves, delete after filter, duplicate title and empty-column behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Explain why state behaves as a snapshot, then lint, type-check and build
 
 Explain why state behaves as a snapshot, then lint, type-check and build.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -2028,23 +2028,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -2096,23 +2096,23 @@ This lab connects state snapshot, functional update, immutability, derived state
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to state snapshot without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to state snapshot without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| tasks.push mutates state | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| tasks.push mutates state | push mutates in place — the habit most familiar from plain JavaScript. | Use spread or concat to build a new array, then re-run the movement tests. |
 
-| Duplicated filtered state drifts | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Duplicated filtered state drifts | The filtered list was stored as a second state variable. | Delete the copy and derive visibleTasks during render. |
 
-| setTasks([...tasks]) uses stale closure | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| setTasks([...tasks]) uses stale closure | The update read the tasks captured at render time, losing rapid consecutive updates. | Switch to the functional form setTasks(prev => ...). |
 
-| Index used as identity | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Index used as identity | Position stood in for identity inside the transition helpers. | Look items up by stable id in every create, move and delete helper. |
 
 ## Reflection
 
@@ -2125,7 +2125,7 @@ Create, move and delete tasks with functional updates and immutable array transf
 
 # Lab 3.2 — Synchronize and Clean Up Effects
 
-> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -2141,13 +2141,13 @@ A verified increment touching: `src/hooks/usePersistentTasks.ts`. The increment 
 
 ## Concepts you will meet
 
-- **Useeffect** — apply it in the current file and explain its effect on user-visible behavior.
+- **useEffect** — The hook that synchronizes a component with an external system after render, such as storage, timers or the network.
 
-- **Dependency** — apply it in the current file and explain its effect on user-visible behavior.
+- **dependency** — A reactive value listed in an effect's array; when it changes, the effect runs again.
 
-- **Cleanup** — apply it in the current file and explain its effect on user-visible behavior.
+- **cleanup** — The function an effect returns to undo its work before the next run or unmount.
 
-- **Localstorage** — apply it in the current file and explain its effect on user-visible behavior.
+- **localStorage** — A synchronous browser key-value store that persists strings across reloads; unencrypted and scoped per origin.
 
 ## Prerequisites
 
@@ -2165,53 +2165,53 @@ A verified increment touching: `src/hooks/usePersistentTasks.ts`. The increment 
 
 Define the external system: one versioned localStorage key containing synthetic task JSON.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 2 — Create a lazy state initializer that reads once and falls back safely on missing or malformed data
 
 Create a lazy state initializer that reads once and falls back safely on missing or malformed data.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 3 — Add a save effect whose dependency reflects the value being synchronized
 
 Add a save effect whose dependency reflects the value being synchronized.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 4 — Inspect StrictMode behavior and ensure the effect is idempotent rather than disabled
 
 Inspect StrictMode behavior and ensure the effect is idempotent rather than disabled.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 5 — Test reload, cleared storage, malformed JSON, schema mismatch and storage write failure
 
 Test reload, cleared storage, malformed JSON, schema mismatch and storage write failure.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 6 — Ask the agent to explain every dependency; reject lint suppression as a fix
 
 Ask the agent to explain every dependency; reject lint suppression as a fix.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -2219,23 +2219,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -2287,23 +2287,23 @@ This lab connects useEffect, dependency, cleanup, localStorage to an observable 
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to useEffect without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to useEffect without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Effect reads and writes in a loop | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Effect reads and writes in a loop | The save effect updated the same state it depended on. | Separate the read (lazy initializer) from the write (effect on tasks) so the cycle breaks. |
 
-| JSON.parse crash blanks the app | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| JSON.parse crash blanks the app | Malformed stored data threw during the first render. | Wrap parsing in try/catch and fall back to the initial tasks. |
 
-| Lint rule disabled | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Lint rule disabled | exhaustive-deps was suppressed instead of understood. | Remove the suppression and restructure until every dependency is honest. |
 
-| Storage treated as secure | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Storage treated as secure | localStorage looked like a database, so sensitive data seemed fine. | Keep only synthetic, non-sensitive data client-side and record that rule in the brief. |
 
 ## Reflection
 
@@ -2316,7 +2316,7 @@ Persist tasks locally with guarded parsing and understand effect dependencies an
 
 # Lab 3.3 — Extract a Tested Custom Hook
 
-> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -2332,13 +2332,13 @@ A verified increment touching: `src/hooks/useTaskBoard.ts`, `src/hooks/useTaskBo
 
 ## Concepts you will meet
 
-- **Custom Hook** — apply it in the current file and explain its effect on user-visible behavior.
+- **custom hook** — A function starting with use that packages reusable stateful logic; each caller gets its own independent state.
 
-- **Logic Reuse** — apply it in the current file and explain its effect on user-visible behavior.
+- **logic reuse** — Sharing behavior between components by extracting hooks or functions, not by copying code.
 
-- **Public Api** — apply it in the current file and explain its effect on user-visible behavior.
+- **public API** — The deliberate set of values and actions a hook or module exposes; everything else stays private.
 
-- **Hook Test** — apply it in the current file and explain its effect on user-visible behavior.
+- **hook test** — A test that exercises a hook through a consuming component or renderHook, asserting on outputs rather than internals.
 
 ## Prerequisites
 
@@ -2356,53 +2356,53 @@ A verified increment touching: `src/hooks/useTaskBoard.ts`, `src/hooks/useTaskBo
 
 List the smallest public API: tasks, visibleTasks, filter, setFilter, create, move and remove.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 2 — Move stateful logic into `useTaskBoard` while keeping presentation in components
 
 Move stateful logic into `useTaskBoard` while keeping presentation in components.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Inspect hook naming, top-level hook calls and dependency boundaries
 
 Inspect hook naming, top-level hook calls and dependency boundaries.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Render two hook consumers and prove they do not share state unless state is lifted
 
 Render two hook consumers and prove they do not share state unless state is lifted.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Add focused tests for initial state, filtering and immutable movement
 
 Add focused tests for initial state, filtering and immutable movement.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Refactor App to consume the hook; compare behavior before and after
 
 Refactor App to consume the hook; compare behavior before and after.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -2410,23 +2410,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -2478,23 +2478,23 @@ This lab connects custom hook, logic reuse, public API, hook test to an observab
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to custom hook without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to custom hook without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Hook called conditionally | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Hook called conditionally | A hook was placed behind an if, breaking the rules-of-hooks ordering. | Move the hook to the top level and branch inside its logic instead. |
 
-| Hook returns unstable unnecessary objects | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Hook returns unstable unnecessary objects | A fresh object was returned each render, causing needless downstream work. | Return only what the API needs and stabilize values only where measurement shows a problem. |
 
-| Custom hook assumed to create global shared state | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Custom hook assumed to create global shared state | Reuse of logic was confused with sharing one state instance. | Demonstrate two independent consumers, then lift state to a common owner if sharing is required. |
 
-| Presentation markup moved into logic hook | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Presentation markup moved into logic hook | The extraction dragged JSX along with the state. | Return data and actions from the hook; keep rendering in components. |
 
 ## Reflection
 
@@ -2507,7 +2507,7 @@ Separate reusable board logic into a custom hook without sharing state between c
 
 # Lab 3.4 — Add Declarative Routing and Dynamic Task Pages
 
-> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -2523,13 +2523,13 @@ A verified increment touching: `src/router.tsx`, `src/pages/BoardPage.tsx`, `src
 
 ## Concepts you will meet
 
-- **Url As State** — apply it in the current file and explain its effect on user-visible behavior.
+- **URL as state** — Treating the address bar as application state, so views are shareable, bookmarkable and restorable.
 
-- **Route** — apply it in the current file and explain its effect on user-visible behavior.
+- **route** — A mapping from a URL pattern to the component tree that should render for it.
 
-- **Dynamic Parameter** — apply it in the current file and explain its effect on user-visible behavior.
+- **dynamic parameter** — A URL segment such as :taskId whose value is read at render time to select one resource.
 
-- **Navigation** — apply it in the current file and explain its effect on user-visible behavior.
+- **navigation** — Moving between routes with links or programmatic calls while browser history stays correct.
 
 ## Prerequisites
 
@@ -2547,53 +2547,53 @@ A verified increment touching: `src/router.tsx`, `src/pages/BoardPage.tsx`, `src
 
 Install the current React Router package and record the version and command.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 2 — Plan route objects for `/`, `/tasks/:taskId`, `/about` and a catch-all page
 
 Plan route objects for `/`, `/tasks/:taskId`, `/about` and a catch-all page.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 3 — Create a shared layout with navigation and an outlet for child pages
 
 Create a shared layout with navigation and an outlet for child pages.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 4 — Link each TaskCard to its detail URL; read the parameter and handle an unknown ID
 
 Link each TaskCard to its detail URL; read the parameter and handle an unknown ID.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 5 — Test links, browser back/forward, direct URL entry, refresh and keyboard focus after navigation
 
 Test links, browser back/forward, direct URL entry, refresh and keyboard focus after navigation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 6 — Inspect for anchor misuse, imperative navigation where Link is clearer, and blank not-found output
 
 Inspect for anchor misuse, imperative navigation where Link is clearer, and blank not-found output.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -2601,23 +2601,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -2669,23 +2669,23 @@ This lab connects URL as state, route, dynamic parameter, navigation to an obser
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to URL as state without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to URL as state without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Using window.location for internal navigation | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using window.location for internal navigation | A full-page navigation habit carried over from multi-page sites. | Use Link or useNavigate so routing stays client-side and state survives. |
 
-| Missing not-found route | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Missing not-found route | Only the happy paths were mapped. | Add a catch-all route with a useful page and a link back to the board. |
 
-| Unknown ID crashes | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Unknown ID crashes | The detail page assumed find() always returns a task. | Handle undefined explicitly with a friendly unknown-task state. |
 
-| Direct refresh fails in deployment | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Direct refresh fails in deployment | Static hosts return 404 for URLs that exist only client-side. | Document and configure an SPA fallback rewrite to index.html for the chosen host. |
 
 ## Reflection
 
@@ -2698,7 +2698,7 @@ Create board, task detail, about and not-found routes with accessible navigation
 
 # Lab 3.5 — Fetch API Data with Loading, Empty, Error and Retry States
 
-> **Topic 3** · approximately 50 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -2714,13 +2714,13 @@ A verified increment touching: `public/tasks.json`, `src/hooks/useTasksApi.ts`, 
 
 ## Concepts you will meet
 
-- **Fetch** — apply it in the current file and explain its effect on user-visible behavior.
+- **fetch** — The browser API that performs HTTP requests and resolves with a Response — rejecting only on network failure, not on HTTP error status.
 
-- **Response.Ok** — apply it in the current file and explain its effect on user-visible behavior.
+- **response.ok** — The Response flag that is true only for 2xx status codes; skipping this check treats a 404 page as data.
 
-- **Abortcontroller** — apply it in the current file and explain its effect on user-visible behavior.
+- **AbortController** — The API that cancels an in-flight fetch, used in effect cleanup to prevent updates after unmount.
 
-- **State Machine** — apply it in the current file and explain its effect on user-visible behavior.
+- **state machine** — Modeling a process as named states and transitions — idle, loading, success, empty, error — so no combination is ambiguous.
 
 ## Prerequisites
 
@@ -2738,53 +2738,53 @@ A verified increment touching: `public/tasks.json`, `src/hooks/useTasksApi.ts`, 
 
 Create a local JSON endpoint with synthetic tasks so the lab needs no credentials.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Model idle/loading/success/empty/error rather than a single ambiguous boolean
 
 Model idle/loading/success/empty/error rather than a single ambiguous boolean.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
-### Step 3 — Fetch inside an effect, check `response
+### Step 3 — Fetch inside an effect, check `response.ok`, validate the payload and abort on cleanup
 
 Fetch inside an effect, check `response.ok`, validate the payload and abort on cleanup.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 4 — Expose a retry action and a useful error message without leaking stack traces
 
 Expose a retry action and a useful error message without leaking stack traces.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Test normal data, empty array, invalid JSON, 404 path, slow network and component unmount
 
 Test normal data, empty array, invalid JSON, 404 path, slow network and component unmount.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Inspect for requests during render, missing cleanup, swallowed errors and endless spinner
 
 Inspect for requests during render, missing cleanup, swallowed errors and endless spinner.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -2792,23 +2792,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -2860,23 +2860,23 @@ This lab connects fetch, response.ok, AbortController, state machine to an obser
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to fetch without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to fetch without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| fetch during render | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| fetch during render | The request was issued in the component body, firing on every render. | Move the fetch into useEffect with correct dependencies and abort cleanup. |
 
-| No response.ok check | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| No response.ok check | fetch resolves on HTTP errors, so a 404 body was parsed as data. | Branch on response.ok and route failures to the error state. |
 
-| Abort reported as user error | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Abort reported as user error | The AbortError raised by cleanup was caught by the generic error handler. | Detect AbortError and return silently instead of setting the error state. |
 
-| Error leaves loading true forever | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Error leaves loading true forever | The failure path never transitioned the state machine. | Set an explicit error state — or use finally — and expose a retry action. |
 
 ## Reflection
 
@@ -2893,7 +2893,7 @@ Diagnose failures, generate focused tests, optimize and document the app, and de
 
 # Lab 4.1 — Run an Evidence-Led Debugging Loop
 
-> **Topic 4** · approximately 40 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -2909,13 +2909,13 @@ A verified increment touching: `src/hooks/useTaskBoard.ts`, `docs/debug-log.md`.
 
 ## Concepts you will meet
 
-- **Reproduction** — apply it in the current file and explain its effect on user-visible behavior.
+- **reproduction** — An exact sequence of steps that reliably shows a defect, turning a report into an experiment.
 
-- **Hypothesis** — apply it in the current file and explain its effect on user-visible behavior.
+- **hypothesis** — A specific, testable explanation of a defect that predicts what an experiment will show.
 
-- **Root Cause** — apply it in the current file and explain its effect on user-visible behavior.
+- **root cause** — The underlying condition that produces a symptom; fixing it prevents recurrence, while patching the symptom does not.
 
-- **Minimal Patch** — apply it in the current file and explain its effect on user-visible behavior.
+- **minimal patch** — The smallest change that makes the failing check pass, keeping the diff reviewable and the risk bounded.
 
 ## Prerequisites
 
@@ -2933,53 +2933,53 @@ A verified increment touching: `src/hooks/useTaskBoard.ts`, `docs/debug-log.md`.
 
 Create a branch and introduce a controlled defect that loses one of two rapid task moves.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Write exact reproduction steps, expected result, actual result and evidence in the debug log
 
 Write exact reproduction steps, expected result, actual result and evidence in the debug log.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 3 — Ask the agent for three ranked hypotheses and the smallest experiment for each; do not request a fix yet
 
 Ask the agent for three ranked hypotheses and the smallest experiment for each; do not request a fix yet.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 4 — Run the experiments, identify the stale closure, and approve one functional-update patch
 
 Run the experiments, identify the stale closure, and approve one functional-update patch.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Inspect the diff for unrelated refactors and add a regression test before accepting
 
 Inspect the diff for unrelated refactors and add a regression test before accepting.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Run the complete verification stack and document why the original code failed
 
 Run the complete verification stack and document why the original code failed.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -2987,23 +2987,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -3055,23 +3055,23 @@ This lab connects reproduction, hypothesis, root cause, minimal patch to an obse
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to reproduction without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to reproduction without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Agent rewrites the hook | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Agent rewrites the hook | An open-ended 'fix it' request authorized a broad rewrite. | Restore the checkpoint and re-ask for diagnosis only, then one minimal patch. |
 
-| Symptom patched without root cause | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Symptom patched without root cause | The first plausible change made the visible symptom disappear. | Demand the proven hypothesis first; revert patches that cannot name the cause. |
 
-| Reproduction not repeatable | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Reproduction not repeatable | The defect report described an impression, not exact steps. | Write numbered steps with expected versus actual results before diagnosing. |
 
-| Regression test omitted | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Regression test omitted | The fix felt complete once the app behaved. | Add a test that fails on the old code and passes on the new, then commit both together. |
 
 ## Reflection
 
@@ -3084,7 +3084,7 @@ Reproduce, isolate and fix a controlled stale-state defect with a minimal review
 
 # Lab 4.2 — Test User Behaviour with Vitest and Testing Library
 
-> **Topic 4** · approximately 50 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 45 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -3100,13 +3100,13 @@ A verified increment touching: `src/test/setup.ts`, `src/App.test.tsx`, `src/com
 
 ## Concepts you will meet
 
-- **Test** — apply it in the current file and explain its effect on user-visible behavior.
+- **test** — An automated check that drives behavior, asserts an observable result and fails loudly when that behavior regresses.
 
-- **Assertion** — apply it in the current file and explain its effect on user-visible behavior.
+- **assertion** — A single expected-versus-actual claim inside a test; when it fails, it names precisely what broke.
 
-- **User Event** — apply it in the current file and explain its effect on user-visible behavior.
+- **user event** — A simulated interaction — typing, clicking, tabbing — that drives tests through the same paths a person uses.
 
-- **Accessible Query** — apply it in the current file and explain its effect on user-visible behavior.
+- **accessible query** — Finding elements by role and accessible name, so tests verify what assistive technology can perceive.
 
 ## Prerequisites
 
@@ -3124,53 +3124,53 @@ A verified increment touching: `src/test/setup.ts`, `src/App.test.tsx`, `src/com
 
 Install Vitest, jsdom, Testing Library, jest-dom and user-event; pin and record versions.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 2 — Configure the test environment and add an explicit `test` script
 
 Configure the test environment and add an explicit `test` script.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 3 — Write a smoke test using role and accessible-name queries rather than CSS selectors
 
 Write a smoke test using role and accessible-name queries rather than CSS selectors.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 4 — Add behaviour tests for filtering, valid/invalid form submit and moving a task
 
 Add behaviour tests for filtering, valid/invalid form submit and moving a task.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 5 — Add a MemoryRouter test for task details and not-found behavior
 
 Add a MemoryRouter test for task details and not-found behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 6 — Run tests in watch and single-run modes; inspect generated assertions for false confidence
 
 Run tests in watch and single-run modes; inspect generated assertions for false confidence.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -3178,23 +3178,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -3246,23 +3246,23 @@ This lab connects test, assertion, user event, accessible query to an observable
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to test without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to test without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Testing internal state | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Testing internal state | Asserting on hook variables felt more precise than the UI. | Rewrite assertions against what the user sees, via accessible queries. |
 
-| fireEvent used for realistic typing | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| fireEvent used for realistic typing | fireEvent skips the keyboard events real typing produces. | Use user-event's type and click helpers and await them. |
 
-| Assertions pass without awaiting user events | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Assertions pass without awaiting user events | The assertion ran before the interaction finished. | await every user-event call and prove the test can fail by breaking the code. |
 
-| Snapshot replaces behavior checks | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Snapshot replaces behavior checks | A snapshot asserted everything and therefore nothing specific. | Replace it with targeted role/name assertions for the flows that matter. |
 
 ## Reflection
 
@@ -3275,7 +3275,7 @@ Build a focused test suite for rendering, filtering, task movement, forms and ro
 
 # Lab 4.3 — Audit Accessibility and Error Recovery
 
-> **Topic 4** · approximately 40 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -3291,13 +3291,13 @@ A verified increment touching: `docs/accessibility-audit.md`, `src/components/As
 
 ## Concepts you will meet
 
-- **Keyboard Access** — apply it in the current file and explain its effect on user-visible behavior.
+- **keyboard access** — Every interactive control reachable and operable with Tab, Enter and Space alone.
 
-- **Focus Management** — apply it in the current file and explain its effect on user-visible behavior.
+- **focus management** — Deliberately moving keyboard focus after navigation or errors so users are never stranded.
 
-- **Live Region** — apply it in the current file and explain its effect on user-visible behavior.
+- **live region** — An area assistive technology announces when its content changes, used for errors and status messages.
 
-- **Error Recovery** — apply it in the current file and explain its effect on user-visible behavior.
+- **error recovery** — Giving the user a way back — retry, undo or clear guidance — after something fails.
 
 ## Prerequisites
 
@@ -3315,53 +3315,53 @@ A verified increment touching: `docs/accessibility-audit.md`, `src/components/As
 
 Navigate the complete app using only Tab, Shift+Tab, Enter, Space and browser back.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Inspect landmarks, heading order, control names and error announcements in the accessibility tree
 
 Inspect landmarks, heading order, control names and error announcements in the accessibility tree.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Check contrast, 200 percent zoom, narrow viewport and prefers-reduced-motion
 
 Check contrast, 200 percent zoom, narrow viewport and prefers-reduced-motion.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Trigger form and network errors; verify focus and retry guidance lead to recovery
 
 Trigger form and network errors; verify focus and retry guidance lead to recovery.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Ask the agent to rank findings by user impact and propose one file-scoped patch per finding
 
 Ask the agent to rank findings by user impact and propose one file-scoped patch per finding.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Retest each corrected behavior and record evidence rather than marking a generic compliance checkbox
 
 Retest each corrected behavior and record evidence rather than marking a generic compliance checkbox.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -3369,23 +3369,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -3437,23 +3437,23 @@ This lab connects keyboard access, focus management, live region, error recovery
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to keyboard access without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to keyboard access without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Automated scan treated as complete | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Automated scan treated as complete | A clean scanner report was read as full accessibility. | Add manual keyboard and accessibility-tree checks; scanners find only part of the problem. |
 
-| Focus indicator removed | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Focus indicator removed | The default focus ring was styled away without a replacement. | Add a high-contrast :focus-visible style and retest the tab order. |
 
-| Error appears visually but is not announced | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Error appears visually but is not announced | The message div carried no live-region semantics. | Use role=alert or aria-live and verify the announcement in the accessibility tree. |
 
-| Color-only status | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Color-only status | Status meaning lived entirely in the badge color. | Add visible text or an icon and re-check with a grayscale filter. |
 
 ## Reflection
 
@@ -3466,7 +3466,7 @@ Perform keyboard, semantics, focus, contrast and recovery checks and fix only ev
 
 # Lab 4.4 — Profile, Refactor and Document Production Code
 
-> **Topic 4** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -3482,13 +3482,13 @@ A verified increment touching: `docs/performance-log.md`, `README.md`, `src/comp
 
 ## Concepts you will meet
 
-- **Profiler** — apply it in the current file and explain its effect on user-visible behavior.
+- **profiler** — The React DevTools view that measures which components rendered, when and why.
 
-- **Memoization** — apply it in the current file and explain its effect on user-visible behavior.
+- **memoization** — Caching a computation or component output for reuse while inputs are unchanged; a measured trade-off, not a default.
 
-- **Bundle Warning** — apply it in the current file and explain its effect on user-visible behavior.
+- **bundle warning** — Build output flagging oversized or misconfigured assets before users experience them.
 
-- **Documentation** — apply it in the current file and explain its effect on user-visible behavior.
+- **documentation** — The README and inline notes that let a stranger install, run, verify and safely change the project.
 
 ## Prerequisites
 
@@ -3506,53 +3506,53 @@ A verified increment touching: `docs/performance-log.md`, `README.md`, `src/comp
 
 Record a React DevTools Profiler trace while filtering and moving tasks; identify the actual expensive path.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 2 — Ask the agent to explain the measurement and propose options before adding memoization
 
 Ask the agent to explain the measurement and propose options before adding memoization.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 3 — Apply one targeted optimization only if the trace shows meaningful avoidable work
 
 Apply one targeted optimization only if the trace shows meaningful avoidable work.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 4 — Run a production build and inspect warnings, asset sizes and source-map policy
 
 Run a production build and inspect warnings, asset sizes and source-map policy.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 5 — Remove debug logs, dead code and obsolete comments; add concise component and setup documentation
 
 Remove debug logs, dead code and obsolete comments; add concise component and setup documentation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 6 — Compare profiler evidence and bundle output before and after; revert changes without measurable benefit
 
 Compare profiler evidence and bundle output before and after; revert changes without measurable benefit.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -3560,23 +3560,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -3628,23 +3628,23 @@ This lab connects profiler, memoization, bundle warning, documentation to an obs
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to profiler without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to profiler without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Memoizing everything | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Memoizing everything | memo and useMemo were sprinkled preventively without a baseline. | Remove unmeasured memoization; re-apply only where the profiler shows avoidable work. |
 
-| Optimizing without a baseline | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Optimizing without a baseline | There was no before-trace to compare against. | Record a profiler trace first; keep only changes with measured benefit. |
 
-| Console logs ship to production | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Console logs ship to production | Debug output was never scheduled for removal. | Strip the logs, rebuild, and inspect the production console. |
 
-| README commands do not match package.json | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| README commands do not match package.json | Docs were written from memory, not from the scripts block. | Copy commands from package.json and run each one exactly as written. |
 
 ## Reflection
 
@@ -3657,7 +3657,7 @@ Use measurements to improve unnecessary rendering, bundle quality and maintainab
 
 # Lab 4.5 — Build, Deploy and Demonstrate the Capstone
 
-> **Topic 4** · approximately 55 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -3673,13 +3673,13 @@ A verified increment touching: `dist/`, `docs/release-checklist.md`, `docs/relea
 
 ## Concepts you will meet
 
-- **Production Build** — apply it in the current file and explain its effect on user-visible behavior.
+- **production build** — The optimized, minified output of npm run build — what users actually download.
 
-- **Spa Fallback** — apply it in the current file and explain its effect on user-visible behavior.
+- **SPA fallback** — Host configuration that serves index.html for unknown paths so client-side routes survive a direct refresh.
 
-- **Release Gate** — apply it in the current file and explain its effect on user-visible behavior.
+- **release gate** — A check — tests, lint, build, smoke test — that must pass before a release proceeds.
 
-- **Rollback** — apply it in the current file and explain its effect on user-visible behavior.
+- **rollback** — A known-good state plus the steps to restore it when a change goes wrong.
 
 ## Prerequisites
 
@@ -3697,53 +3697,53 @@ A verified increment touching: `dist/`, `docs/release-checklist.md`, `docs/relea
 
 Run clean install, test, lint, type-check and build from the documented commands.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 2 — Choose an approved static host and configure the correct Vite base path and SPA fallback behavior
 
 Choose an approved static host and configure the correct Vite base path and SPA fallback behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Deploy `dist` through Git integration or the host workflow without exposing credentials
 
 Deploy `dist` through Git integration or the host workflow without exposing credentials.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Open the public URL and verify board, form, filters, dynamic route, refresh, 404 and retry behavior
 
 Open the public URL and verify board, form, filters, dynamic route, refresh, 404 and retry behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Create release notes with features, evidence, limitations, known risks and exact rollback steps
 
 Create release notes with features, evidence, limitations, known risks and exact rollback steps.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Demonstrate the complete agentic loop using one final small improvement and show its plan, diff, tests and checkpoint
 
 Demonstrate the complete agentic loop using one final small improvement and show its plan, diff, tests and checkpoint.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -3751,23 +3751,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -3819,23 +3819,23 @@ This lab connects production build, SPA fallback, release gate, rollback to an o
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to production build without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to production build without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Deploying untested dist | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Deploying untested dist | The build was deployed straight from a green compile. | Run the full gate — install, test, lint, type-check, build, preview — before deploying. |
 
-| Direct route refresh returns 404 | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Direct route refresh returns 404 | The host has no SPA fallback for client-side routes. | Configure the rewrite to index.html and re-test a deep URL refresh. |
 
-| Secrets included in VITE variables | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Secrets included in VITE variables | VITE_-prefixed variables are compiled into the public bundle. | Remove the secret, rotate it, and keep only public configuration client-side. |
 
-| No rollback target | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| No rollback target | The release replaced the previous version without a way back. | Record the last good commit or deploy id and the exact restore steps in the release notes. |
 
 ## Reflection
 

@@ -1,6 +1,6 @@
 # Lab 3.4 — Add Declarative Routing and Dynamic Task Pages
 
-> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `src/router.tsx`, `src/pages/BoardPage.tsx`, `src
 
 ## Concepts you will meet
 
-- **Url As State** — apply it in the current file and explain its effect on user-visible behavior.
+- **URL as state** — Treating the address bar as application state, so views are shareable, bookmarkable and restorable.
 
-- **Route** — apply it in the current file and explain its effect on user-visible behavior.
+- **route** — A mapping from a URL pattern to the component tree that should render for it.
 
-- **Dynamic Parameter** — apply it in the current file and explain its effect on user-visible behavior.
+- **dynamic parameter** — A URL segment such as :taskId whose value is read at render time to select one resource.
 
-- **Navigation** — apply it in the current file and explain its effect on user-visible behavior.
+- **navigation** — Moving between routes with links or programmatic calls while browser history stays correct.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/router.tsx`, `src/pages/BoardPage.tsx`, `src
 
 Install the current React Router package and record the version and command.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 2 — Plan route objects for `/`, `/tasks/:taskId`, `/about` and a catch-all page
 
 Plan route objects for `/`, `/tasks/:taskId`, `/about` and a catch-all page.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 3 — Create a shared layout with navigation and an outlet for child pages
 
 Create a shared layout with navigation and an outlet for child pages.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 4 — Link each TaskCard to its detail URL; read the parameter and handle an unknown ID
 
 Link each TaskCard to its detail URL; read the parameter and handle an unknown ID.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 5 — Test links, browser back/forward, direct URL entry, refresh and keyboard focus after navigation
 
 Test links, browser back/forward, direct URL entry, refresh and keyboard focus after navigation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 6 — Inspect for anchor misuse, imperative navigation where Link is clearer, and blank not-found output
 
 Inspect for anchor misuse, imperative navigation where Link is clearer, and blank not-found output.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects URL as state, route, dynamic parameter, navigation to an obser
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to URL as state without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to URL as state without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Using window.location for internal navigation | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using window.location for internal navigation | A full-page navigation habit carried over from multi-page sites. | Use Link or useNavigate so routing stays client-side and state survives. |
 
-| Missing not-found route | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Missing not-found route | Only the happy paths were mapped. | Add a catch-all route with a useful page and a link back to the board. |
 
-| Unknown ID crashes | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Unknown ID crashes | The detail page assumed find() always returns a task. | Handle undefined explicitly with a friendly unknown-task state. |
 
-| Direct refresh fails in deployment | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Direct refresh fails in deployment | Static hosts return 404 for URLs that exist only client-side. | Document and configure an SPA fallback rewrite to index.html for the chosen host. |
 
 ## Reflection
 

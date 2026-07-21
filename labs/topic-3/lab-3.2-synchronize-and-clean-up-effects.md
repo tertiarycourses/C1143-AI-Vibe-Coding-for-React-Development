@@ -1,6 +1,6 @@
 # Lab 3.2 — Synchronize and Clean Up Effects
 
-> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `src/hooks/usePersistentTasks.ts`. The increment 
 
 ## Concepts you will meet
 
-- **Useeffect** — apply it in the current file and explain its effect on user-visible behavior.
+- **useEffect** — The hook that synchronizes a component with an external system after render, such as storage, timers or the network.
 
-- **Dependency** — apply it in the current file and explain its effect on user-visible behavior.
+- **dependency** — A reactive value listed in an effect's array; when it changes, the effect runs again.
 
-- **Cleanup** — apply it in the current file and explain its effect on user-visible behavior.
+- **cleanup** — The function an effect returns to undo its work before the next run or unmount.
 
-- **Localstorage** — apply it in the current file and explain its effect on user-visible behavior.
+- **localStorage** — A synchronous browser key-value store that persists strings across reloads; unencrypted and scoped per origin.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/hooks/usePersistentTasks.ts`. The increment 
 
 Define the external system: one versioned localStorage key containing synthetic task JSON.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 2 — Create a lazy state initializer that reads once and falls back safely on missing or malformed data
 
 Create a lazy state initializer that reads once and falls back safely on missing or malformed data.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 3 — Add a save effect whose dependency reflects the value being synchronized
 
 Add a save effect whose dependency reflects the value being synchronized.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 4 — Inspect StrictMode behavior and ensure the effect is idempotent rather than disabled
 
 Inspect StrictMode behavior and ensure the effect is idempotent rather than disabled.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 5 — Test reload, cleared storage, malformed JSON, schema mismatch and storage write failure
 
 Test reload, cleared storage, malformed JSON, schema mismatch and storage write failure.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 6 — Ask the agent to explain every dependency; reject lint suppression as a fix
 
 Ask the agent to explain every dependency; reject lint suppression as a fix.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects useEffect, dependency, cleanup, localStorage to an observable 
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to useEffect without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to useEffect without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Effect reads and writes in a loop | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Effect reads and writes in a loop | The save effect updated the same state it depended on. | Separate the read (lazy initializer) from the write (effect on tasks) so the cycle breaks. |
 
-| JSON.parse crash blanks the app | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| JSON.parse crash blanks the app | Malformed stored data threw during the first render. | Wrap parsing in try/catch and fall back to the initial tasks. |
 
-| Lint rule disabled | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Lint rule disabled | exhaustive-deps was suppressed instead of understood. | Remove the suppression and restructure until every dependency is honest. |
 
-| Storage treated as secure | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Storage treated as secure | localStorage looked like a database, so sensitive data seemed fine. | Keep only synthetic, non-sensitive data client-side and record that rule in the brief. |
 
 ## Reflection
 

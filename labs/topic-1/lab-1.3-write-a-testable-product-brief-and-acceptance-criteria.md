@@ -1,6 +1,6 @@
 # Lab 1.3 — Write a Testable Product Brief and Acceptance Criteria
 
-> **Topic 1** · approximately 35 minutes · builds on the previous lab checkpoint
+> **Topic 1** · approximately 30 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `docs/product-brief.md`, `docs/acceptance.md`. Th
 
 ## Concepts you will meet
 
-- **Problem Framing** — apply it in the current file and explain its effect on user-visible behavior.
+- **problem framing** — Stating who has what problem and what observable change would solve it, before any solution is designed.
 
-- **Acceptance Criteria** — apply it in the current file and explain its effect on user-visible behavior.
+- **acceptance criteria** — Concrete, observable checks that define when a feature is done — phrased so a third party could verify them.
 
-- **Non-Goals** — apply it in the current file and explain its effect on user-visible behavior.
+- **non-goals** — Explicitly excluded features that stop a project — or an AI agent — from silently expanding scope.
 
-- **Vertical Slice** — apply it in the current file and explain its effect on user-visible behavior.
+- **vertical slice** — A thin end-to-end piece of the product that delivers visible value and exercises every layer once.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `docs/product-brief.md`, `docs/acceptance.md`. Th
 
 Describe the adult learner persona and the problem SprintBoard solves in two sentences.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Define the first vertical slice: view synthetic tasks grouped by To Do, Doing and Done
 
 Define the first vertical slice: view synthetic tasks grouped by To Do, Doing and Done.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Write five acceptance criteria beginning with an observable verb such as displays, moves, filters, or reports
 
 Write five acceptance criteria beginning with an observable verb such as displays, moves, filters, or reports.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Add non-goals: accounts, payments, real-time sync, production customer data, and backend persistence
 
 Add non-goals: accounts, payments, real-time sync, production customer data, and backend persistence.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Ask the agent to challenge ambiguity and identify edge cases without proposing code
 
 Ask the agent to challenge ambiguity and identify edge cases without proposing code.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Revise the brief, inspect the documentation diff, and checkpoint it before implementation
 
 Revise the brief, inspect the documentation diff, and checkpoint it before implementation.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects problem framing, acceptance criteria, non-goals, vertical slic
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to problem framing without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to problem framing without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Starting code before agreeing behavior | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Starting code before agreeing behavior | Building feels like progress, so ambiguity gets deferred until it is expensive. | Stop implementation, finish the acceptance criteria, and only then authorize a plan. |
 
-| Acceptance criteria based on implementation | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Acceptance criteria based on implementation | Criteria were written from the intended code rather than user-observable behavior. | Rewrite each criterion to start with an observable verb such as displays, moves or filters. |
 
-| Scope expanding into a backend | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Scope expanding into a backend | Persistence and accounts crept in because they were never named as non-goals. | Add them to the non-goals list and cut the slice back to the board view. |
 
-| Using real employee data | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using real employee data | Real names were pasted in to make the demo feel authentic. | Replace them with synthetic personas and add a no-real-data rule to the brief. |
 
 ## Reflection
 

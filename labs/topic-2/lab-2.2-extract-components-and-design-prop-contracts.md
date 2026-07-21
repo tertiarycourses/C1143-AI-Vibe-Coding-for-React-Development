@@ -16,13 +16,13 @@ A verified increment touching: `src/components/Board.tsx`, `src/components/TaskC
 
 ## Concepts you will meet
 
-- **Component Boundary** — apply it in the current file and explain its effect on user-visible behavior.
+- **component boundary** — The dividing line that decides what a component owns, what it receives as props and what it must not know about.
 
-- **Props** — apply it in the current file and explain its effect on user-visible behavior.
+- **props** — Read-only inputs a parent passes to a child component; the child never modifies them.
 
-- **Composition** — apply it in the current file and explain its effect on user-visible behavior.
+- **composition** — Building complex UI by nesting simple components rather than configuring one large component with flags.
 
-- **Single Responsibility** — apply it in the current file and explain its effect on user-visible behavior.
+- **single responsibility** — Each component does one job, so changes and reviews stay local.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/components/Board.tsx`, `src/components/TaskC
 
 Draw the component tree from App to Board, TaskColumn and TaskCard before editing code.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 2 — Define each prop interface and decide which values are required, optional, or callbacks
 
 Define each prop interface and decide which values are required, optional, or callbacks.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 3 — Ask the agent for a refactor plan that preserves visible behavior and names moves versus edits
 
 Ask the agent for a refactor plan that preserves visible behavior and names moves versus edits.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 4 — Implement one extraction at a time; run the app after each move to isolate regressions
 
 Implement one extraction at a time; run the app after each move to isolate regressions.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 5 — Inspect for prop drilling caused by misplaced state, duplicated markup and components that read globals
 
 Inspect for prop drilling caused by misplaced state, duplicated markup and components that read globals.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 6 — Use React DevTools to identify boundaries, then lint/build and commit the refactor separately
 
 Use React DevTools to identify boundaries, then lint/build and commit the refactor separately.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects component boundary, props, composition, single responsibility 
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to component boundary without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to component boundary without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Changing behavior during refactor | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Changing behavior during refactor | Extraction and 'improvements' were mixed into one diff. | Revert to the checkpoint and redo the refactor with behavior frozen; improve in a separate commit. |
 
-| Using any for props | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using any for props | any silences the compiler exactly where contracts matter most. | Write a real interface per component and let type errors reveal wrong assumptions. |
 
-| Reading module globals inside TaskCard | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Reading module globals inside TaskCard | Importing the task array directly hid the component's true inputs. | Pass tasks through props so the data path is explicit and testable. |
 
-| One component still owns unrelated responsibilities | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| One component still owns unrelated responsibilities | The extraction stopped at markup and left logic tangled. | Name each component's single job in one sentence; move anything that does not fit it. |
 
 ## Reflection
 

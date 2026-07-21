@@ -1,6 +1,6 @@
-# C1143 — React AI Vibe Coding for React Development
+# C1143 — AI Vibe Coding for React Development
 
-[![Course](https://img.shields.io/badge/course-C1143-0B6E99)](https://www.tertiarycourses.com.sg/react-essential-training.html)
+[![Course](https://img.shields.io/badge/course-C1143-0B6E99)](https://www.tertiarycourses.com.sg/ai-vibe-coding-for-react-development.html)
 [![Duration](https://img.shields.io/badge/duration-15%20hours-17365D)](#course-structure)
 [![Level](https://img.shields.io/badge/level-intermediate-2E7D5B)](#course-structure)
 
@@ -12,7 +12,7 @@ Professional non-WSQ courseware for a two-day, hands-on React development course
 
 ## About
 
-Learners build one connected capstone, **SprintBoard**, across 20 progressive labs. They scaffold a Vite React TypeScript project, compose accessible UI, add state/hooks/routing/API data, then debug, test, optimize, and deploy the app. Every lab applies: specify → plan → inspect → implement → test → critique → refine → checkpoint.
+Learners build one connected capstone, **SprintBoard**, across 20 progressive labs. They scaffold a Vite React TypeScript project, compose accessible UI, add state/hooks/routing/API data, then debug, test, optimize, and deploy the app. Every lab applies the agentic loop: Frame → Plan → Generate → Inspect → Verify → Correct → Commit.
 
 ## Course structure
 
@@ -22,12 +22,12 @@ Learners build one connected capstone, **SprintBoard**, across 20 progressive la
 | Duration | 15 instructional hours / 2 days |
 | Level | Intermediate |
 | Capstone | SprintBoard React single-page application |
-| Published outline | [Tertiary Courses course page](https://www.tertiarycourses.com.sg/react-essential-training.html) |
+| Published outline | [Tertiary Courses course page](https://www.tertiarycourses.com.sg/ai-vibe-coding-for-react-development.html) |
 
 ## Deliverables
 
 - 142-slide, 16:9 facilitator deck
-- 112-page Learner Guide plus aligned Markdown
+- 110+ page Learner Guide plus aligned Markdown
 - Word Lesson Plan with aligned 900-minute schedule
 - 20 connected, executable labs
 - Project-scoped `non-wsq-*` generation and QA automation
@@ -37,6 +37,7 @@ Learners build one connected capstone, **SprintBoard**, across 20 progressive la
 ```text
 courseware/
   C1143-Facilitator-Deck.pptx
+  C1143-Facilitator-Deck-Visual-Enhanced.pptx
   C1143-Learner-Guide.docx
   C1143-Learner-Guide.md
   C1143-Lesson-Plan.docx
@@ -47,6 +48,7 @@ scripts/
   non-wsq-course-data.py
   non-wsq-build-courseware.py
   non-wsq-build-presentation.mjs
+  enhance_deck_visuals.py
 .claude/
   agents/ commands/ hooks/
 ```
@@ -61,4 +63,4 @@ The package checks artifact completeness, duration alignment, topic order, all 1
 
 ## Credits
 
-Courseware produced for [Tertiary Infotech Academy Pte Ltd](https://www.tertiaryinfotech.com/). Source outline: [React AI Vibe Coding for React Development](https://www.tertiarycourses.com.sg/react-essential-training.html).
+Courseware produced for [Tertiary Infotech Academy Pte Ltd](https://www.tertiaryinfotech.com/). Source outline: [AI Vibe Coding for React Development](https://www.tertiarycourses.com.sg/ai-vibe-coding-for-react-development.html).

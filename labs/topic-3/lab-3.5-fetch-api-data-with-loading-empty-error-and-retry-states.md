@@ -1,6 +1,6 @@
 # Lab 3.5 — Fetch API Data with Loading, Empty, Error and Retry States
 
-> **Topic 3** · approximately 50 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `public/tasks.json`, `src/hooks/useTasksApi.ts`, 
 
 ## Concepts you will meet
 
-- **Fetch** — apply it in the current file and explain its effect on user-visible behavior.
+- **fetch** — The browser API that performs HTTP requests and resolves with a Response — rejecting only on network failure, not on HTTP error status.
 
-- **Response.Ok** — apply it in the current file and explain its effect on user-visible behavior.
+- **response.ok** — The Response flag that is true only for 2xx status codes; skipping this check treats a 404 page as data.
 
-- **Abortcontroller** — apply it in the current file and explain its effect on user-visible behavior.
+- **AbortController** — The API that cancels an in-flight fetch, used in effect cleanup to prevent updates after unmount.
 
-- **State Machine** — apply it in the current file and explain its effect on user-visible behavior.
+- **state machine** — Modeling a process as named states and transitions — idle, loading, success, empty, error — so no combination is ambiguous.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `public/tasks.json`, `src/hooks/useTasksApi.ts`, 
 
 Create a local JSON endpoint with synthetic tasks so the lab needs no credentials.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 2 — Model idle/loading/success/empty/error rather than a single ambiguous boolean
 
 Model idle/loading/success/empty/error rather than a single ambiguous boolean.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
-### Step 3 — Fetch inside an effect, check `response
+### Step 3 — Fetch inside an effect, check `response.ok`, validate the payload and abort on cleanup
 
 Fetch inside an effect, check `response.ok`, validate the payload and abort on cleanup.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 4 — Expose a retry action and a useful error message without leaking stack traces
 
 Expose a retry action and a useful error message without leaking stack traces.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 5 — Test normal data, empty array, invalid JSON, 404 path, slow network and component unmount
 
 Test normal data, empty array, invalid JSON, 404 path, slow network and component unmount.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 6 — Inspect for requests during render, missing cleanup, swallowed errors and endless spinner
 
 Inspect for requests during render, missing cleanup, swallowed errors and endless spinner.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects fetch, response.ok, AbortController, state machine to an obser
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to fetch without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to fetch without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| fetch during render | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| fetch during render | The request was issued in the component body, firing on every render. | Move the fetch into useEffect with correct dependencies and abort cleanup. |
 
-| No response.ok check | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| No response.ok check | fetch resolves on HTTP errors, so a 404 body was parsed as data. | Branch on response.ok and route failures to the error state. |
 
-| Abort reported as user error | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Abort reported as user error | The AbortError raised by cleanup was caught by the generic error handler. | Detect AbortError and return silently instead of setting the error state. |
 
-| Error leaves loading true forever | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Error leaves loading true forever | The failure path never transitioned the state machine. | Set an explicit error state — or use finally — and expose a retry action. |
 
 ## Reflection
 

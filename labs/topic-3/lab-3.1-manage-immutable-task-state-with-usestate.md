@@ -1,6 +1,6 @@
 # Lab 3.1 — Manage Immutable Task State with useState
 
-> **Topic 3** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 3** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `src/App.tsx`, `src/lib/taskTransitions.ts`. The 
 
 ## Concepts you will meet
 
-- **State Snapshot** — apply it in the current file and explain its effect on user-visible behavior.
+- **state snapshot** — The fixed value of state a component sees during one render; updates schedule a new render rather than changing the current one.
 
-- **Functional Update** — apply it in the current file and explain its effect on user-visible behavior.
+- **functional update** — Passing a function to a state setter so the update is computed from the latest committed value, not a stale closure.
 
-- **Immutability** — apply it in the current file and explain its effect on user-visible behavior.
+- **immutability** — Creating new objects and arrays instead of modifying existing ones, so React can detect changes by reference.
 
-- **Derived State** — apply it in the current file and explain its effect on user-visible behavior.
+- **derived state** — Values computed from existing state during render — such as a filtered list — rather than stored separately.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/App.tsx`, `src/lib/taskTransitions.ts`. The 
 
 Move the initial tasks into `useState` and keep filters as derived data rather than a second task array.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Write pure create, move and delete transition helpers before connecting buttons
 
 Write pure create, move and delete transition helpers before connecting buttons.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Use functional state updates whenever the next value depends on the previous array
 
 Use functional state updates whenever the next value depends on the previous array.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Inspect the agent diff for push, splice, direct property assignment and stale closure reads
 
 Inspect the agent diff for push, splice, direct property assignment and stale closure reads.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Test two rapid moves, delete after filter, duplicate title and empty-column behavior
 
 Test two rapid moves, delete after filter, duplicate title and empty-column behavior.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Explain why state behaves as a snapshot, then lint, type-check and build
 
 Explain why state behaves as a snapshot, then lint, type-check and build.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects state snapshot, functional update, immutability, derived state
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to state snapshot without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to state snapshot without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| tasks.push mutates state | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| tasks.push mutates state | push mutates in place — the habit most familiar from plain JavaScript. | Use spread or concat to build a new array, then re-run the movement tests. |
 
-| Duplicated filtered state drifts | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Duplicated filtered state drifts | The filtered list was stored as a second state variable. | Delete the copy and derive visibleTasks during render. |
 
-| setTasks([...tasks]) uses stale closure | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| setTasks([...tasks]) uses stale closure | The update read the tasks captured at render time, losing rapid consecutive updates. | Switch to the functional form setTasks(prev => ...). |
 
-| Index used as identity | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Index used as identity | Position stood in for identity inside the transition helpers. | Look items up by stable id in every create, move and delete helper. |
 
 ## Reflection
 

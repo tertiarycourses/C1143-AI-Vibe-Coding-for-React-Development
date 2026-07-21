@@ -1,6 +1,6 @@
 # Lab 4.3 — Audit Accessibility and Error Recovery
 
-> **Topic 4** · approximately 40 minutes · builds on the previous lab checkpoint
+> **Topic 4** · approximately 35 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `docs/accessibility-audit.md`, `src/components/As
 
 ## Concepts you will meet
 
-- **Keyboard Access** — apply it in the current file and explain its effect on user-visible behavior.
+- **keyboard access** — Every interactive control reachable and operable with Tab, Enter and Space alone.
 
-- **Focus Management** — apply it in the current file and explain its effect on user-visible behavior.
+- **focus management** — Deliberately moving keyboard focus after navigation or errors so users are never stranded.
 
-- **Live Region** — apply it in the current file and explain its effect on user-visible behavior.
+- **live region** — An area assistive technology announces when its content changes, used for errors and status messages.
 
-- **Error Recovery** — apply it in the current file and explain its effect on user-visible behavior.
+- **error recovery** — Giving the user a way back — retry, undo or clear guidance — after something fails.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `docs/accessibility-audit.md`, `src/components/As
 
 Navigate the complete app using only Tab, Shift+Tab, Enter, Space and browser back.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Inspect landmarks, heading order, control names and error announcements in the accessibility tree
 
 Inspect landmarks, heading order, control names and error announcements in the accessibility tree.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Check contrast, 200 percent zoom, narrow viewport and prefers-reduced-motion
 
 Check contrast, 200 percent zoom, narrow viewport and prefers-reduced-motion.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Trigger form and network errors; verify focus and retry guidance lead to recovery
 
 Trigger form and network errors; verify focus and retry guidance lead to recovery.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Ask the agent to rank findings by user impact and propose one file-scoped patch per finding
 
 Ask the agent to rank findings by user impact and propose one file-scoped patch per finding.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Retest each corrected behavior and record evidence rather than marking a generic compliance checkbox
 
 Retest each corrected behavior and record evidence rather than marking a generic compliance checkbox.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects keyboard access, focus management, live region, error recovery
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to keyboard access without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to keyboard access without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Automated scan treated as complete | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Automated scan treated as complete | A clean scanner report was read as full accessibility. | Add manual keyboard and accessibility-tree checks; scanners find only part of the problem. |
 
-| Focus indicator removed | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Focus indicator removed | The default focus ring was styled away without a replacement. | Add a high-contrast :focus-visible style and retest the tab order. |
 
-| Error appears visually but is not announced | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Error appears visually but is not announced | The message div carried no live-region semantics. | Use role=alert or aria-live and verify the announcement in the accessibility tree. |
 
-| Color-only status | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Color-only status | Status meaning lived entirely in the badge color. | Add visible text or an icon and re-check with a grayscale filter. |
 
 ## Reflection
 

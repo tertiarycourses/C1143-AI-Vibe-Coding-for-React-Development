@@ -16,13 +16,13 @@ A verified increment touching: `src/index.css`, `src/App.css`. The increment is 
 
 ## Concepts you will meet
 
-- **Custom Property** — apply it in the current file and explain its effect on user-visible behavior.
+- **custom property** — A CSS variable defined once and reused, giving the design system a single point of change.
 
-- **Grid** — apply it in the current file and explain its effect on user-visible behavior.
+- **grid** — The CSS layout model that arranges children in rows and columns from the container — ideal for board layouts.
 
-- **Focus-Visible** — apply it in the current file and explain its effect on user-visible behavior.
+- **focus-visible** — The CSS pseudo-class that shows focus styles for keyboard users without decorating every mouse click.
 
-- **Media Query** — apply it in the current file and explain its effect on user-visible behavior.
+- **media query** — A CSS rule that applies styles conditionally — for example by viewport width or a reduced-motion preference.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/index.css`, `src/App.css`. The increment is 
 
 Inventory colors, spacing, type sizes and radii; convert repeated values into CSS custom properties.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 2 — Define a mobile-first single-column board and expand to three columns when space allows
 
 Define a mobile-first single-column board and expand to three columns when space allows.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 3 — Add visible `:focus-visible` styles and confirm text/background contrast with browser tools
 
 Add visible `:focus-visible` styles and confirm text/background contrast with browser tools.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 4 — Add overflow handling for long task titles and test browser zoom at 200 percent
 
 Add overflow handling for long task titles and test browser zoom at 200 percent.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 5 — Respect `prefers-reduced-motion` for transitions introduced by the agent
 
 Respect `prefers-reduced-motion` for transitions introduced by the agent.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 6 — Inspect the CSS diff for `!important`, fixed heights, horizontal scroll and low-contrast tokens
 
 Inspect the CSS diff for `!important`, fixed heights, horizontal scroll and low-contrast tokens.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects custom property, grid, focus-visible, media query to an observ
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to custom property without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to custom property without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Fixed pixel heights clip content | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Fixed pixel heights clip content | Cards were sized to today's sample text. | Replace fixed heights with min-height or natural flow and re-test long titles. |
 
-| Outline removed | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Outline removed | outline: none was copied in for aesthetics. | Restore a visible :focus-visible style with sufficient contrast. |
 
-| Desktop-first overflow | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Desktop-first overflow | The layout was designed at 1280px and squeezed downward. | Rebuild mobile-first and add columns inside a min-width media query. |
 
-| Color is the only status cue | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Color is the only status cue | Status was encoded purely in hue. | Add a text label or icon so status survives color-vision differences. |
 
 ## Reflection
 

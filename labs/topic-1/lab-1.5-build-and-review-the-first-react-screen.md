@@ -1,6 +1,6 @@
 # Lab 1.5 — Build and Review the First React Screen
 
-> **Topic 1** · approximately 45 minutes · builds on the previous lab checkpoint
+> **Topic 1** · approximately 40 minutes · builds on the previous lab checkpoint
 
 ## Goal
 
@@ -16,13 +16,13 @@ A verified increment touching: `src/App.tsx`, `src/App.css`, `src/index.css`. Th
 
 ## Concepts you will meet
 
-- **Function Component** — apply it in the current file and explain its effect on user-visible behavior.
+- **function component** — A JavaScript function that accepts props and returns JSX describing part of the interface.
 
-- **Jsx** — apply it in the current file and explain its effect on user-visible behavior.
+- **JSX** — A syntax extension that lets JavaScript express element trees; it compiles to function calls, not HTML.
 
-- **Semantic Html** — apply it in the current file and explain its effect on user-visible behavior.
+- **semantic HTML** — Using elements such as header, nav, main and button for their meaning, so browsers and assistive technology understand the page structure.
 
-- **Component Tree** — apply it in the current file and explain its effect on user-visible behavior.
+- **component tree** — The nested hierarchy of components React renders, mirroring how data flows down through props.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `src/App.tsx`, `src/App.css`, `src/index.css`. Th
 
 Approve a shell containing header, navigation, main board region and footer; keep content synthetic.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
-### Step 2 — Ask the agent to implement only `App
+### Step 2 — Ask the agent to implement only `App.tsx` and focused CSS, preserving the Vite entry point
 
 Ask the agent to implement only `App.tsx` and focused CSS, preserving the Vite entry point.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 3 — Read the JSX aloud as a tree and identify every opening/closing tag and expression boundary
 
 Read the JSX aloud as a tree and identify every opening/closing tag and expression boundary.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ### Step 4 — Inspect the diff for removed defaults, global CSS leakage, inaccessible navigation, or unexplained assets
 
 Inspect the diff for removed defaults, global CSS leakage, inaccessible navigation, or unexplained assets.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 5 — Run dev, lint and build; inspect the console and browser at 375 px and 1280 px
 
 Run dev, lint and build; inspect the console and browser at 375 px and 1280 px.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
 ### Step 6 — Commit only after the screen matches the brief and the learner can explain every changed line
 
 Commit only after the screen matches the brief and the learner can explain every changed line.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects function component, JSX, semantic HTML, component tree to an o
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to function component without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to function component without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Nested interactive elements | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Nested interactive elements | A button was generated inside a link, producing invalid, inaccessible markup. | Restructure so each interactive control stands alone, then re-check the accessibility tree. |
 
-| Decorative divs instead of semantic landmarks | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Decorative divs instead of semantic landmarks | The model imitates div-heavy training examples unless semantics are demanded. | Require header, nav, main and footer in the prompt and verify landmarks in DevTools. |
 
-| Global wildcard styles with side effects | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Global wildcard styles with side effects | A universal selector or body rule leaked beyond the shell. | Scope styles to classes owned by the component and re-test the rest of the app. |
 
-| Unexplained generated SVG or dependency | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Unexplained generated SVG or dependency | The agent decorated the shell with assets nobody requested. | Delete anything you cannot explain and note the rejection in the training log. |
 
 ## Reflection
 

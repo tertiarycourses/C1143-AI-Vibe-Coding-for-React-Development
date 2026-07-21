@@ -16,13 +16,13 @@ A verified increment touching: `index.html`, `src/main.tsx`, `src/App.tsx`, `pac
 
 ## Concepts you will meet
 
-- **Vite** — apply it in the current file and explain its effect on user-visible behavior.
+- **Vite** — A build tool that serves source files over native ES modules in development and bundles them with Rollup for production.
 
-- **Module Graph** — apply it in the current file and explain its effect on user-visible behavior.
+- **module graph** — The dependency network Vite builds by following import statements from the entry file through every module it reaches.
 
-- **React Root** — apply it in the current file and explain its effect on user-visible behavior.
+- **React root** — The single DOM element where React attaches the component tree and takes over rendering.
 
-- **Hot Module Replacement** — apply it in the current file and explain its effect on user-visible behavior.
+- **Hot Module Replacement** — A dev-server feature that swaps edited modules into the running page without a full reload, preserving much of the app state.
 
 ## Prerequisites
 
@@ -40,53 +40,53 @@ A verified increment touching: `index.html`, `src/main.tsx`, `src/App.tsx`, `pac
 
 Run `npm create vite@latest sprintboard -- --template react-ts`, enter the folder, and run `npm install`.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Say out loud what success looks like for this step before acting; afterwards capture the command output or screenshot that proves it.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Verify the failure path as well as the success path — break the input deliberately and confirm the app responds as designed.
 
 ### Step 2 — Start `npm run dev`; open the printed local URL and save a screenshot of the starter page
 
 Start `npm run dev`; open the printed local URL and save a screenshot of the starter page.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Keep the agent inside the declared file scope here — if its proposal reaches further, stop and narrow the request.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Capture the command, expected result and actual result; if they differ, stop and investigate before the next step.
 
-### Step 3 — Trace `index
+### Step 3 — Trace `index.html` to `src/main.tsx` to `<App />`; annotate the chain in the training log
 
 Trace `index.html` to `src/main.tsx` to `<App />`; annotate the chain in the training log.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Where the agent acts, read its output as a reviewer, not a spectator, and note one specific thing you checked.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** If this step touches the interface, re-test at both a narrow and a wide viewport and note anything that clips or overflows.
 
 ### Step 4 — Ask the agent for a file-by-file explanation without requesting changes; compare it with the actual imports
 
 Ask the agent for a file-by-file explanation without requesting changes; compare it with the actual imports.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** If the result differs from your prediction, treat the gap as information: find the exact line that explains it before continuing.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Ask the agent to explain any part of this step's diff you cannot explain yourself; unresolved lines block the checkpoint.
 
 ### Step 5 — Run `npm run build`, inspect `dist/`, then run `npm run preview` and explain how preview differs from dev
 
 Run `npm run build`, inspect `dist/`, then run `npm run preview` and explain how preview differs from dev.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Record the evidence for this step while it is still on screen — a command line and its output beat a memory.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** When this step passes, decide keep, refine or revert explicitly and write one sentence recording why.
 
 ### Step 6 — Review `git diff` and commit the untouched scaffold as `chore: scaffold SprintBoard`
 
 Review `git diff` and commit the untouched scaffold as `chore: scaffold SprintBoard`.
 
-**Pause and inspect:** predict the changed files and visible result before continuing. If the agent proposes broader work, stop and narrow the request.
+**Pause and inspect:** Predict which files this step should touch and what will change on screen; compare that prediction with the actual diff before moving on.
 
-**Evidence:** save the relevant command output, browser observation or diff note in the training log.
+**Evidence:** Run the narrowest check that exercises this step first; only then run the wider lint, type-check and build stack.
 
 ## Agentic AI loop
 
-### 1. Specify
+### 1. Frame
 
 State one observable goal, the current checkpoint, exact file scope, non-goals and stop conditions.
 
@@ -94,23 +94,23 @@ State one observable goal, the current checkpoint, exact file scope, non-goals a
 
 Require assumptions, numbered steps, files, risks, verification and rollback. Do not authorize code yet.
 
-### 3. Inspect
-
-Compare the plan with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
-
-### 4. Implement
+### 3. Generate
 
 Approve one bounded increment. Keep the development server visible and do not combine refactoring with behavior change.
 
-### 5. Test
+### 4. Inspect
+
+Compare the plan and diff with the brief. Reject unrelated dependencies, architecture changes, secret handling or untestable claims.
+
+### 5. Verify
 
 Run commands yourself and exercise normal, boundary, empty and failure paths in the browser.
 
-### 6. Critique and refine
+### 6. Correct
 
-Read every changed line, explain data flow, and ask for the smallest correction backed by a failing check.
+Read every changed line, explain data flow, and request the smallest correction backed by a failing check.
 
-### 7. Checkpoint
+### 7. Commit
 
 Commit only understood code. Record the commit and a one-sentence rollback instruction.
 
@@ -162,23 +162,23 @@ This lab connects Vite, module graph, React root, Hot Module Replacement to an o
 
 - A short note naming one AI suggestion accepted, corrected or rejected and why.
 
-## Your turn
+## Independent challenge
 
-Change one constraint related to Vite without widening the product scope. Predict the files and tests first, then run the complete loop and compare the prediction with the actual diff.
+Change one constraint related to Vite without widening the product scope. Predict the files and tests first, then run Frame, Plan, Generate, Inspect, Verify, Correct and Commit; compare the prediction with the actual diff.
 
-## Common errors
+## Troubleshooting and recovery
 
 | Symptom | Likely cause | Recovery |
 
 |---|---|---|
 
-| Using Create React App instructions | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Using Create React App instructions | The agent reached for the older, deprecated scaffold it saw most in training. | Reject the plan, name Vite explicitly in the prompt, and compare commands against current Vite documentation. |
 
-| Editing node_modules | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Editing node_modules | The agent patched a dependency's source instead of your code. | Discard the change — node_modules is regenerated by npm install — and request the fix inside src instead. |
 
-| Confusing dev output with production output | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Confusing dev output with production output | The dev server transforms modules on demand, so it never proves what the bundled build does. | Run npm run build followed by npm run preview and verify against the served dist output. |
 
-| Inventing files not present in the scaffold | The generated plan or diff ignored an explicit constraint. | Restore the checkpoint, narrow the prompt to one file or behavior, and rerun the failing verification. |
+| Inventing files not present in the scaffold | The explanation was generated from a generic template project, not your repository. | Ask the agent to list only files it can actually read, and cross-check every claim against the file tree. |
 
 ## Reflection
 
