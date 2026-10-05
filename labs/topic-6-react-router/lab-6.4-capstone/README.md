@@ -23,7 +23,7 @@ This lab's `src/` is the **entire finished front end**: every component, page, l
 | Provider + router order | `BrowserRouter` outermost, then Theme/Auth/Cart providers, then `<App/>` — so every route can read routing, theme, auth and basket. |
 | Two dev servers | `vercel dev` runs the `/api` functions on `:3000`; `npm run dev` serves React on `:5173` and proxies `/api` across — one origin, no CORS, and dev matches prod. |
 | The AI React Bug Checklist | The six bugs AI-generated React quietly ships — run it over every feature before you accept it. |
-| Self-check | Mapping each concept to the real file in your project that proves it. |
+| Self-assessment | Mapping each concept to the real file in your project that proves it. |
 | A clean build is the gate | `npm run lint && npm run build` must pass before Lab 6.5 can deploy it. |
 
 ## Before you start

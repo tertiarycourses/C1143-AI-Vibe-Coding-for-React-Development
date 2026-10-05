@@ -1,6 +1,6 @@
 # AI Vibe Coding for React Development — Learner Guide
 
-**Course Code:** C1143  |  **Conducted by:** Tertiary Infotech Academy Pte Ltd (UEN 201200696W)  |  **Version v3.0 · 21 July 2026**
+**Course Code:** C1143  |  **Conducted by:** Tertiary Infotech Academy Pte Ltd (UEN 201200696W)  |  **Version v4.0 · 5 October 2026**
 
 ## Contents
 
@@ -66,10 +66,10 @@
   - [Deep Dive — Serverless API routes and parameterised SQL](#deep-dive--serverless-api-routes-and-parameterised-sql)
   - [Deep Dive — Passwords, tokens, and enforcing ownership in SQL](#deep-dive--passwords-tokens-and-enforcing-ownership-in-sql)
   - [Deep Dive — The three states of a fetch, and response.ok](#deep-dive--the-three-states-of-a-fetch-and-responseok)
-  - [Lab 5.1 — The Three Tiers — Your First API Routes over Neon](#lab-51--the-three-tiers--your-first-api-routes-over-neon)
-  - [Lab 5.2 — Fetch the Catalogue From React — Loading, Error and Success](#lab-52--fetch-the-catalogue-from-react--loading-error-and-success)
-  - [Lab 5.3 — Accounts — Password Hashing with bcrypt, Sessions with JWT](#lab-53--accounts--password-hashing-with-bcrypt-sessions-with-jwt)
-  - [Lab 5.4 — Protected CRUD — Enrolments Scoped to the Signed-in User](#lab-54--protected-crud--enrolments-scoped-to-the-signed-in-user)
+  - [Lab 5.1 — Three Tiers — A Neon Database and Your First API Route](#lab-51--three-tiers--a-neon-database-and-your-first-api-route)
+  - [Lab 5.2 — Parameterised SQL — Dynamic Routes and an Injection Probe](#lab-52--parameterised-sql--dynamic-routes-and-an-injection-probe)
+  - [Lab 5.3 — Calling the API from React — Loading, Error and Success](#lab-53--calling-the-api-from-react--loading-error-and-success)
+  - [Lab 5.4 — Auth — bcrypt, JWT, and Ownership Enforced in SQL](#lab-54--auth--bcrypt-jwt-and-ownership-enforced-in-sql)
 - [Topic 06 — React Router for Real App Navigation](#topic-06--react-router-for-real-app-navigation)
   - [Key Concepts — Topic 06](#key-concepts--topic-06)
   - [Concepts Explained — Topic 06](#concepts-explained--topic-06)
@@ -3174,15 +3174,15 @@ return data
 ```
 
 
-### Lab 5.1 — The Three Tiers — Your First API Routes over Neon
+### Lab 5.1 — Three Tiers — A Neon Database and Your First API Route
 
-Objective: stand up Neon Postgres, put a serverless API tier in front of it, and prove it cannot be injected.
+Objective: stand up Neon Postgres and put a serverless API tier in front of it.
 
-Goal: The 20 courses live in a JavaScript array. The learner creates a Neon Postgres project, runs the real schema, and writes the first serverless routes — GET /api/courses and the dynamic /api/courses/[slug] — then attacks the slug route with a real injection payload and watches the tagged template bounce it. The architectural rule is drilled here: the browser NEVER talks to Postgres.
+Goal: The 20 courses live in a JavaScript array. The learner creates a Neon Postgres project, runs the real schema, and writes the first Vercel serverless function — GET /api/courses — reading it. The architectural rule is drilled here: the browser NEVER talks to Postgres, and DATABASE_URL must never carry a VITE_ prefix, because a VITE_ variable is compiled into the bundle every visitor downloads.
 
 **What you'll build**
 
-A live Neon database (20 courses seeded) behind api/_lib/db.js, api/courses/index.js and api/courses/[slug].js — tested with curl and a real injection probe   (Tech & files: Neon Postgres, @neondatabase/serverless, Vercel Functions, vercel dev, tagged templates, .env.local.)
+A live Neon database with users, courses (20 seeded), enrollments and reviews — plus api/_lib/db.js and api/courses/index.js   (Tech & files: Neon Postgres, @neondatabase/serverless, Vercel Functions, vercel dev, .env.local.)
 
 **Step-by-step**
 
@@ -3267,14 +3267,38 @@ curl 'http://localhost:3000/api/courses?category=Bakery'
    npm run build && grep -r "postgresql://" dist/   # must return NOTHING
    ```
 
-11. Add the dynamic route. The [slug] in the FILENAME is what makes it dynamic; Vercel hands you req.query.slug
+
+**Test it**
+
+curl /api/courses returns all 20 Cook & Bake courses as JSON with numeric ids and fees; ?category=Bakery returns 10; a POST returns 405; and grepping dist/ for 'postgresql://' returns nothing.
+
+**Watch out for**
+
+The browser never talks to Postgres. `DATABASE_URL` lives only in the serverless function's environment — and it must NEVER carry a `VITE_` prefix, because every `VITE_` variable is compiled into the bundle each visitor downloads. Prove it to yourself: `grep` the built `dist/` for the value.
+
+---
+
+
+### Lab 5.2 — Parameterised SQL — Dynamic Routes and an Injection Probe
+
+Objective: write dynamic API routes whose SQL cannot be injected.
+
+Goal: Every course now needs its own URL. The learner adds the dynamic route api/courses/[slug].js, learns that Neon's sql`` tagged template sends the VALUE separately from the SQL, and then attacks their own API with a real injection payload to watch it bounce — before deliberately writing the unsafe version and seeing the difference.
+
+**What you'll build**
+
+api/courses/[slug].js — one course by slug, a real 404 when there is none — and a security probe you run yourself   (Tech & files: Vercel dynamic routes, tagged templates, parameterised queries, HTTP status codes.)
+
+**Step-by-step**
+
+1. Add the dynamic route. The [slug] in the FILENAME is what makes it dynamic; Vercel hands you req.query.slug
 
    ```bash
    // api/courses/[slug].js  ->  GET /api/courses/artisan-sourdough-bread-baking
 const { slug } = req.query ?? {}
    ```
 
-12. Query with the tagged template — note there are NO parentheses. sql`...`, not sql("...")
+2. Query with the tagged template — note there are NO parentheses. sql`...`, not sql("...")
 
    ```bash
    const rows = await sql`
@@ -3285,7 +3309,7 @@ const { slug } = req.query ?? {}
 `
    ```
 
-13. Understand WHY that is safe. It looks like string interpolation and is not
+3. Understand WHY that is safe. It looks like string interpolation and is not
 
    ```bash
    // The driver sends the query TEXT and the VALUES to Postgres separately, as a
@@ -3293,7 +3317,7 @@ const { slug } = req.query ?? {}
 // the value. A value can therefore never become SQL. Injection is impossible.
    ```
 
-14. PROBE IT. Attack your own API with a classic payload and watch it do nothing at all
+4. PROBE IT. Attack your own API with a classic payload and watch it do nothing at all
 
    ```bash
    curl "http://localhost:3000/api/courses/x'%20or%20'1'='1"
@@ -3301,7 +3325,7 @@ const { slug } = req.query ?? {}
 # Postgres looked for a course whose slug is literally  x' or '1'='1  — and there isn't one.
    ```
 
-15. Now write the version that is wrong, and see the difference in ONE line of code
+5. Now write the version that is wrong, and see the difference in ONE line of code
 
    ```bash
    // ⛔ NEVER. This builds a STRING, so the payload becomes part of the SQL:
@@ -3309,8 +3333,8 @@ const { slug } = req.query ?? {}
 //   slug = "x'; drop table users; --"   ->  you no longer have a users table.
    ```
 
-16. Delete the unsafe line. The rule: user input is always a ${} placeholder, never part of the query string
-17. Return a real 404 when no row matches — the STATUS CODE is the API's answer, not a 200 with null
+6. Delete the unsafe line. The rule: user input is always a ${} placeholder, never part of the query string
+7. Return a real 404 when no row matches — the STATUS CODE is the API's answer, not a 200 with null
 
    ```bash
    if (rows.length === 0) {
@@ -3318,7 +3342,7 @@ const { slug } = req.query ?? {}
 }
    ```
 
-18. Prompt the agent for the shared error plumbing so every route answers the same way
+8. Prompt the agent for the shared error plumbing so every route answers the same way
 
    ```bash
    // Vibe prompt: 'In api/_lib/auth.js add an HttpError class (status + message),
@@ -3327,7 +3351,7 @@ const { slug } = req.query ?? {}
 // and requireMethod(req, ...allowed) that throws 405.'
    ```
 
-19. Audit the whole api/ folder for the one thing that reopens the door
+9. Audit the whole api/ folder for the one thing that reopens the door
 
    ```bash
    grep -rn "sql(\`\|sql.unsafe" api/    # must return NOTHING — every query is a tagged template
@@ -3336,16 +3360,16 @@ const { slug } = req.query ?? {}
 
 **Test it**
 
-curl /api/courses returns all 20 Cook & Bake courses as JSON with numeric ids and fees; ?category=Bakery returns 10; /api/courses/not-a-course returns a real 404; the injection payload returns a harmless 404 and the users table is still there; and grepping dist/ for 'postgresql://' returns nothing.
+GET /api/courses/artisan-sourdough-bread-baking returns one course; GET /api/courses/not-a-course returns 404 with a clear message; the injection payload returns a harmless 404 and the users table is still there; and grep finds no string-built SQL anywhere in api/.
 
 **Watch out for**
 
-The browser never talks to Postgres. `DATABASE_URL` lives only in the serverless function's environment — and it must NEVER carry a `VITE_` prefix, because every `VITE_` variable is compiled into the bundle each visitor downloads. Prove it to yourself: `grep` the built `dist/` for the value.
+`sql\`... where slug = ${slug}\`` is a tagged template, not string interpolation: the driver sends the SQL text and the value to Postgres separately, so Postgres parses the query before it ever sees the value. A value can therefore never become SQL. The moment you write `sql(\`... '${slug}'\`)` with parentheses, you have reopened the door — grep your `api/` folder for it.
 
 ---
 
 
-### Lab 5.2 — Fetch the Catalogue From React — Loading, Error and Success
+### Lab 5.3 — Calling the API from React — Loading, Error and Success
 
 Objective: consume your own API from React with all three states handled.
 
@@ -3445,20 +3469,20 @@ The catalogue renders from Postgres after a skeleton; editing a fee in Neon chan
 
 **Watch out for**
 
-`sql\`... where slug = ${slug}\`` is a tagged template, not string interpolation: the driver sends the SQL text and the value to Postgres separately, so Postgres parses the query before it ever sees the value. A value can therefore never become SQL. The moment you write `sql(\`... '${slug}'\`)` with parentheses, you have reopened the door — grep your `api/` folder for it.
+`fetch` does not reject on a 404 or a 500; only a network failure rejects. Check `response.ok`. Every remote read has three states — loading, error, success — and AI-generated code reliably writes two of them and forgets the error branch. Never make the `useEffect` callback itself `async`: it would return a Promise where React expects a cleanup function.
 
 ---
 
 
-### Lab 5.3 — Accounts — Password Hashing with bcrypt, Sessions with JWT
+### Lab 5.4 — Auth — bcrypt, JWT, and Ownership Enforced in SQL
 
-Objective: hash passwords with bcrypt, issue and verify JWTs, and restore the session on refresh.
+Objective: hash passwords, issue and verify JWTs, and let only the owner touch a row.
 
-Goal: Students must be able to sign up and sign in. The learner builds api/auth/signup, login and me with bcrypt hashing and JWT signing, writes requireAuth — the single source of identity for the whole API — and adds the AuthContext that stores the token, sends it on every request and restores the session on boot.
+Goal: Students must be able to sign up, sign in, enrol and review. The learner builds api/auth/* with bcrypt hashing and JWT signing, then the enrolments API — where the security rule of the whole course lands: the user id comes from the VERIFIED TOKEN, never from the request body, and ownership is enforced in the WHERE clause, not in an if statement.
 
 **What you'll build**
 
-api/auth/signup.js, login.js, me.js, api/_lib/auth.js and src/context/AuthContext.jsx   (Tech & files: bcryptjs, jsonwebtoken, JWT_SECRET, Authorization: Bearer.)
+api/auth/signup.js, login.js, me.js, api/_lib/auth.js, the enrollments + reviews routes, and src/context/AuthContext.jsx   (Tech & files: bcryptjs, jsonwebtoken, JWT_SECRET, Authorization: Bearer, insecure direct object references.)
 
 **Step-by-step**
 
@@ -3519,48 +3543,7 @@ if (!ok) throw new HttpError(401, 'Invalid email or password.')
 }
    ```
 
-7. Build AuthContext on top of it: store the token, send it on every request, verify it on boot with /api/auth/me
-
-   ```bash
-   // src/lib/api.js
-...(token ? { Authorization: `Bearer ${token}` } : {}),
-
-// src/context/AuthContext.jsx — on boot, ask the SERVER who we are
-const { user } = await api.get('/auth/me')   // 401 -> clearToken()
-   ```
-
-8. Tamper with the token in devtools (change one character) and refresh. The signature no longer matches
-
-   ```bash
-   # localStorage['cookbake.token'] -> edit a char -> refresh -> 401 -> signed out.
-# The browser cannot lie about who it is.
-   ```
-
-
-**Test it**
-
-You can sign up, sign in, refresh and stay signed in; password_hash appears in NO API response; and editing the JWT in localStorage signs you straight out.
-
-**Watch out for**
-
-`fetch` does not reject on a 404 or a 500; only a network failure rejects. Check `response.ok`. Every remote read has three states — loading, error, success — and AI-generated code reliably writes two of them and forgets the error branch. Never make the `useEffect` callback itself `async`: it would return a Promise where React expects a cleanup function.
-
----
-
-
-### Lab 5.4 — Protected CRUD — Enrolments Scoped to the Signed-in User
-
-Objective: let only the owner create, read and delete their own rows.
-
-Goal: With accounts in place, students can finally enrol. The learner builds the enrolments API — where the security rule of the whole course lands: the user id comes from the VERIFIED TOKEN, never from the request body, and ownership is enforced in the WHERE clause, not in an if statement — then attacks the API by deleting another student's enrolment and watches it return 404.
-
-**What you'll build**
-
-api/enrollments/index.js and api/enrollments/[id].js, the enrol button, the 'My learning' list and the route guard   (Tech & files: Authorization: Bearer, insecure direct object references, ownership in SQL.)
-
-**Step-by-step**
-
-1. THE RULE. In POST /api/enrollments the caller chooses the COURSE. The caller does NOT choose the USER
+7. THE RULE. In POST /api/enrollments the caller chooses the COURSE. The caller does NOT choose the USER
 
    ```bash
    const userId = requireAuth(req)          // from the token
@@ -3573,7 +3556,7 @@ await sql`insert into enrollments (user_id, course_id, status)
 // If this trusted req.body.userId, anyone could enrol anyone. And they would.
    ```
 
-2. Enforce OWNERSHIP in the SQL, not in an if. The id in the URL is a REQUEST, not a PERMISSION
+8. Enforce OWNERSHIP in the SQL, not in an if. The id in the URL is a REQUEST, not a PERMISSION
 
    ```bash
    // api/enrollments/[id].js
@@ -3585,7 +3568,7 @@ await sql`delete from enrollments
 // you have shipped an Insecure Direct Object Reference, the classic API hole.
    ```
 
-3. Scope every read the same way — this WHERE clause IS the access control. There is no RLS behind it
+9. Scope every read the same way — this WHERE clause IS the access control. There is no RLS behind it
 
    ```bash
    select ... from enrollments e join courses c on c.id = e.course_id
@@ -3593,13 +3576,17 @@ where e.user_id = ${userId}
 order by e.created_at desc
    ```
 
-4. Wire the front end: the enrol button posts to /api/enrollments and 'My learning' lists only your rows
+10. Build AuthContext on top of it: store the token, send it on every request, verify it on boot with /api/auth/me
 
    ```bash
-   await api.post('/enrollments', { courseId: course.id })
+   // src/lib/api.js
+...(token ? { Authorization: `Bearer ${token}` } : {}),
+
+// src/context/AuthContext.jsx — on boot, ask the SERVER who we are
+const { user } = await api.get('/auth/me')   // 401 -> clearToken()
    ```
 
-5. ATTACK YOUR OWN API. Sign in as student A, then try to delete student B's enrolment by guessing the id
+11. ATTACK YOUR OWN API. Sign in as student A, then try to delete student B's enrolment by guessing the id
 
    ```bash
    curl -X DELETE http://localhost:3000/api/enrollments/1 \
@@ -3607,10 +3594,17 @@ order by e.created_at desc
 # -> 404 Enrollment not found.  The row exists — it is just not yours.
    ```
 
+12. Tamper with the token in devtools (change one character) and refresh. The signature no longer matches
+
+   ```bash
+   # localStorage['cookbake.token'] -> edit a char -> refresh -> 401 -> signed out.
+# The browser cannot lie about who it is.
+   ```
+
 
 **Test it**
 
-Enrolling writes a row you can see in Neon; 'My learning' shows only your enrolments; and deleting another student's enrolment by id returns 404 — the row exists, it is just not yours.
+You can sign up, sign in, refresh and stay signed in; enrolling writes a row you can see in Neon; password_hash appears in NO API response; deleting another student's enrolment by id returns 404; and editing the JWT in localStorage signs you straight out.
 
 **Watch out for**
 
@@ -4288,7 +4282,7 @@ Set `DATABASE_URL` and `JWT_SECRET` as Vercel environment variables (Production,
 
 Objective: extend the deployed app with a new full-stack feature, mostly by vibe-coding it yourself.
 
-Goal: The app is built and live. Now you add one brand-new END-TO-END feature — star-rated course reviews — mostly on your own. You write the prompts, read the generated code against everything this course taught you, correct it, and redeploy. This is the payoff of the whole course: a new API route with parameterised SQL, ownership from the JWT, a custom hook, a controlled form, a derived average, and a git push that puts it in production.
+Goal: The app is built and live. Now you add one brand-new END-TO-END feature — star-rated course reviews — mostly on your own. You write the prompts, read the generated code against everything this course taught you, correct it, and redeploy. This is the exam of the whole course: a new API route with parameterised SQL, ownership from the JWT, a custom hook, a controlled form, a derived average, and a git push that puts it in production.
 
 **What you'll build**
 

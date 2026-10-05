@@ -23,3 +23,7 @@ courseware/rendered/
 
 # Source material the project was derived from — not ours to republish.
 **/reference/
+
+# WSQ source courseware (read-only input, never committed)
+source-wsq/
+assessment/

@@ -3,7 +3,7 @@
 > **Topic 6** · ~60 min · Builds on Lab 6.5 (the whole app is deployed on Vercel + Neon)
 
 ### 📖 The build so far
-By the end of Lab 6.5, the full **Cook & Bake Academy** 🍞 was live in production on Vercel + Neon — a three-tier app with a Postgres catalogue of 20 courses, real accounts (bcrypt + JWT), protected enrolments and a private student dashboard. Every earlier lab handed you the steps. **This one does not.** In this mini-capstone you add one brand-new **end-to-end** feature — star-rated **Course Reviews** — mostly by *vibe-coding it yourself*: you write the prompts, read the generated code against everything this course taught you, correct it, and redeploy. By the end, every course detail page shows real student reviews and a live average rating, in production. This is the payoff of the whole course.
+By the end of Lab 6.5, the full **Cook & Bake Academy** 🍞 was live in production on Vercel + Neon — a three-tier app with a Postgres catalogue of 20 courses, real accounts (bcrypt + JWT), protected enrolments and a private student dashboard. Every earlier lab handed you the steps. **This one does not.** In this mini-capstone you add one brand-new **end-to-end** feature — star-rated **Course Reviews** — mostly by *vibe-coding it yourself*: you write the prompts, read the generated code against everything this course taught you, correct it, and redeploy. By the end, every course detail page shows real student reviews and a live average rating, in production. This is the exam of the whole course.
 
 ## The brief
 
